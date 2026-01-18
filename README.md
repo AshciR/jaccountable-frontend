@@ -31,6 +31,7 @@ Each article receives a relevance score (1-10) based on accountability-related k
 - npm, pnpm, or yarn
 
 ### Installation
+
 ```sh
 npm install
 ```
@@ -38,21 +39,25 @@ npm install
 ### Development
 
 Start the development server:
+
 ```sh
 npm run dev
 ```
 
 Or start the server and open the app automatically:
+
 ```sh
 npm run dev -- --open
 ```
 
 ### Building for Production
+
 ```sh
 npm run build
 ```
 
 Preview the production build:
+
 ```sh
 npm run preview
 ```
