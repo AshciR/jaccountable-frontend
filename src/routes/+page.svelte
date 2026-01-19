@@ -78,13 +78,19 @@
 		<section class="mb-10">
 			<h2 class="mb-4 text-xl font-semibold text-primary">Sample Components</h2>
 			<div class="flex flex-wrap gap-4">
-				<button class="rounded-lg bg-accent px-6 py-2 font-semibold text-primary hover:bg-accent-hover">
+				<button
+					class="rounded-lg bg-accent px-6 py-2 font-semibold text-primary hover:bg-accent-hover"
+				>
 					Primary Button
 				</button>
-				<button class="rounded-lg bg-secondary px-6 py-2 font-semibold text-white hover:bg-gold-600">
+				<button
+					class="rounded-lg bg-secondary px-6 py-2 font-semibold text-white hover:bg-gold-600"
+				>
 					Secondary Button
 				</button>
-				<button class="rounded-lg border border-border bg-surface px-6 py-2 font-semibold text-primary hover:bg-neutral-100">
+				<button
+					class="rounded-lg border border-border bg-surface px-6 py-2 font-semibold text-primary hover:bg-neutral-100"
+				>
 					Outline Button
 				</button>
 			</div>
