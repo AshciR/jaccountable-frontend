@@ -1,3 +1,5 @@
+![CI](https://github.com/AshciR/jaccountable-frontend/actions/workflows/ci.yml/badge.svg)
+
 # JAccountable Frontend
 
 A web interface for Jamaica's government accountability news monitoring system.

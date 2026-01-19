@@ -1,0 +1,6 @@
+if ! yarn lint; then
+  echo ""
+  echo "Push blocked: linting failed."
+  echo "Run 'yarn format' to fix formatting issues, then commit and push again."
+  exit 1
+fi
