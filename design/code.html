@@ -1,0 +1,667 @@
+<!doctype html>
+
+<html class="light scroll-smooth dark" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<title>JAccountable | Immersive Accountability Tracking</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							primary: '#11d45f',
+							navy: '#1e3a5f',
+							gold: '#FED100',
+							'background-light': '#f6f8f7',
+							'background-dark': '#102217'
+						},
+						fontFamily: { display: 'Public Sans', body: ['Public Sans', 'sans-serif'] },
+						backgroundImage: {
+							'hero-pattern':
+								"url('https://images.unsplash.com/photo-1575356893693-013627d35399?q=80&w=2070&auto=format&fit=crop')"
+						},
+						borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' }
+					}
+				}
+			};
+		</script>
+		<style>
+			body {
+				font-family: 'Public Sans', sans-serif;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: 'Montserrat', sans-serif;
+			}
+			.parallax-hero {
+				background-attachment: fixed;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+			.reveal-on-scroll {
+				opacity: 0;
+				transform: translateY(30px);
+				transition: all 1s ease-out;
+			}
+			.reveal-on-scroll.is-visible {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.editorial-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+				gap: 3rem;
+			}
+			::-webkit-scrollbar {
+				width: 10px;
+			}
+			::-webkit-scrollbar-track {
+				background: #f1f1f1;
+			}
+			::-webkit-scrollbar-thumb {
+				background: #1e3a5f;
+				border-radius: 5px;
+			}
+			::-webkit-scrollbar-thumb:hover {
+				background: #006838;
+			}
+		</style>
+	</head>
+	<body
+		class="bg-background-light dark:bg-background-dark text-[#101814] font-body antialiased overflow-x-hidden"
+	>
+		<header
+			class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-navy/10 shadow-sm transition-all duration-300"
+		>
+			<div class="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
+				<div class="flex items-center gap-3 group cursor-pointer">
+					<div
+						class="bg-primary text-white p-2 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300"
+					>
+						<span class="material-symbols-outlined text-2xl">shield</span>
+					</div>
+					<h1 class="text-xl font-black tracking-tighter text-navy uppercase italic">
+						JAccountable
+					</h1>
+				</div>
+				<nav class="hidden md:flex items-center gap-8">
+					<a
+						class="text-xs font-bold text-navy/70 hover:text-primary transition-colors uppercase tracking-[0.15em]"
+						href="#search"
+						>Search</a
+					>
+					<a
+						class="text-xs font-bold text-navy/70 hover:text-primary transition-colors uppercase tracking-[0.15em]"
+						href="#how-it-works"
+						>Process</a
+					>
+					<a
+						class="text-xs font-bold text-navy/70 hover:text-primary transition-colors uppercase tracking-[0.15em]"
+						href="#impact"
+						>Impact</a
+					>
+				</nav>
+				<div class="flex items-center gap-4">
+					<button
+						class="bg-navy hover:bg-primary text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:ring-2 hover:ring-gold/50"
+					>
+						Explore Data
+					</button>
+				</div>
+			</div>
+		</header>
+		<section
+			class="relative h-screen w-full overflow-hidden flex items-center justify-center parallax-hero bg-hero-pattern"
+		>
+			<div class="absolute inset-0 bg-navy/80 mix-blend-multiply z-0"></div>
+			<div
+				class="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-transparent z-0 opacity-90"
+			></div>
+			<div class="relative z-10 max-w-5xl mx-auto px-6 text-center text-white mt-16">
+				<div class="mb-8 opacity-0 animate-[fadeIn_1s_ease-out_forwards_0.5s]">
+					<p class="text-gold italic text-xl md:text-2xl font-medium tracking-wide">
+						"Information is the currency of democracy."
+					</p>
+					<span class="text-white/60 block text-sm mt-2 font-bold tracking-widest uppercase"
+						>— Thomas Jefferson</span
+					>
+				</div>
+				<h2
+					class="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-12 tracking-tight opacity-0 animate-[slideUp_1s_ease-out_forwards_0.8s] drop-shadow-2xl"
+				>
+					Every Scandal.<br />
+					Every Investigation.<br />
+					<span class="text-transparent bg-clip-text bg-gradient-to-r from-gold to-white"
+						>One Place.</span
+					>
+				</h2>
+				<div class="flex justify-center opacity-0 animate-[fadeIn_1s_ease-out_forwards_1.2s]">
+					<div
+						class="w-1 h-24 rounded-full bg-gradient-to-b from-gold to-transparent animate-pulse"
+					></div>
+				</div>
+			</div>
+		</section>
+		<section class="py-24 bg-white relative overflow-hidden">
+			<div
+				class="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl -mr-48 -mt-48"
+			></div>
+			<div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+				<span class="text-primary font-bold tracking-[0.2em] text-xs uppercase mb-4 block"
+					>The Challenge</span
+				>
+				<h3 class="text-3xl md:text-5xl font-bold text-navy mb-8 leading-tight">
+					Public trust is eroding in the shadows of complexity.
+				</h3>
+				<p class="text-lg text-navy/60 leading-relaxed max-w-2xl mx-auto">
+					Government reports are often buried in PDFs, scattered across disparate agency websites,
+					or lost in the daily news cycle. Without a centralized, searchable archive, accountability
+					becomes a game of memory rather than record.
+				</p>
+			</div>
+		</section>
+		<section class="py-20 bg-background-light border-y border-navy/5" id="search">
+			<div class="max-w-7xl mx-auto px-6 lg:px-12">
+				<div class="max-w-3xl mx-auto reveal-on-scroll">
+					<div class="relative group transform transition-all hover:-translate-y-1 duration-300">
+						<div
+							class="absolute -inset-1 bg-gradient-to-r from-primary via-gold to-navy rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"
+						></div>
+						<div class="relative bg-white rounded-xl shadow-xl p-2 flex items-center">
+							<div class="pl-4 pr-2 text-primary">
+								<span class="material-symbols-outlined text-3xl">search</span>
+							</div>
+							<input
+								class="w-full bg-transparent border-none focus:ring-0 text-xl py-4 pl-2 text-navy placeholder:text-navy/30 font-medium"
+								placeholder="Search report, agency, or official..."
+								type="text"
+							/>
+							<button
+								class="bg-navy hover:bg-primary text-white px-8 py-3 rounded-lg font-bold transition-colors uppercase tracking-wider text-sm hidden sm:block"
+							>
+								Search
+							</button>
+						</div>
+					</div>
+					<div class="flex flex-wrap justify-center gap-3 mt-8">
+						<button
+							class="px-4 py-2 rounded-full bg-white border border-navy/10 text-navy/60 text-xs font-bold uppercase tracking-wider hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+						>
+							Finance
+						</button>
+						<button
+							class="px-4 py-2 rounded-full bg-white border border-navy/10 text-navy/60 text-xs font-bold uppercase tracking-wider hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+						>
+							Infrastructure
+						</button>
+						<button
+							class="px-4 py-2 rounded-full bg-white border border-navy/10 text-navy/60 text-xs font-bold uppercase tracking-wider hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+						>
+							Healthcare
+						</button>
+						<button
+							class="px-4 py-2 rounded-full bg-white border border-navy/10 text-navy/60 text-xs font-bold uppercase tracking-wider hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+						>
+							Judiciary
+						</button>
+					</div>
+				</div>
+				<div class="editorial-grid mt-20 reveal-on-scroll">
+					<article
+						class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 cursor-pointer border border-navy/5"
+					>
+						<div class="h-64 overflow-hidden relative">
+							<div
+								class="absolute inset-0 bg-navy/20 group-hover:bg-transparent transition-colors z-10"
+							></div>
+							<div
+								class="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+								style="
+									background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYTW4-AaLXA-F4Z1jau24oGLrc8uaytb_wzcK_yUW_2Q52Wl_nVXUcs2Y_qyoSqNnINhK_5HMePNHgQGCiUdPGH2yUtSpr1FSAGDFs33s-8vGfCegaOrl6HsYNYIpBjjHP9CBsvCeWh1t-gT8UT3d4ZLMW0ka5VzxakqRUS6M-F5uzpxpsU7ro5w6a3l1Q4NS8BfvBnj0Fm0fejDEOKnVrwMb3HXzjY9S4Wv-Ei37KJaANVkK9_CRw4TsMW2Wq2zQVmYQJ1zCFf7Y');
+								"
+							></div>
+							<div class="absolute top-4 left-4 z-20">
+								<span
+									class="inline-block px-3 py-1 bg-white/90 backdrop-blur text-primary text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm"
+									>Finance Sector</span
+								>
+							</div>
+						</div>
+						<div class="p-8">
+							<h4
+								class="text-xl font-bold text-navy mb-3 group-hover:text-primary transition-colors leading-snug"
+							>
+								Unexplained Wealth: Port Authority Audit Deep Dive
+							</h4>
+							<p class="text-navy/60 text-sm leading-relaxed mb-6">
+								Investigation reveals multi-million dollar discrepancies in infrastructure budget
+								allocations across rural parishes.
+							</p>
+							<div class="flex items-center justify-between border-t border-navy/5 pt-4">
+								<span class="text-xs font-bold text-navy/40 uppercase tracking-widest"
+									>May 24, 2024</span
+								>
+								<span
+									class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300"
+									>arrow_forward</span
+								>
+							</div>
+						</div>
+					</article>
+					<article
+						class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 cursor-pointer border border-navy/5"
+					>
+						<div class="h-64 overflow-hidden relative">
+							<div
+								class="absolute inset-0 bg-navy/20 group-hover:bg-transparent transition-colors z-10"
+							></div>
+							<div
+								class="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+								style="
+									background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvKdOT5JytJ9iKBLVN9kEdTfk5EVoIs_IuaE4iOGVwqzoORdJiN7pX9qcgNzsWvMtLyI7N4fJm6EKzxgv8zmdOaHNltQyE2imz3Q24bLR2rnVLZ9202kriFA2WZBjH6hoKBxF7YcAD00FCuI_xQQ1f5yx5aFMBrn1zgI6CclslyK7T06kC_BeDpjtTyb6cmMEopkmr6-mv_uGGIpZUHELUS4d2pyOCK5lt6_LtQVJ0F9aFbvzAzSmjhwzcx7-ch1CO6Nd1QyBX9dc');
+								"
+							></div>
+							<div class="absolute top-4 left-4 z-20">
+								<span
+									class="inline-block px-3 py-1 bg-white/90 backdrop-blur text-primary text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm"
+									>Public Works</span
+								>
+							</div>
+						</div>
+						<div class="p-8">
+							<h4
+								class="text-xl font-bold text-navy mb-3 group-hover:text-primary transition-colors leading-snug"
+							>
+								The Bridge to Nowhere: Tracing Contractor Payments
+							</h4>
+							<p class="text-navy/60 text-sm leading-relaxed mb-6">
+								AI analysis of public ledger entries identifies irregular patterns in construction
+								contract bidding.
+							</p>
+							<div class="flex items-center justify-between border-t border-navy/5 pt-4">
+								<span class="text-xs font-bold text-navy/40 uppercase tracking-widest"
+									>May 22, 2024</span
+								>
+								<span
+									class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300"
+									>arrow_forward</span
+								>
+							</div>
+						</div>
+					</article>
+					<article
+						class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 cursor-pointer border border-navy/5"
+					>
+						<div class="h-64 overflow-hidden relative">
+							<div
+								class="absolute inset-0 bg-navy/20 group-hover:bg-transparent transition-colors z-10"
+							></div>
+							<div
+								class="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+								style="
+									background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbGnOmCs23o3ABaC8BUcaoGWUHtDU9uuAIbv_9bh1NbPfLg0esGl05T7diE1dyEuT1MCDH0HNNtxygIAjincXMCmSBWvqusTmnM_rWdLjQF9flGEqL-AwcZkKZR5ccp7Xdk7dUNmhz_gF0XL-3lMjKc_aqTShs3il3mrqBw2-YACsgcs-QgkJmj6wStwc6R86XBlQDu6sAY3TYPk_4_KILBiFBbgnanEyc0nk8Ea2_ErJ38e7irYILri2x5uPrEo-O8vGIecduMBY');
+								"
+							></div>
+							<div class="absolute top-4 left-4 z-20">
+								<span
+									class="inline-block px-3 py-1 bg-white/90 backdrop-blur text-primary text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm"
+									>Revenue</span
+								>
+							</div>
+						</div>
+						<div class="p-8">
+							<h4
+								class="text-xl font-bold text-navy mb-3 group-hover:text-primary transition-colors leading-snug"
+							>
+								Offshore Leak: Executives Named in Global Probe
+							</h4>
+							<p class="text-navy/60 text-sm leading-relaxed mb-6">
+								New documents linked to the 'Coral Reef' leaks suggest systemic tax avoidance by
+								regulatory officials.
+							</p>
+							<div class="flex items-center justify-between border-t border-navy/5 pt-4">
+								<span class="text-xs font-bold text-navy/40 uppercase tracking-widest"
+									>May 19, 2024</span
+								>
+								<span
+									class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300"
+									>arrow_forward</span
+								>
+							</div>
+						</div>
+					</article>
+				</div>
+				<div class="text-center mt-12 reveal-on-scroll">
+					<a
+						class="inline-flex items-center gap-2 text-navy font-bold hover:text-primary transition-all group border-b-2 border-transparent hover:border-primary pb-1"
+						href="#"
+					>
+						View Full Archive
+						<span
+							class="material-symbols-outlined group-hover:translate-x-1 transition-transform text-sm"
+							>arrow_forward_ios</span
+						>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="py-24 bg-navy text-white relative overflow-hidden" id="how-it-works">
+			<div
+				class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"
+			></div>
+			<div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+				<div class="text-center mb-20 reveal-on-scroll">
+					<h3 class="text-3xl md:text-5xl font-bold mb-6">From Noise to Clarity</h3>
+					<p class="text-white/60 max-w-xl mx-auto">
+						Our proprietary AI engine ingests thousands of documents daily to connect the dots you
+						might miss.
+					</p>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+					<div class="text-center reveal-on-scroll group">
+						<div
+							class="w-24 h-24 mx-auto bg-white/5 rounded-full flex items-center justify-center border border-white/10 mb-8 group-hover:bg-primary group-hover:border-primary transition-all duration-500 group-hover:scale-110 shadow-[0_0_30px_rgba(0,104,56,0.3)]"
+						>
+							<span class="material-symbols-outlined text-4xl text-gold">cloud_download</span>
+						</div>
+						<h4 class="text-xl font-bold mb-4">1. Data Ingestion</h4>
+						<p class="text-white/50 text-sm leading-relaxed">
+							We automatically scrape government portals, news outlets, and gazetted records for new
+							releases.
+						</p>
+					</div>
+					<div class="text-center reveal-on-scroll group" style="transition-delay: 200ms">
+						<div
+							class="w-24 h-24 mx-auto bg-white/5 rounded-full flex items-center justify-center border border-white/10 mb-8 group-hover:bg-primary group-hover:border-primary transition-all duration-500 group-hover:scale-110 shadow-[0_0_30px_rgba(0,104,56,0.3)]"
+						>
+							<span class="material-symbols-outlined text-4xl text-gold">psychology</span>
+						</div>
+						<h4 class="text-xl font-bold mb-4">2. AI Classification</h4>
+						<p class="text-white/50 text-sm leading-relaxed">
+							NLP algorithms tag entities, identify financial anomalies, and link related stories
+							across decades.
+						</p>
+					</div>
+					<div class="text-center reveal-on-scroll group" style="transition-delay: 400ms">
+						<div
+							class="w-24 h-24 mx-auto bg-white/5 rounded-full flex items-center justify-center border border-white/10 mb-8 group-hover:bg-primary group-hover:border-primary transition-all duration-500 group-hover:scale-110 shadow-[0_0_30px_rgba(0,104,56,0.3)]"
+						>
+							<span class="material-symbols-outlined text-4xl text-gold">public</span>
+						</div>
+						<h4 class="text-xl font-bold mb-4">3. Public Access</h4>
+						<p class="text-white/50 text-sm leading-relaxed">
+							The data is visualized and made searchable for journalists, researchers, and concerned
+							citizens.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="py-24 bg-white" id="impact">
+			<div class="max-w-7xl mx-auto px-6 lg:px-12">
+				<div
+					class="flex items-end justify-between mb-12 border-b border-navy/10 pb-6 reveal-on-scroll"
+				>
+					<h3 class="text-3xl font-bold text-navy">Impact by the Numbers</h3>
+					<span class="text-primary font-bold text-sm uppercase tracking-widest"
+						>Real-time data</span
+					>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-on-scroll">
+					<div
+						class="bg-background-light p-10 rounded-3xl border border-navy/5 hover:border-gold/50 transition-all hover:shadow-lg group"
+					>
+						<p
+							class="text-navy/60 uppercase tracking-widest text-xs font-bold mb-4 flex items-center gap-2"
+						>
+							<span class="w-2 h-2 rounded-full bg-primary"></span> Classified Stories
+						</p>
+						<p class="text-6xl font-black text-navy group-hover:text-primary transition-colors">
+							1,248
+						</p>
+					</div>
+					<div
+						class="bg-background-light p-10 rounded-3xl border border-navy/5 hover:border-gold/50 transition-all hover:shadow-lg group"
+					>
+						<p
+							class="text-navy/60 uppercase tracking-widest text-xs font-bold mb-4 flex items-center gap-2"
+						>
+							<span class="w-2 h-2 rounded-full bg-gold"></span> Active Probes
+						</p>
+						<p class="text-6xl font-black text-navy group-hover:text-gold transition-colors">42</p>
+					</div>
+					<div
+						class="bg-background-light p-10 rounded-3xl border border-navy/5 hover:border-gold/50 transition-all hover:shadow-lg group"
+					>
+						<p
+							class="text-navy/60 uppercase tracking-widest text-xs font-bold mb-4 flex items-center gap-2"
+						>
+							<span class="w-2 h-2 rounded-full bg-navy"></span> Recovered Funds
+						</p>
+						<p class="text-6xl font-black text-navy group-hover:text-primary transition-colors">
+							$12.5M
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="py-20 bg-background-light">
+			<div class="max-w-3xl mx-auto px-6">
+				<h3 class="text-3xl font-bold text-navy text-center mb-16 reveal-on-scroll">
+					Frequently Asked Questions
+				</h3>
+				<div class="space-y-4 reveal-on-scroll">
+					<details
+						class="group bg-white rounded-xl shadow-sm border border-navy/5 open:ring-2 open:ring-primary/10 transition-all duration-300"
+					>
+						<summary
+							class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-navy"
+						>
+							<span>Is JAccountable government-affiliated?</span>
+							<span class="transition group-open:rotate-180">
+								<span class="material-symbols-outlined">expand_more</span>
+							</span>
+						</summary>
+						<div class="text-navy/70 p-6 pt-0 leading-relaxed">
+							No. JAccountable is an independent, non-partisan non-profit organization dedicated to
+							transparency. We rely on public data but operate independently of any government
+							agency.
+						</div>
+					</details>
+					<details
+						class="group bg-white rounded-xl shadow-sm border border-navy/5 open:ring-2 open:ring-primary/10 transition-all duration-300"
+					>
+						<summary
+							class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-navy"
+						>
+							<span>How accurate is the AI classification?</span>
+							<span class="transition group-open:rotate-180">
+								<span class="material-symbols-outlined">expand_more</span>
+							</span>
+						</summary>
+						<div class="text-navy/70 p-6 pt-0 leading-relaxed">
+							Our models are trained on legal and journalistic datasets with 98% accuracy. However,
+							every major alert is manually verified by our team of human editors before being
+							highlighted as a 'Critical' story.
+						</div>
+					</details>
+					<details
+						class="group bg-white rounded-xl shadow-sm border border-navy/5 open:ring-2 open:ring-primary/10 transition-all duration-300"
+					>
+						<summary
+							class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-navy"
+						>
+							<span>Can I submit a tip anonymously?</span>
+							<span class="transition group-open:rotate-180">
+								<span class="material-symbols-outlined">expand_more</span>
+							</span>
+						</summary>
+						<div class="text-navy/70 p-6 pt-0 leading-relaxed">
+							Yes. We use encrypted SecureDrop channels for whistleblowers. Your identity is never
+							stored on our servers.
+						</div>
+					</details>
+				</div>
+			</div>
+		</section>
+		<section class="bg-navy py-24 relative overflow-hidden">
+			<div
+				class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary opacity-20 rounded-full -mr-32 -mt-32 blur-3xl"
+			></div>
+			<div
+				class="absolute bottom-0 left-0 w-96 h-96 bg-gold opacity-10 rounded-full -ml-24 -mb-24 blur-3xl"
+			></div>
+			<div class="relative z-10 max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+				<span class="material-symbols-outlined text-6xl text-gold mb-6">mark_email_unread</span>
+				<h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+					Never miss a critical update.
+				</h2>
+				<p class="text-white/70 text-lg mb-10 max-w-2xl mx-auto">
+					Get the weekly JAccountable digest delivered directly to your inbox. No noise, just
+					data-driven accountability.
+				</p>
+				<div class="flex flex-col sm:flex-row gap-4 items-center justify-center max-w-lg mx-auto">
+					<input
+						class="w-full px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-gold transition-all backdrop-blur-sm"
+						placeholder="Enter your email address"
+						type="email"
+					/>
+					<button
+						class="w-full sm:w-auto px-8 py-4 bg-gold text-navy font-black rounded-full hover:bg-white hover:shadow-[0_0_20px_rgba(254,209,0,0.5)] transition-all transform hover:-translate-y-1"
+					>
+						Subscribe
+					</button>
+				</div>
+				<div class="mt-16 pt-10 border-t border-white/10 flex flex-col items-center">
+					<p class="text-white/40 text-xs font-bold uppercase tracking-widest mb-6">
+						Spread the Truth
+					</p>
+					<div class="flex gap-6">
+						<a
+							class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-primary transition-all hover:scale-110"
+							href="#"
+						>
+							<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+								<path
+									d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
+								></path>
+							</svg>
+						</a>
+						<a
+							class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-primary transition-all hover:scale-110"
+							href="#"
+						>
+							<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+								<path
+									d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.848 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.351-.2 6.78-2.618 6.981-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.353-2.612-6.78-6.981-6.98C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+								></path>
+							</svg>
+						</a>
+						<a
+							class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-primary transition-all hover:scale-110"
+							href="#"
+						>
+							<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+								<path
+									d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+								></path>
+							</svg>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer class="bg-background-light border-t border-navy/10 py-12 px-6 lg:px-12">
+			<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+				<div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity">
+					<span class="material-symbols-outlined text-3xl text-primary">verified_user</span>
+					<div>
+						<h2 class="text-lg font-black tracking-tighter text-navy uppercase italic">
+							JAccountable
+						</h2>
+						<p class="text-[10px] text-navy/40 uppercase tracking-widest font-bold">Foundation</p>
+					</div>
+				</div>
+				<div class="flex gap-8">
+					<a
+						class="text-navy/40 hover:text-navy font-bold text-xs uppercase tracking-widest transition-colors"
+						href="#"
+						>Privacy</a
+					>
+					<a
+						class="text-navy/40 hover:text-navy font-bold text-xs uppercase tracking-widest transition-colors"
+						href="#"
+						>Terms</a
+					>
+					<a
+						class="text-navy/40 hover:text-navy font-bold text-xs uppercase tracking-widest transition-colors"
+						href="#"
+						>Contact</a
+					>
+				</div>
+				<div class="text-[10px] text-navy/30 font-bold uppercase tracking-[0.2em]">
+					© 2024 JAccountable.
+				</div>
+			</div>
+		</footer>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const observerOptions = {
+					root: null,
+					rootMargin: '0px',
+					threshold: 0.1
+				};
+				const observer = new IntersectionObserver((entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-visible');
+							observer.unobserve(entry.target);
+						}
+					});
+				}, observerOptions);
+				const elements = document.querySelectorAll('.reveal-on-scroll');
+				elements.forEach((el) => observer.observe(el));
+			});
+		</script>
+		<style>
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+			@keyframes slideUp {
+				from {
+					opacity: 0;
+					transform: translateY(40px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</body>
+</html>
