@@ -8,11 +8,17 @@
 	<div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
 		<!-- Main headline -->
 		<h1
-			class="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-12 tracking-tight text-primary opacity-0 animate-slide-up"
+			class="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-12 tracking-tight text-primary"
 		>
-			Every <span class="gradient-text">Scandal.</span><br />
-			Every <span class="gradient-text">Investigation.</span><br />
-			One <span class="gradient-text">Place.</span>
+			<span class="block opacity-0 animate-line-1"
+				>Every <span class="gradient-text">Scandal.</span></span
+			>
+			<span class="block opacity-0 animate-line-2"
+				>Every <span class="gradient-text">Investigation.</span></span
+			>
+			<span class="block opacity-0 animate-line-3"
+				>One <span class="gradient-text">Place.</span></span
+			>
 		</h1>
 
 		<!-- Animated vertical line -->
@@ -45,12 +51,20 @@
 		}
 	}
 
-	.animate-slide-up {
+	.animate-line-1 {
 		animation: slideUp 1s ease-out forwards 0.8s;
 	}
 
+	.animate-line-2 {
+		animation: slideUp 1s ease-out forwards 1.8s;
+	}
+
+	.animate-line-3 {
+		animation: slideUp 1s ease-out forwards 2.8s;
+	}
+
 	.animate-fade-in-delayed {
-		animation: fadeIn 1s ease-out forwards 1.2s;
+		animation: fadeIn 1s ease-out forwards 4s;
 	}
 
 	.gradient-text {

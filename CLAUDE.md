@@ -41,7 +41,5 @@ static/          # Public static files
 - Use `$lib` alias for imports from `src/lib`
 - Svelte 5 runes syntax (`$state`, `$derived`, `$effect`, etc.)
 - File-based routing with `+page.svelte`, `+layout.svelte`, `+server.ts` conventions
-
-## Current Status
-
-Fresh project scaffold - no features implemented yet.
+- **Always create tests when creating components** - colocate test files with components using `.test.ts` suffix (e.g., `Hero.svelte` → `Hero.test.ts`)
+- **Create feature components in `src/lib/components/features/`** - complex/page-level components like Hero, ChallengeSection go here
