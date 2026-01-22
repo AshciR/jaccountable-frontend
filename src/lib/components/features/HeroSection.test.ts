@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
-import Hero from './Hero.svelte';
+import HeroSection from './HeroSection.svelte';
 
-describe('Hero', () => {
+describe('HeroSection', () => {
 	it('should display the main headline', () => {
 		// Given: the hero component renders
-		render(Hero);
+		render(HeroSection);
 
 		// When: the page loads
 
@@ -17,7 +17,7 @@ describe('Hero', () => {
 
 	it('should display gradient text spans with gradient-text class', () => {
 		// Given: the hero component renders
-		render(Hero);
+		render(HeroSection);
 
 		// When: the page loads
 
@@ -32,7 +32,7 @@ describe('Hero', () => {
 
 	it('should display each headline line with staggered animation classes', () => {
 		// Given: the hero component renders
-		render(Hero);
+		render(HeroSection);
 
 		// When: the page loads
 

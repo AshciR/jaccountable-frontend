@@ -1,7 +1,127 @@
 @import 'tailwindcss';
 
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================
+   shadcn-svelte Component Theme Variables
+   (Customized to use JAccountable brand colors)
+   ============================================ */
+:root {
+	--radius: 0.625rem;
+	--background: #fffdf5; /* neutral-50 */
+	--foreground: #1a1a1a; /* neutral-800 */
+	--card: #ffffff;
+	--card-foreground: #1a1a1a;
+	--popover: #ffffff;
+	--popover-foreground: #1a1a1a;
+	--primary: #1a1a1a; /* neutral-800 */
+	--primary-foreground: #ffffff;
+	--secondary: #fed100; /* gold-500 */
+	--secondary-foreground: #1a1a1a;
+	--muted: #faf8f2; /* neutral-100 */
+	--muted-foreground: #6b6b6b; /* neutral-500 */
+	--accent: #009b3a; /* green-500 */
+	--accent-foreground: #ffffff;
+	--accent-hover: #007a2f; /* green-600 */
+	--destructive: #d32f2f;
+	--border: #e5e5e5; /* neutral-200 */
+	--input: #e5e5e5;
+	--ring: #009b3a; /* green-500 */
+	--chart-1: #fed100;
+	--chart-2: #009b3a;
+	--chart-3: #1a1a1a;
+	--chart-4: #ffd933;
+	--chart-5: #47ba75;
+	--sidebar: #faf8f2;
+	--sidebar-foreground: #1a1a1a;
+	--sidebar-primary: #009b3a;
+	--sidebar-primary-foreground: #ffffff;
+	--sidebar-accent: #e6f5ec;
+	--sidebar-accent-foreground: #1a1a1a;
+	--sidebar-border: #e5e5e5;
+	--sidebar-ring: #009b3a;
+}
+
+.dark {
+	--background: #0a0a0a; /* neutral-900 */
+	--foreground: #faf8f2; /* neutral-100 */
+	--card: #1a1a1a; /* neutral-800 */
+	--card-foreground: #faf8f2;
+	--popover: #1a1a1a;
+	--popover-foreground: #faf8f2;
+	--primary: #faf8f2;
+	--primary-foreground: #1a1a1a;
+	--secondary: #fed100;
+	--secondary-foreground: #1a1a1a;
+	--muted: #333333; /* neutral-700 */
+	--muted-foreground: #a3a3a3; /* neutral-400 */
+	--accent: #1fa855; /* green-400 */
+	--accent-foreground: #1a1a1a;
+	--accent-hover: #47ba75; /* green-300 */
+	--destructive: #ef4444;
+	--border: rgba(255, 255, 255, 0.1);
+	--input: rgba(255, 255, 255, 0.15);
+	--ring: #1fa855;
+	--chart-1: #fed100;
+	--chart-2: #1fa855;
+	--chart-3: #faf8f2;
+	--chart-4: #ffd933;
+	--chart-5: #47ba75;
+	--sidebar: #1a1a1a;
+	--sidebar-foreground: #faf8f2;
+	--sidebar-primary: #1fa855;
+	--sidebar-primary-foreground: #1a1a1a;
+	--sidebar-accent: #333333;
+	--sidebar-accent-foreground: #faf8f2;
+	--sidebar-border: rgba(255, 255, 255, 0.1);
+	--sidebar-ring: #1fa855;
+}
+
+@theme inline {
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ============================================
+   JAccountable Design System
+   ============================================ */
 @theme {
-	/* Brand Colors - Gold (Primary Accent) */
+	/* Brand Colors - Gold */
 	--color-gold-50: #fffef5;
 	--color-gold-100: #fffacc;
 	--color-gold-200: #fff299;
@@ -14,7 +134,7 @@
 	--color-gold-900: #524300;
 	--color-gold-950: #2e2500;
 
-	/* Brand Colors - Green (Secondary Accent) */
+	/* Brand Colors - Green */
 	--color-green-50: #e6f5ec;
 	--color-green-100: #c2e8d1;
 	--color-green-200: #85d1a3;
@@ -27,7 +147,7 @@
 	--color-green-900: #00290f;
 	--color-green-950: #001a09;
 
-	/* Neutrals (warm-tinted for brand cohesion) */
+	/* Neutrals */
 	--color-neutral-50: #fffdf5;
 	--color-neutral-100: #faf8f2;
 	--color-neutral-200: #e5e5e5;
@@ -40,19 +160,21 @@
 	--color-neutral-900: #0a0a0a;
 	--color-neutral-950: #000000;
 
-	/* Semantic Aliases */
-	--color-primary: #1a1a1a;
-	--color-accent: #009b3a;
-	--color-accent-hover: #007a2f;
-	--color-secondary: #fed100;
+	/* Additional semantic colors */
 	--color-success: #009b3a;
 	--color-warning: #f2a900;
 	--color-error: #d32f2f;
-
-	/* Background shortcuts */
-	--color-background: #fffdf5;
 	--color-surface: #ffffff;
-	--color-border: #e5e5e5;
+	--color-accent-hover: var(--accent-hover);
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground antialiased;
+	}
 }
 
 /* Global base styles */
@@ -62,8 +184,4 @@ html {
 		-apple-system,
 		sans-serif;
 	scroll-behavior: smooth;
-}
-
-body {
-	@apply bg-background text-primary antialiased;
 }
