@@ -27,6 +27,10 @@ yarn format     # Format code with Prettier
 src/
   lib/           # Shared components, utilities, stores
     assets/      # Static assets (favicon, images)
+    components/
+      ui/        # Atomic components (small, reusable primitives from shadcn-svelte)
+      features/  # Non-atomic components (page-level, composed components)
+    utils/       # Utility functions (e.g., cn() for class merging)
     index.ts     # $lib exports
   routes/        # SvelteKit file-based routing
     +layout.svelte
@@ -36,13 +40,31 @@ src/
 static/          # Public static files
 ```
 
+## Component Organization
+
+### Atomic Components (`src/lib/components/ui/`)
+
+Small, reusable UI primitives managed by shadcn-svelte. These are the building blocks:
+
+- Input, Button, Card, Badge, etc.
+- Added via `npx shadcn-svelte@latest add <component>`
+- Do not modify directly; customize via props and CSS variables
+
+### Non-Atomic Components (`src/lib/components/features/`)
+
+Page-level, composed components that combine atomic components:
+
+- Hero, SearchSection, SearchBar, ChallengeSection, etc.
+- Colocate tests with components (e.g., `SearchBar.svelte` → `SearchBar.test.ts`)
+
 ## Conventions
 
 - Use `$lib` alias for imports from `src/lib`
 - Svelte 5 runes syntax (`$state`, `$derived`, `$effect`, etc.)
 - File-based routing with `+page.svelte`, `+layout.svelte`, `+server.ts` conventions
-- **Always create tests when creating components** - colocate test files with components using `.test.ts` suffix (e.g., `Hero.svelte` → `Hero.test.ts`)
-- **Create feature components in `src/lib/components/features/`** - complex/page-level components like Hero, ChallengeSection go here
+- **Always create tests when creating components** - colocate test files with components using `.test.ts` suffix
+- **Atomic components** go in `src/lib/components/ui/` (managed by shadcn-svelte)
+- **Feature components** go in `src/lib/components/features/` (page-level, composed)
 
 ## Testing Conventions (BDD)
 

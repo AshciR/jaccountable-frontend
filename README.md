@@ -24,6 +24,24 @@ Each article receives a relevance score (1-10) based on accountability-related k
 
 - [Svelte](https://svelte.dev/) / [SvelteKit](https://kit.svelte.dev/) - Frontend framework
 - [Vite](https://vitejs.dev/) - Build tool
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [shadcn-svelte](https://www.shadcn-svelte.com/) - UI component library
+- [Lucide](https://lucide.dev/) - Icons
+
+## Project Structure
+
+```
+src/lib/components/
+├── ui/           # Atomic components (shadcn-svelte primitives)
+│   └── input/    # e.g., Input, Button, Card
+└── features/     # Non-atomic components (page-level, composed)
+    ├── Hero.svelte
+    ├── SearchBar.svelte
+    └── SearchSection.svelte
+```
+
+- **Atomic components** (`ui/`): Small, reusable primitives managed by shadcn-svelte
+- **Feature components** (`features/`): Page-level components that compose atomic components
 
 ## Getting Started
 
