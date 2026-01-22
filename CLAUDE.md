@@ -43,3 +43,43 @@ static/          # Public static files
 - File-based routing with `+page.svelte`, `+layout.svelte`, `+server.ts` conventions
 - **Always create tests when creating components** - colocate test files with components using `.test.ts` suffix (e.g., `Hero.svelte` → `Hero.test.ts`)
 - **Create feature components in `src/lib/components/features/`** - complex/page-level components like Hero, ChallengeSection go here
+
+## Testing Conventions (BDD)
+
+Tests use **BDD-style Given/When/Then comments** with Vitest and @testing-library/svelte.
+
+### Structure
+
+```typescript
+describe('ComponentName', () => {
+	it('should display the heading', () => {
+		// Given: the component renders
+		render(Component);
+
+		// When: the page loads
+
+		// Then: should display the heading
+		expect(screen.getByRole('heading')).toBeInTheDocument();
+	});
+
+	it('should trigger the action when button is clicked', () => {
+		// Given: the component renders
+		render(Component);
+
+		// When: user clicks the button
+		const button = screen.getByRole('button');
+		fireEvent.click(button);
+
+		// Then: should trigger the action
+		expect(/* assertion */).toBe(true);
+	});
+});
+```
+
+### Guidelines
+
+- **Given**: Setup and preconditions (comment describing initial state)
+- **When**: Action or trigger (comment describing user action or implicit page load)
+- **Then**: Expected outcome (`it` block description starts with "should", comment before assertions)
+- Use comments inside tests to clarify Given/When/Then sections
+- Keep test structure flat with a single `describe` block per component

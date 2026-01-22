@@ -3,15 +3,25 @@ import { describe, expect, it } from 'vitest';
 import Hero from './Hero.svelte';
 
 describe('Hero', () => {
-	it('renders the main headline', () => {
+	it('should display the main headline', () => {
+		// Given: the hero component renders
 		render(Hero);
+
+		// When: the page loads
+
+		// Then: should display the main headline
 		expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
 			'Every Scandal. Every Investigation. One Place.'
 		);
 	});
 
-	it('renders gradient text spans with gradient-text class', () => {
+	it('should display gradient text spans with gradient-text class', () => {
+		// Given: the hero component renders
 		render(Hero);
+
+		// When: the page loads
+
+		// Then: should display gradient text spans with gradient-text class
 		const gradientSpans = screen.getAllByText(/Scandal|Investigation|Place/);
 
 		expect(gradientSpans).toHaveLength(3);
@@ -20,8 +30,13 @@ describe('Hero', () => {
 		});
 	});
 
-	it('renders each headline line with staggered animation classes', () => {
+	it('should display each headline line with staggered animation classes', () => {
+		// Given: the hero component renders
 		render(Hero);
+
+		// When: the page loads
+
+		// Then: should display each headline line with staggered animation classes
 		const heading = screen.getByRole('heading', { level: 1 });
 		const lineSpans = heading.querySelectorAll(':scope > span.block');
 
