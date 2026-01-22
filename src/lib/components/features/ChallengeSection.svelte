@@ -2,7 +2,7 @@
 	// Challenge section describing the problem JAccountable solves
 </script>
 
-<section class="bg-surface py-24 relative overflow-hidden">
+<section id="why" class="bg-surface py-24 relative overflow-hidden">
 	<!-- Decorative blur element -->
 	<div
 		class="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -mr-48 -mt-48"
