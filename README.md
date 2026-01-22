@@ -63,3 +63,36 @@ Preview the production build:
 ```sh
 npm run preview
 ```
+
+## Testing
+
+This project uses [Vitest](https://vitest.dev/) with [@testing-library/svelte](https://testing-library.com/docs/svelte-testing-library/intro/) for component testing.
+
+### Running Tests
+
+```sh
+npm run test        # Run tests once
+npm run test:watch  # Run tests in watch mode
+```
+
+### BDD Testing Pattern
+
+Tests follow the **Given/When/Then** BDD format using comments for clarity:
+
+```typescript
+describe('ComponentName', () => {
+	it('should display the expected content', () => {
+		// Given: the component renders
+		render(Component);
+
+		// When: the page loads
+
+		// Then: should display the expected content
+		expect(screen.getByRole('heading')).toBeInTheDocument();
+	});
+});
+```
+
+- **Given**: Describes the initial context/state
+- **When**: Describes the action or event
+- **Then**: Describes the expected outcome (test assertions)
