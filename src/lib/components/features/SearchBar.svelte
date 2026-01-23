@@ -36,10 +36,14 @@
 			{placeholder}
 			class="w-full bg-transparent border-none shadow-none focus-visible:ring-0 text-xl py-6 px-4 text-primary placeholder:text-neutral-400 font-medium"
 		/>
-		<!-- Search icon on the right -->
-		<div class="pr-4 pl-2 text-accent">
+		<!-- Search button on the right -->
+		<button
+			type="submit"
+			class="pr-4 pl-2 text-accent hover:text-accent/80 transition-colors"
+			aria-label="Search"
+		>
 			<Search size={24} strokeWidth={2.5} />
-		</div>
+		</button>
 	</div>
 </form>
 
