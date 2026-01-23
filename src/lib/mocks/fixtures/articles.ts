@@ -1,4 +1,4 @@
-import type { Article } from '../types';
+import type { Article } from '$lib/api/types';
 
 export const mockArticles: Article[] = [
 	{

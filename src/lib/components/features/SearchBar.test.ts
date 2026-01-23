@@ -88,4 +88,19 @@ describe('SearchBar', () => {
 		expect(glowElement).toBeInTheDocument();
 		expect(glowElement).toHaveClass('glow-effect');
 	});
+
+	it('should call onSearch when clicking the search button', async () => {
+		// Given: the search bar component renders with onSearch callback
+		const onSearch = vi.fn();
+		render(SearchBar, { props: { onSearch } });
+		const input = screen.getByPlaceholderText('Petrojam');
+
+		// When: user types a query and clicks the search button
+		await fireEvent.input(input, { target: { value: 'test query' } });
+		const searchButton = screen.getByRole('button', { name: /search/i });
+		await fireEvent.click(searchButton);
+
+		// Then: should call onSearch with the query
+		expect(onSearch).toHaveBeenCalledWith('test query');
+	});
 });

@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw';
-import type { SearchResponse } from '../types';
+import type { SearchResponse } from '$lib/api/types';
 import { mockArticles } from '../fixtures/articles';
 
 export const articleHandlers = [
-	http.get<never, never, SearchResponse>('*/api/v1/articles/search', ({ request }) => {
+	http.get<never, never, SearchResponse>('/api/v1/articles/search', ({ request }) => {
 		const url = new URL(request.url);
 		const q = url.searchParams.get('q');
 		const entity = url.searchParams.get('entity');
