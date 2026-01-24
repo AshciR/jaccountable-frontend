@@ -109,7 +109,6 @@
 
 	/**
 	 * Extracts 5 sentences from full_text centered around the snippet match.
-	 * The middle sentence has full opacity, outer sentences fade progressively.
 	 */
 	function extractFocusedSentences(
 		fullText: string | undefined,

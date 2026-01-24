@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/features/Header.svelte';
 	import '../app.css';
@@ -10,5 +11,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<Header />
+{#if !$page.error}
+	<Header />
+{/if}
 {@render children()}
