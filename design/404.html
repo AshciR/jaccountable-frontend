@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<title>404 - Page Not Found | JAccountable</title>
+		<link href="https://fonts.googleapis.com" rel="preconnect" />
+		<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Montserrat:wght@700&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						colors: {
+							neutral: {
+								50: '#fffdf5',
+								500: '#6b6b6b',
+								800: '#1a1a1a'
+							},
+							brand: {
+								green: '#009b3a',
+								gold: '#fed100'
+							}
+						},
+						fontFamily: {
+							display: ['Montserrat', 'sans-serif'],
+							body: ['Inter', 'sans-serif']
+						},
+						borderRadius: {
+							button: '0.625rem'
+						}
+					}
+				}
+			};
+		</script>
+		<style type="text/tailwindcss">
+			:root {
+				--neutral-50: #fffdf5;
+				--neutral-500: #6b6b6b;
+				--neutral-800: #1a1a1a;
+				--brand-green: #009b3a;
+				--brand-gold: #fed100;
+			}
+			body {
+				font-family: 'Inter', sans-serif;
+				background-color: var(--neutral-50);
+			}
+			h1 {
+				font-family: 'Montserrat', sans-serif;
+			}
+			.animate-balancing {
+				animation: balancing 1s ease-in-out forwards;
+			}
+			@keyframes balancing {
+				0% {
+					transform: rotate(0deg);
+				}
+				25% {
+					transform: rotate(8deg);
+				}
+				75% {
+					transform: rotate(-8deg);
+				}
+				100% {
+					transform: rotate(0deg);
+				}
+			}
+			.material-symbols-outlined {
+				font-variation-settings:
+					'FILL' 0,
+					'wght' 400,
+					'GRAD' 0,
+					'opsz' 48;
+			}
+		</style>
+	</head>
+	<body class="min-h-screen flex flex-col items-center justify-center px-4">
+		<main class="max-w-2xl w-full text-center flex flex-col items-center">
+			<div class="mb-10 relative">
+				<div class="animate-balancing inline-block">
+					<span
+						class="material-symbols-outlined text-[120px] md:text-[160px] text-[var(--brand-green)]"
+					>
+						balance
+					</span>
+				</div>
+				<div
+					class="absolute -bottom-2 -right-2 bg-[var(--brand-gold)] text-[var(--neutral-800)] font-display font-bold px-3 py-1 rounded-full text-sm shadow-sm rotate-12"
+				>
+					404
+				</div>
+			</div>
+			<div class="space-y-4 mb-10">
+				<h1 class="text-4xl md:text-5xl font-bold text-[var(--neutral-800)] leading-tight">
+					Hush, cyaan find it
+				</h1>
+				<p class="text-lg text-[var(--neutral-500)] font-body max-w-md mx-auto leading-relaxed">
+					The story you're looking for might have moved or doesn't exist. Let's get you back to the
+					archive.
+				</p>
+			</div>
+			<a
+				class="inline-flex items-center justify-center px-10 py-4 font-bold text-white bg-[var(--neutral-800)] rounded-[0.625rem] transition-all duration-300 hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[var(--neutral-800)] focus:ring-offset-2 shadow-md"
+				href="/"
+			>
+				Return to Home
+			</a>
+			<div class="mt-24 pt-8 border-t border-zinc-200 w-full opacity-40">
+				<p class="text-xs text-[var(--neutral-500)] font-medium tracking-[0.2em] uppercase">
+					JAccountable • Monitoring Governance
+				</p>
+			</div>
+		</main>
+		<div
+			class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--brand-green)] via-[var(--brand-gold)] to-[var(--brand-green)]"
+		></div>
+	</body>
+</html>

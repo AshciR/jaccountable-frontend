@@ -63,6 +63,7 @@ Page-level, composed components that combine atomic components:
 - Svelte 5 runes syntax (`$state`, `$derived`, `$effect`, etc.)
 - File-based routing with `+page.svelte`, `+layout.svelte`, `+server.ts` conventions
 - **Always create tests when creating components** - colocate test files with components using `.test.ts` suffix
+- **Test files must NOT use the `+` prefix** - files prefixed with `+` are reserved by SvelteKit (e.g., use `error.test.ts` not `+error.test.ts`)
 - **Atomic components** go in `src/lib/components/ui/` (managed by shadcn-svelte)
 - **Feature components** go in `src/lib/components/features/` (page-level, composed)
 
