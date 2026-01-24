@@ -1,10 +1,17 @@
 <script lang="ts">
 	import SearchBar from './SearchBar.svelte';
+	import ArticleCard from './ArticleCard.svelte';
 	import type { Article, SearchResponse } from '$lib/api/types';
+
+	const MAX_PREVIEW_RESULTS = 3;
 
 	let searchResults = $state<Article[]>([]);
 	let isLoading = $state(false);
 	let hasSearched = $state(false);
+
+	const displayedResults = $derived(searchResults.slice(0, MAX_PREVIEW_RESULTS));
+	const hasMoreResults = $derived(searchResults.length > MAX_PREVIEW_RESULTS);
+	const remainingCount = $derived(searchResults.length - MAX_PREVIEW_RESULTS);
 
 	async function handleSearch(query: string) {
 		isLoading = true;
@@ -30,29 +37,18 @@
 		{:else if hasSearched}
 			{#if searchResults.length > 0}
 				<div class="mt-8">
-					<p class="text-sm text-neutral-500 mb-4">
-						{searchResults.length} result{searchResults.length === 1 ? '' : 's'} found
-					</p>
-					<ul class="space-y-4">
-						{#each searchResults as article (article.id)}
-							<li class="bg-white rounded-lg p-4 shadow-sm border border-neutral-200">
-								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external URL -->
-								<a href={article.url} target="_blank" rel="noopener noreferrer" class="block">
-									<h3
-										class="text-lg font-semibold text-primary hover:text-accent transition-colors"
-									>
-										{article.title}
-									</h3>
-									<p class="text-sm text-neutral-500 mt-1">
-										{article.section} &middot; {new Date(
-											article.published_date
-										).toLocaleDateString()}
-									</p>
-									<p class="text-neutral-700 mt-2">{article.snippet}</p>
-								</a>
-							</li>
+					<div class="space-y-4">
+						{#each displayedResults as article (article.id)}
+							<ArticleCard {article} />
 						{/each}
-					</ul>
+					</div>
+					{#if hasMoreResults}
+						<div class="mt-6 text-center">
+							<p class="text-neutral-600 mb-2">
+								{remainingCount} more result{remainingCount === 1 ? '' : 's'} available
+							</p>
+						</div>
+					{/if}
 				</div>
 			{:else}
 				<div class="mt-8 text-center text-neutral-500">No results found</div>

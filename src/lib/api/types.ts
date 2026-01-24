@@ -1,11 +1,18 @@
+export interface Classification {
+	classifierType: string;
+	confidence: number;
+}
+
 export interface Article {
 	id: string;
 	url: string;
 	title: string;
 	section: string;
+	news_source: string;
 	published_date: string;
 	snippet: string;
 	entities: string[];
+	classifications: Classification[];
 	full_text?: string;
 }
 

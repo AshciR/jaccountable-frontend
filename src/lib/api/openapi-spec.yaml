@@ -1,0 +1,286 @@
+openapi: 3.0.3
+info:
+  title: Articles Search API
+  description: API for searching and retrieving news articles with entity extraction and classification data.
+  version: 1.0.0
+
+servers:
+  - url: /api/v1
+    description: API v1
+
+paths:
+  /articles/search:
+    get:
+      summary: Search articles
+      description: |
+        Search for articles using full-text search (PostgreSQL FTS on title + full_text),
+        with optional filtering by entity, date range, and sorting options.
+      operationId: searchArticles
+      tags:
+        - Articles
+      parameters:
+        - name: q
+          in: query
+          description: Full-text search query (uses PostgreSQL FTS on title + full_text)
+          required: false
+          schema:
+            type: string
+          example: corruption
+
+        - name: entity
+          in: query
+          description: Filter by entity name (partial match)
+          required: false
+          schema:
+            type: string
+          example: Ministry of Finance
+
+        - name: from_date
+          in: query
+          description: Articles published on or after this date
+          required: false
+          schema:
+            type: string
+            format: date
+          example: '2024-01-01'
+
+        - name: to_date
+          in: query
+          description: Articles published on or before this date
+          required: false
+          schema:
+            type: string
+            format: date
+          example: '2024-12-31'
+
+        - name: include_full_text
+          in: query
+          description: Include full article text in response
+          required: false
+          schema:
+            type: boolean
+            default: false
+
+        - name: page
+          in: query
+          description: Page number (1-indexed)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+
+        - name: page_size
+          in: query
+          description: Results per page (max 100)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+
+        - name: sort
+          in: query
+          description: Sort field
+          required: false
+          schema:
+            type: string
+            enum:
+              - relevance
+              - published_date
+            default: relevance
+
+        - name: order
+          in: query
+          description: Sort order
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: desc
+
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+        '400':
+          description: Invalid query parameters (bad date format, page < 1, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+        '500':
+          description: Database/server errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    SearchResponse:
+      type: object
+      required:
+        - data
+        - pagination
+        - query
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        query:
+          $ref: '#/components/schemas/QueryEcho'
+
+    Article:
+      type: object
+      required:
+        - id
+        - url
+        - title
+        - section
+        - news_source
+        - published_date
+        - snippet
+        - entities
+        - classifications
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique article identifier
+          example: 550e8400-e29b-41d4-a716-446655440000
+        url:
+          type: string
+          format: uri
+          description: Original article URL
+          example: https://jamaica-gleaner.com/article/...
+        title:
+          type: string
+          description: Article title
+          example: Government Minister Under Investigation
+        section:
+          type: string
+          description: Article section/category
+          example: news
+        news_source:
+          type: string
+          description: Source identifier for the news outlet
+          example: JAMAICA_GLEANER
+        published_date:
+          type: string
+          format: date-time
+          description: Article publication date
+          example: '2024-01-15T10:30:00Z'
+        snippet:
+          type: string
+          description: Highlighted excerpt with search terms marked
+          example: '...highlighted excerpt with <mark>search terms</mark>...'
+        entities:
+          type: array
+          items:
+            type: string
+          description: List of extracted entity names
+          example:
+            - John Smith
+            - Ministry of Finance
+        classifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Classification'
+          description: List of article classifications with confidence scores
+        full_text:
+          type: string
+          description: Full article text (only included if include_full_text=true)
+
+    Classification:
+      type: object
+      required:
+        - classifier_type
+        - confidence
+      properties:
+        classifier_type:
+          type: string
+          description: Type of classification
+          example: CORRUPTION
+        confidence:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Confidence score for the classification
+          example: 0.92
+
+    Pagination:
+      type: object
+      required:
+        - page
+        - page_size
+        - total_results
+        - total_pages
+      properties:
+        page:
+          type: integer
+          description: Current page number
+          example: 1
+        page_size:
+          type: integer
+          description: Number of results per page
+          example: 20
+        total_results:
+          type: integer
+          description: Total number of matching results
+          example: 150
+        total_pages:
+          type: integer
+          description: Total number of pages
+          example: 8
+
+    QueryEcho:
+      type: object
+      properties:
+        q:
+          type: string
+          nullable: true
+          description: The search query that was used
+          example: corruption
+        from_date:
+          type: string
+          format: date
+          nullable: true
+          description: The from_date filter that was applied
+          example: '2024-01-01'
+        to_date:
+          type: string
+          format: date
+          nullable: true
+          description: The to_date filter that was applied
+        entity:
+          type: string
+          nullable: true
+          description: The entity filter that was applied
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: BAD_REQUEST
+        message:
+          type: string
+          description: Human-readable error message
+          example: Invalid date format for from_date parameter
