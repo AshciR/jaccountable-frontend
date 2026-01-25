@@ -38,6 +38,17 @@ export const articleHandlers = [
 			filtered = filtered.filter((article) => article.published_date <= toDate);
 		}
 
+		const sort = url.searchParams.get('sort');
+		const order = url.searchParams.get('order') || 'asc';
+
+		if (sort === 'published_date') {
+			filtered = [...filtered].sort((a, b) => {
+				const dateA = new Date(a.published_date).getTime();
+				const dateB = new Date(b.published_date).getTime();
+				return order === 'desc' ? dateB - dateA : dateA - dateB;
+			});
+		}
+
 		const totalResults = filtered.length;
 		const totalPages = Math.ceil(totalResults / pageSize);
 		const startIndex = (page - 1) * pageSize;

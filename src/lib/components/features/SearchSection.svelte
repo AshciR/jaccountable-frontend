@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import SearchBar from './SearchBar.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import type { Article, SearchResponse } from '$lib/api/types';
@@ -6,16 +7,45 @@
 	const MAX_PREVIEW_RESULTS = 3;
 
 	let searchResults = $state<Article[]>([]);
-	let isLoading = $state(false);
+	let latestArticles = $state<Article[]>([]);
+	let isLoading = $state(true);
 	let hasSearched = $state(false);
+	let searchQuery = $state('');
 
-	const displayedResults = $derived(searchResults.slice(0, MAX_PREVIEW_RESULTS));
-	const hasMoreResults = $derived(searchResults.length > MAX_PREVIEW_RESULTS);
+	const displayedArticles = $derived(
+		hasSearched ? searchResults.slice(0, MAX_PREVIEW_RESULTS) : latestArticles
+	);
+	const hasMoreResults = $derived(hasSearched && searchResults.length > MAX_PREVIEW_RESULTS);
 	const remainingCount = $derived(searchResults.length - MAX_PREVIEW_RESULTS);
+	const sectionLabel = $derived(hasSearched ? searchQuery : 'Latest Stories');
+	const noResults = $derived(hasSearched && searchResults.length === 0);
+
+	$effect(() => {
+		fetchLatestStories();
+	});
+
+	async function fetchLatestStories() {
+		try {
+			const response = await fetch(
+				'/api/v1/articles/search?sort=published_date&order=desc&page_size=3'
+			);
+			const data: SearchResponse = await response.json();
+			latestArticles = data.data;
+		} finally {
+			isLoading = false;
+		}
+	}
 
 	async function handleSearch(query: string) {
+		if (!query.trim()) {
+			hasSearched = false;
+			searchQuery = '';
+			return;
+		}
+
 		isLoading = true;
 		hasSearched = true;
+		searchQuery = query;
 		try {
 			const response = await fetch(`/api/v1/articles/search?q=${encodeURIComponent(query)}`);
 			const data: SearchResponse = await response.json();
@@ -33,15 +63,33 @@
 		</div>
 
 		{#if isLoading}
-			<div class="mt-8 text-center text-neutral-500">Loading...</div>
-		{:else if hasSearched}
-			{#if searchResults.length > 0}
-				<div class="mt-8">
-					<div class="space-y-4">
-						{#each displayedResults as article (article.id)}
-							<ArticleCard {article} />
-						{/each}
-					</div>
+			<div class="mt-8 text-center text-neutral-500" transition:fade={{ duration: 300 }}>
+				Loading...
+			</div>
+		{:else}
+			<div class="mt-12" transition:fade={{ duration: 300 }}>
+				<div class="text-center mb-8">
+					{#key sectionLabel}
+						<span
+							class="text-accent font-bold tracking-[0.2em] text-xs uppercase mb-4 block"
+							data-testid="search-section-search-query"
+							transition:fade={{ duration: 300 }}
+						>
+							{sectionLabel}
+						</span>
+					{/key}
+				</div>
+
+				{#if noResults}
+					<div class="text-center text-neutral-500">No results found</div>
+				{:else if displayedArticles.length > 0}
+					{#key hasSearched ? searchQuery : 'latest'}
+						<div class="space-y-4" transition:fade={{ duration: 300 }}>
+							{#each displayedArticles as article (article.id)}
+								<ArticleCard {article} />
+							{/each}
+						</div>
+					{/key}
 					{#if hasMoreResults}
 						<div class="mt-6 text-center">
 							<p class="text-neutral-600 mb-2">
@@ -49,10 +97,8 @@
 							</p>
 						</div>
 					{/if}
-				</div>
-			{:else}
-				<div class="mt-8 text-center text-neutral-500">No results found</div>
-			{/if}
+				{/if}
+			</div>
 		{/if}
 	</div>
 </section>

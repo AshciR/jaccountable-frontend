@@ -14,9 +14,7 @@
 
 	function handleSubmit(event: Event) {
 		event.preventDefault();
-		if (searchQuery.trim()) {
-			onSearch?.(searchQuery);
-		}
+		onSearch?.(searchQuery);
 	}
 </script>
 

@@ -63,7 +63,7 @@ describe('SearchBar', () => {
 		expect(onSearch).toHaveBeenCalledWith('test query');
 	});
 
-	it('should not call onSearch callback when query is empty', async () => {
+	it('should call onSearch with empty string when query is empty', async () => {
 		// Given: the search bar component renders with onSearch callback
 		const onSearch = vi.fn();
 		render(SearchBar, { props: { onSearch } });
@@ -73,8 +73,8 @@ describe('SearchBar', () => {
 		const form = input.closest('form')!;
 		await fireEvent.submit(form);
 
-		// Then: should not call onSearch
-		expect(onSearch).not.toHaveBeenCalled();
+		// Then: should call onSearch with empty string
+		expect(onSearch).toHaveBeenCalledWith('');
 	});
 
 	it('should have glow effect element', () => {

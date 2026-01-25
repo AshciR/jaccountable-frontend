@@ -106,3 +106,4 @@ describe('ComponentName', () => {
 - **Then**: Expected outcome (`it` block description starts with "should", comment before assertions)
 - Use comments inside tests to clarify Given/When/Then sections
 - Keep test structure flat with a single `describe` block per component
+- **Prefer `data-testid` over `querySelector`** - when a testing-library query (`getByRole`, `getByText`, etc.) is ambiguous or unavailable, add a `data-testid` attribute to the element and use `getByTestId` instead of raw DOM queries
