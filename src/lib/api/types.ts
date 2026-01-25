@@ -28,6 +28,8 @@ export interface QueryInfo {
 	from_date: string | null;
 	to_date: string | null;
 	entity: string | null;
+	sort?: string | null;
+	order?: string | null;
 }
 
 export interface SearchResponse {

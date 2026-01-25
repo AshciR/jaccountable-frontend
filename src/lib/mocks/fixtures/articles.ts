@@ -74,5 +74,71 @@ The Student Union organized the demonstration after weeks of planning and consul
 Students at Caribbean Maritime University staged a peaceful demonstration demanding greater transparency in university administration.
 Protest signs called for the release of financial records and accountability for alleged mismanagement.
 University security maintained a peaceful presence throughout the two-hour demonstration.`
+	},
+	{
+		id: 'e0f5a2c4-i6d7-75h8-e150-880099884445',
+		url: 'https://jamaica-gleaner.com/article/news/20251125/auditor-general-flags-irregularities-in-parish-council-spending',
+		title: 'Auditor General Flags Irregularities in Parish Council Spending',
+		section: 'news',
+		news_source: 'JAMAICA_GLEANER',
+		published_date: '2025-11-25T10:00:00Z',
+		snippet:
+			'The <mark>Auditor General</mark> has identified significant irregularities in spending by multiple parish councils across Jamaica, calling for immediate corrective action.',
+		entities: [
+			'Auditor General',
+			'Ministry of Local Government',
+			'Parish Councils',
+			'Pamela Monroe Ellis'
+		],
+		classifications: [{ classifierType: 'CORRUPTION', confidence: 0.88 }],
+		full_text: `A new report from the Auditor General's Department has raised alarm over financial management in Jamaica's parish councils.
+The audit, covering the 2024-2025 fiscal year, found widespread non-compliance with procurement guidelines.
+The Auditor General has identified significant irregularities in spending by multiple parish councils across Jamaica, calling for immediate corrective action.
+Pamela Monroe Ellis stated that the findings reflect systemic weaknesses in local government oversight.
+The Ministry of Local Government has promised to implement the report's recommendations within 90 days.`
+	},
+	{
+		id: 'f1a6b3d5-j7e8-86i9-f261-991100995556',
+		url: 'https://jamaica-observer.com/article/news/20251122/public-defender-calls-for-police-oversight-reform',
+		title: 'Public Defender Calls for Police Oversight Reform',
+		section: 'news',
+		news_source: 'JAMAICA_OBSERVER',
+		published_date: '2025-11-22T13:45:00Z',
+		snippet:
+			'The <mark>Public Defender</mark> has issued a formal recommendation urging the government to strengthen independent oversight of the Jamaica Constabulary Force.',
+		entities: [
+			'Public Defender',
+			'Jamaica Constabulary Force',
+			'INDECOM',
+			'Ministry of National Security'
+		],
+		classifications: [{ classifierType: 'CORRUPTION', confidence: 0.91 }],
+		full_text: `Concerns about police accountability have reached a critical point following several high-profile incidents.
+The Office of the Public Defender released a comprehensive report examining gaps in the current oversight framework.
+The Public Defender has issued a formal recommendation urging the government to strengthen independent oversight of the Jamaica Constabulary Force.
+INDECOM officials have expressed support for the proposed reforms while noting resource constraints.
+The Ministry of National Security acknowledged receipt of the recommendations and committed to a formal review.`
+	},
+	{
+		id: 'a2b7c4e6-k8f9-97j0-a372-002211006667',
+		url: 'https://jamaica-gleaner.com/article/news/20251120/integrity-commission-investigates-no-bid-contracts',
+		title: 'Integrity Commission Investigates No-Bid Government Contracts',
+		section: 'news',
+		news_source: 'JAMAICA_GLEANER',
+		published_date: '2025-11-20T08:30:00Z',
+		snippet:
+			'The <mark>Integrity Commission</mark> has launched an investigation into several government ministries over allegations of improperly awarded no-bid contracts.',
+		entities: [
+			'Integrity Commission',
+			'Office of the Contractor General',
+			'Ministry of Finance',
+			'Cabinet Office'
+		],
+		classifications: [{ classifierType: 'CORRUPTION', confidence: 0.87 }],
+		full_text: `Questions surrounding government procurement practices have prompted formal action from Jamaica's anti-corruption body.
+Multiple whistleblower complaints triggered the investigation spanning three government ministries.
+The Integrity Commission has launched an investigation into several government ministries over allegations of improperly awarded no-bid contracts.
+The Office of the Contractor General confirmed that preliminary findings warrant a full statutory investigation.
+The Cabinet Office declined to comment on ongoing investigations but reiterated its commitment to transparent procurement.`
 	}
 ];

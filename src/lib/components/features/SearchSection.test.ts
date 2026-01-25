@@ -85,4 +85,69 @@ describe('SearchSection', () => {
 			expect(screen.getByText('No results found')).toBeInTheDocument();
 		});
 	});
+
+	it('should display the 3 most recent articles on load', async () => {
+		// Given: the search section component renders
+		render(SearchSection);
+
+		// When: the component fetches latest articles on mount
+
+		// Then: should display the latest stories label and the 3 most recent articles
+		await waitFor(() => {
+			expect(screen.getByText('Latest Stories')).toBeInTheDocument();
+			expect(
+				screen.getByText('Auditor General Flags Irregularities in Parish Council Spending')
+			).toBeInTheDocument();
+			expect(
+				screen.getByText('Public Defender Calls for Police Oversight Reform')
+			).toBeInTheDocument();
+			expect(
+				screen.getByText('Integrity Commission Investigates No-Bid Government Contracts')
+			).toBeInTheDocument();
+		});
+	});
+
+	it('should replace the label with the search query when user searches', async () => {
+		// Given: the search section component renders with latest stories
+		render(SearchSection);
+		await waitFor(() => {
+			expect(screen.getByText('Latest Stories')).toBeInTheDocument();
+		});
+		const input = screen.getByPlaceholderText('Search for articles. Ex. Petrojam');
+
+		// When: user searches for "CMU"
+		await fireEvent.input(input, { target: { value: 'CMU' } });
+		const form = input.closest('form')!;
+		await fireEvent.submit(form);
+
+		// Then: should replace the latest stories label with the search query
+		await waitFor(() => {
+			expect(screen.getByTestId('search-section-search-query')).toHaveTextContent('CMU');
+			expect(screen.queryByText('Latest Stories')).not.toBeInTheDocument();
+		});
+	});
+
+	it('should show latest stories when user submits a blank search', async () => {
+		// Given: the user has performed a search
+		render(SearchSection);
+		const input = screen.getByPlaceholderText('Search for articles. Ex. Petrojam');
+		await fireEvent.input(input, { target: { value: 'CMU' } });
+		const form = input.closest('form')!;
+		await fireEvent.submit(form);
+		await waitFor(() => {
+			expect(screen.queryByText('Latest Stories')).not.toBeInTheDocument();
+		});
+
+		// When: user clears the input and submits a blank search
+		await fireEvent.input(input, { target: { value: '' } });
+		await fireEvent.submit(form);
+
+		// Then: should return to showing the latest stories
+		await waitFor(() => {
+			expect(screen.getByText('Latest Stories')).toBeInTheDocument();
+			expect(
+				screen.getByText('Auditor General Flags Irregularities in Parish Council Spending')
+			).toBeInTheDocument();
+		});
+	});
 });
