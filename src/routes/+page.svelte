@@ -4,6 +4,7 @@
 	import SearchSection from '$lib/components/features/SearchSection.svelte';
 	import FeaturesSection from '$lib/components/features/FeaturesSection.svelte';
 	import FAQSection from '$lib/components/features/FAQSection.svelte';
+	import ShareSection from '$lib/components/features/ShareSection.svelte';
 </script>
 
 <HeroSection />
@@ -11,3 +12,4 @@
 <SearchSection />
 <FeaturesSection />
 <FAQSection />
+<ShareSection />
