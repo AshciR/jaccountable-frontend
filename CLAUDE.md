@@ -61,6 +61,7 @@ Page-level, composed components that combine atomic components:
 
 - Use `$lib` alias for imports from `src/lib`
 - Svelte 5 runes syntax (`$state`, `$derived`, `$effect`, etc.)
+- **Always use keyed `#each` blocks** - when iterating over arrays, provide a unique key: `{#each items as item (item.id)}` to help Svelte track items efficiently and avoid bugs
 - File-based routing with `+page.svelte`, `+layout.svelte`, `+server.ts` conventions
 - **Always create tests when creating components** - colocate test files with components using `.test.ts` suffix
 - **Test files must NOT use the `+` prefix** - files prefixed with `+` are reserved by SvelteKit (e.g., use `error.test.ts` not `+error.test.ts`)

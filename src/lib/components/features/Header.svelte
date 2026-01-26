@@ -70,6 +70,15 @@
 						HOW IT WORKS
 					</a>
 				</li>
+				<li>
+					<a
+						href="#faq"
+						onclick={(e) => scrollToSection(e, 'faq')}
+						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
+					>
+						FAQ
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</div>

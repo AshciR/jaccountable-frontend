@@ -3,9 +3,11 @@
 	import ChallengeSection from '$lib/components/features/ChallengeSection.svelte';
 	import SearchSection from '$lib/components/features/SearchSection.svelte';
 	import FeaturesSection from '$lib/components/features/FeaturesSection.svelte';
+	import FAQSection from '$lib/components/features/FAQSection.svelte';
 </script>
 
 <HeroSection />
 <ChallengeSection />
 <SearchSection />
 <FeaturesSection />
+<FAQSection />
