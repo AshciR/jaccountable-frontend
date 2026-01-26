@@ -27,6 +27,18 @@ describe('Header', () => {
 		expect(brandName).toBeInTheDocument();
 	});
 
+	it('should display the SEARCH navigation link with correct href', () => {
+		// Given: the header component renders
+		render(Header);
+
+		// When: the page loads
+
+		// Then: should display the SEARCH navigation link with correct href
+		const navLink = screen.getByRole('link', { name: 'SEARCH' });
+		expect(navLink).toBeInTheDocument();
+		expect(navLink).toHaveAttribute('href', '#search');
+	});
+
 	it('should display the WHY navigation link with correct href', () => {
 		// Given: the header component renders
 		render(Header);
@@ -37,6 +49,18 @@ describe('Header', () => {
 		const navLink = screen.getByRole('link', { name: 'WHY' });
 		expect(navLink).toBeInTheDocument();
 		expect(navLink).toHaveAttribute('href', '#why');
+	});
+
+	it('should display the HOW IT WORKS navigation link with correct href', () => {
+		// Given: the header component renders
+		render(Header);
+
+		// When: the page loads
+
+		// Then: should display the HOW IT WORKS navigation link with correct href
+		const navLink = screen.getByRole('link', { name: 'HOW IT WORKS' });
+		expect(navLink).toBeInTheDocument();
+		expect(navLink).toHaveAttribute('href', '#how-it-works');
 	});
 
 	it('should have fixed positioning for sticky behavior', () => {

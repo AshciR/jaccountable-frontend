@@ -45,6 +45,15 @@
 			<ul class="flex items-center gap-8">
 				<li>
 					<a
+						href="#why"
+						onclick={(e) => scrollToSection(e, 'why')}
+						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
+					>
+						WHY
+					</a>
+				</li>
+				<li>
+					<a
 						href="#search"
 						onclick={(e) => scrollToSection(e, 'search')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
@@ -54,11 +63,11 @@
 				</li>
 				<li>
 					<a
-						href="#why"
-						onclick={(e) => scrollToSection(e, 'why')}
+						href="#how-it-works"
+						onclick={(e) => scrollToSection(e, 'how-it-works')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
-						WHY
+						HOW IT WORKS
 					</a>
 				</li>
 			</ul>
