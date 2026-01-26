@@ -79,6 +79,15 @@
 						FAQ
 					</a>
 				</li>
+				<li>
+					<a
+						href="#share"
+						onclick={(e) => scrollToSection(e, 'share')}
+						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
+					>
+						SHARE
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</div>

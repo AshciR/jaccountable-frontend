@@ -72,6 +72,19 @@ Page-level, composed components that combine atomic components:
 
 Tests use **BDD-style Given/When/Then comments** with Vitest and @testing-library/svelte.
 
+### Development Workflow
+
+**IMPORTANT: Visual check before writing tests**
+
+When creating new components, follow this order:
+
+1. Create the component file (e.g., `ComponentName.svelte`)
+2. Add it to the appropriate page or parent component
+3. Run `yarn dev` and visually verify the component looks correct
+4. Only after visual confirmation, create the test file (e.g., `ComponentName.test.ts`)
+
+This workflow ensures components are functional and properly integrated before writing tests, saving time by catching layout and styling issues early.
+
 ### Structure
 
 ```typescript
