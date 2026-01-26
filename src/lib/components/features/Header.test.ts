@@ -63,6 +63,18 @@ describe('Header', () => {
 		expect(navLink).toHaveAttribute('href', '#how-it-works');
 	});
 
+	it('should display the FAQ navigation link with correct href', () => {
+		// Given: the header component renders
+		render(Header);
+
+		// When: the page loads
+
+		// Then: should display the FAQ navigation link with correct href
+		const navLink = screen.getByRole('link', { name: 'FAQ' });
+		expect(navLink).toBeInTheDocument();
+		expect(navLink).toHaveAttribute('href', '#faq');
+	});
+
 	it('should have fixed positioning for sticky behavior', () => {
 		// Given: the header component renders
 		render(Header);
