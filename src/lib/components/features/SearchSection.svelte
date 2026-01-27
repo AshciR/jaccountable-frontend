@@ -84,9 +84,11 @@
 					<div class="text-center text-neutral-500">No results found</div>
 				{:else if displayedArticles.length > 0}
 					{#key hasSearched ? searchQuery : 'latest'}
-						<div class="space-y-4" transition:fade={{ duration: 300 }}>
-							{#each displayedArticles as article (article.id)}
-								<ArticleCard {article} />
+						<div class="space-y-4">
+							{#each displayedArticles as article, index (article.id)}
+								<div class="opacity-0 animate-fade-in" style="animation-delay: {index * 0.1}s;">
+									<ArticleCard {article} />
+								</div>
 							{/each}
 						</div>
 					{/key}
@@ -102,3 +104,20 @@
 		{/if}
 	</div>
 </section>
+
+<style>
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in {
+		animation: fadeIn 1s ease-out forwards;
+	}
+</style>
