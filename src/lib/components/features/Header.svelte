@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import logo from '$lib/assets/jacountable-logo.svg';
+	import logo from '$lib/assets/jaccountable-logo.png';
 
 	let scrolled = $state(false);
 
