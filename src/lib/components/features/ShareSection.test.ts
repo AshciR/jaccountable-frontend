@@ -220,4 +220,41 @@ describe('ShareSection', () => {
 
 		consoleErrorSpy.mockRestore();
 	});
+
+	// Feedback button functionality
+	it('should display the feedback button', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: the page loads
+
+		// Then: should display the feedback button
+		expect(screen.getByLabelText('Open feedback form')).toBeInTheDocument();
+	});
+
+	it('should display "Tell us what you think" label on the button', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: the page loads
+
+		// Then: should display the "Tell us what you think" label
+		expect(screen.getByText('Tell us what you think')).toBeInTheDocument();
+	});
+
+	it('should open Google Form when feedback button is clicked', () => {
+		// Given: the share section component renders with window.open mocked
+		render(ShareSection);
+
+		// When: user clicks the feedback button
+		const feedbackButton = screen.getByLabelText('Open feedback form');
+		fireEvent.click(feedbackButton);
+
+		// Then: should open the Google Form with correct parameters
+		expect(windowOpenSpy).toHaveBeenCalledWith(
+			'https://forms.gle/nVwg2J3pQVBiPwuJ7',
+			'_blank',
+			'noopener,noreferrer'
+		);
+	});
 });

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Bookmark, Share2, Check } from 'lucide-svelte';
+	import { Bookmark, Share2, Check, MessageCircle } from 'lucide-svelte';
 	import whatsappLogo from '$lib/assets/whatsapp-logo-green.png';
 	import xLogo from '$lib/assets/x-logo-black.png';
 
@@ -46,6 +46,11 @@
 		} catch (err) {
 			console.error('Failed to copy:', err);
 		}
+	}
+
+	function openFeedbackForm() {
+		const userFeedbackLink = 'https://forms.gle/nVwg2J3pQVBiPwuJ7';
+		window.open(userFeedbackLink, '_blank', 'noopener,noreferrer');
 	}
 
 	// Platform detection for bookmark shortcut
@@ -136,6 +141,27 @@
 				<span class="text-sm font-medium text-primary">
 					{copied ? 'URL Copied!' : 'Share'}
 				</span>
+			</button>
+		</div>
+
+		<!-- Feedback Subheading -->
+		<p class="text-lg text-neutral-500 leading-relaxed max-w-2xl mx-auto mt-16 mb-8">
+			Do you have feedback?
+		</p>
+
+		<!-- Feedback Button -->
+		<div class="flex justify-center">
+			<button
+				onclick={openFeedbackForm}
+				class="group relative flex flex-col items-center gap-3 px-8 py-4 rounded-lg bg-surface border border-neutral-200 hover:border-secondary hover:shadow-md transition-all duration-200"
+				aria-label="Open feedback form"
+			>
+				<div
+					class="relative w-12 h-12 flex items-center justify-center rounded-full bg-secondary/15 group-hover:bg-secondary/20 transition-colors"
+				>
+					<MessageCircle class="w-6 h-6 text-secondary-foreground" />
+				</div>
+				<span class="text-sm font-medium text-primary">Tell us what you think</span>
 			</button>
 		</div>
 	</div>
