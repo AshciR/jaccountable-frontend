@@ -8,11 +8,7 @@
 	<div class="max-w-2xl w-full text-center flex flex-col items-center">
 		<div class="mb-10 relative">
 			<div class="animate-rocking inline-block">
-				<img
-					src={logo}
-					alt="JAccountable Logo"
-					class="w-[120px] h-[120px] md:w-[160px] md:h-[160px]"
-				/>
+				<img src={logo} alt="JAccountable Logo" class="w-30 h-30 md:w-40 md:h-40" />
 			</div>
 			<div
 				class="absolute -bottom-2 -right-2 bg-secondary text-foreground font-display font-bold px-3 py-1 rounded-full text-sm shadow-sm rotate-12"
