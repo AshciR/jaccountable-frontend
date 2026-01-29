@@ -36,7 +36,7 @@ describe('Header', () => {
 		// Then: should display the SEARCH navigation link with correct href
 		const navLink = screen.getByRole('link', { name: 'SEARCH' });
 		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '#search');
+		expect(navLink).toHaveAttribute('href', '/#search');
 	});
 
 	it('should display the WHY navigation link with correct href', () => {
@@ -48,7 +48,7 @@ describe('Header', () => {
 		// Then: should display the WHY navigation link with correct href
 		const navLink = screen.getByRole('link', { name: 'WHY' });
 		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '#why');
+		expect(navLink).toHaveAttribute('href', '/#why');
 	});
 
 	it('should display the HOW IT WORKS navigation link with correct href', () => {
@@ -60,7 +60,7 @@ describe('Header', () => {
 		// Then: should display the HOW IT WORKS navigation link with correct href
 		const navLink = screen.getByRole('link', { name: 'HOW IT WORKS' });
 		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '#how-it-works');
+		expect(navLink).toHaveAttribute('href', '/#how-it-works');
 	});
 
 	it('should display the FAQ navigation link with correct href', () => {
@@ -72,7 +72,7 @@ describe('Header', () => {
 		// Then: should display the FAQ navigation link with correct href
 		const navLink = screen.getByRole('link', { name: 'FAQ' });
 		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '#faq');
+		expect(navLink).toHaveAttribute('href', '/#faq');
 	});
 
 	it('should display the SHARE navigation link with correct href', () => {
@@ -84,7 +84,7 @@ describe('Header', () => {
 		// Then: should display the SHARE navigation link with correct href
 		const navLink = screen.getByRole('link', { name: 'SHARE' });
 		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '#share');
+		expect(navLink).toHaveAttribute('href', '/#share');
 	});
 
 	it('should have fixed positioning for sticky behavior', () => {

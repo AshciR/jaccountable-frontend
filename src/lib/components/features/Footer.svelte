@@ -1,6 +1,7 @@
 <script lang="ts">
 	import logo from '$lib/assets/jaccountable-logo.png';
 	import { openContactForm } from '$lib/utils/contact';
+	import { resolve } from '$app/paths';
 </script>
 
 <footer class="bg-muted border-t border-border">
@@ -33,6 +34,14 @@
 			<!-- Right: Navigation Links -->
 			<nav>
 				<ul class="flex flex-col md:flex-row gap-4 md:gap-8">
+					<li>
+						<a
+							href={resolve('/privacy')}
+							class="uppercase text-muted-foreground hover:text-accent transition-colors duration-200 font-medium tracking-wide text-sm"
+						>
+							PRIVACY
+						</a>
+					</li>
 					<li>
 						<button
 							onclick={openContactForm}

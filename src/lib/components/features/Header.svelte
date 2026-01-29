@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import logo from '$lib/assets/jaccountable-logo.png';
 
 	let scrolled = $state(false);
@@ -19,9 +21,13 @@
 
 	function scrollToSection(event: MouseEvent, sectionId: string) {
 		event.preventDefault();
-		const element = document.getElementById(sectionId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
+		if ($page.url.pathname === '/') {
+			const element = document.getElementById(sectionId);
+			if (element) {
+				element.scrollIntoView({ behavior: 'smooth' });
+			}
+		} else {
+			goto(resolve(`/#${sectionId}`));
 		}
 	}
 </script>
@@ -45,7 +51,7 @@
 			<ul class="flex items-center gap-8">
 				<li>
 					<a
-						href="#why"
+						href={resolve('/#why')}
 						onclick={(e) => scrollToSection(e, 'why')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -54,7 +60,7 @@
 				</li>
 				<li>
 					<a
-						href="#search"
+						href={resolve('/#search')}
 						onclick={(e) => scrollToSection(e, 'search')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -63,7 +69,7 @@
 				</li>
 				<li>
 					<a
-						href="#how-it-works"
+						href={resolve('/#how-it-works')}
 						onclick={(e) => scrollToSection(e, 'how-it-works')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -72,7 +78,7 @@
 				</li>
 				<li>
 					<a
-						href="#faq"
+						href={resolve('/#faq')}
 						onclick={(e) => scrollToSection(e, 'faq')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -81,7 +87,7 @@
 				</li>
 				<li>
 					<a
-						href="#share"
+						href={resolve('/#share')}
 						onclick={(e) => scrollToSection(e, 'share')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>

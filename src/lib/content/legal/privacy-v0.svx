@@ -1,0 +1,128 @@
+**Last Updated:** [DATE]
+
+## 1. Introduction
+
+Welcome to JAccountable ("we," "our," or "us"). We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our web application.
+
+JAccountable is a public accountability platform that aggregates and classifies Jamaican news articles related to governance, corruption, and public accountability. The platform does not require user accounts or registration. This policy applies to all visitors of our service.
+
+By using our application, you agree to the collection and use of information in accordance with this policy.
+
+## 2. Information We Collect
+
+### 2.1 Personal Information
+
+We do not require user accounts, registration, or login. We do not collect personal information such as names, email addresses, or passwords through our platform.
+
+### 2.2 Information Automatically Collected
+
+When you access our application, we automatically collect certain technical and usage data through our analytics and monitoring tools:
+
+- **Device Information:** IP address, browser type and version, operating system, screen resolution, and device type
+- **Usage Data:** Pages visited, features used, search queries entered, time spent on pages, click patterns, and referring URLs
+- **Performance Data:** Page load times, errors encountered, and application performance metrics
+- **Location Data:** General geographic location based on IP address
+
+This data is collected through the following services:
+
+- **PostHog:** Product analytics platform used to understand how visitors interact with the application, identify usage patterns, and guide product development
+- **Sentry:** Error tracking and performance monitoring platform used to detect, diagnose, and resolve application issues
+
+## 3. How We Use Your Information
+
+We use automatically collected data for the following purposes:
+
+- **Platform Improvement:** Analyze usage patterns to improve features and user experience
+- **Bug Detection and Resolution:** Identify and fix application errors and performance issues
+- **Product Development:** Understand which features are used to guide future development
+- **Security:** Monitor for unusual activity and protect against abuse
+
+We do not use your information for advertising, profiling, or marketing purposes.
+
+## 4. Cookies and Tracking Technologies
+
+### 4.1 Cookies We Use
+
+- **PostHog Cookies:** Used to track anonymous usage sessions, distinguish unique visitors, and record feature interactions. These are analytics cookies that help us understand how the platform is used.
+- **Sentry Cookies:** Used to track error sessions and correlate error reports with user sessions for debugging purposes.
+
+### 4.2 Your Cookie Choices
+
+You can control cookies through your browser settings. Most browsers allow you to block or delete cookies. Note that blocking analytics cookies will not affect your ability to use the platform, as all content remains fully accessible.
+
+To opt out of PostHog tracking, you can enable your browser's "Do Not Track" setting or use a browser extension that blocks analytics scripts.
+
+## 5. Third-Party Services
+
+We use the following third-party services to operate and improve our platform:
+
+| Service | Purpose | Privacy Policy |
+|---------|---------|---------------|
+| PostHog | Product analytics | https://posthog.com/privacy |
+| Sentry | Error tracking and monitoring | https://sentry.io/privacy/ |
+| Render / Supabase / Vercel | Cloud hosting infrastructure | See respective privacy policies |
+
+These providers may process data (such as IP addresses and usage information) on our behalf. They are contractually obligated to protect your data and use it only for the specified purposes.
+
+We do not sell your data to any third party.
+
+## 6. Third-Party Links
+
+Our application contains links to external websites and services, including:
+
+- Jamaican news sources (Jamaica Gleaner, Jamaica Observer, and others)
+- Social sharing platforms (WhatsApp, X/Twitter)
+- External contact form (Google Forms)
+
+We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies before interacting with them.
+
+## 7. Data Retention
+
+Since we do not collect personal information or require user accounts, data retention applies only to automatically collected analytics and error data:
+
+- **Analytics Data (PostHog):** Retained according to PostHog's data retention policies and our configuration settings
+- **Error Data (Sentry):** Retained for 90 days or as configured in our Sentry project settings
+
+## 8. Your Privacy Rights
+
+Under Jamaica's Data Protection Act 2020, you have the right to:
+
+- Access any personal data we hold about you
+- Request correction of inaccurate or incomplete data
+- Request deletion of your data
+- Object to processing of your data
+- Withdraw consent where processing is based on consent
+
+Since our platform does not collect personally identifiable information or require user accounts, these rights primarily apply to any analytics data that may be linked to your IP address or device.
+
+To exercise any of these rights, please contact us using the information in Section 10.
+
+We will respond to your request within 30 days as required by the Data Protection Act.
+
+## 9. Children's Privacy
+
+Our platform is a public information resource and is not specifically directed at children under the age of 13. We do not knowingly collect personal data from children. If you believe we have inadvertently collected information from a child, please contact us immediately.
+
+## 10. Changes to This Privacy Policy
+
+We may update this privacy policy periodically to reflect changes in our practices or legal requirements. We will notify you of material changes by:
+
+- Posting the updated policy on our website with a new "Last Updated" date
+- Displaying a notice in our application
+
+Your continued use of our platform after changes take effect constitutes acceptance of the updated policy.
+
+## 11. Contact Information
+
+If you have questions, concerns, or requests regarding this privacy policy or our data practices, please contact us:
+
+- **Contact Form:** [GOOGLE FORM LINK]
+
+**For Jamaica Users — Information Commissioner:**
+If you wish to lodge a complaint, you may contact:
+Office of the Information Commissioner of Jamaica
+[Address and contact details]
+
+---
+
+**Acknowledgment:** By using our platform, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.
