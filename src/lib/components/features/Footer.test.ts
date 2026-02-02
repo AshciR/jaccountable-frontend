@@ -39,6 +39,18 @@ describe('Footer', () => {
 		expect(privacyLink).toHaveAttribute('href', '/privacy');
 	});
 
+	it('should display TERMS link with correct href', () => {
+		// Given: the footer renders
+		render(Footer);
+
+		// When: the page loads
+
+		// Then: should display TERMS link
+		const termsLink = screen.getByRole('link', { name: /terms/i });
+		expect(termsLink).toBeInTheDocument();
+		expect(termsLink).toHaveAttribute('href', '/terms');
+	});
+
 	it('should display CONTACT link', () => {
 		// Given: the footer renders
 		render(Footer);
