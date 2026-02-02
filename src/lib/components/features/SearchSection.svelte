@@ -2,6 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import SearchBar from './SearchBar.svelte';
 	import ArticleCard from './ArticleCard.svelte';
+	import { Spinner } from '$lib/components/ui/spinner';
 	import type { Article, SearchResponse } from '$lib/api/types';
 
 	const MAX_PREVIEW_RESULTS = 3;
@@ -63,8 +64,8 @@
 		</div>
 
 		{#if isLoading}
-			<div class="mt-8 text-center text-neutral-500" transition:fade={{ duration: 300 }}>
-				Loading...
+			<div class="mt-8 flex justify-center" transition:fade={{ duration: 300 }}>
+				<Spinner class="size-8 text-accent" />
 			</div>
 		{:else}
 			<div class="mt-12" transition:fade={{ duration: 300 }}>

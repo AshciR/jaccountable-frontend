@@ -1,9 +1,9 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, delay } from 'msw';
 import type { SearchResponse } from '$lib/api/types';
 import { mockArticles } from '../fixtures/articles';
 
 export const articleHandlers = [
-	http.get<never, never, SearchResponse>('/api/v1/articles/search', ({ request }) => {
+	http.get<never, never, SearchResponse>('/api/v1/articles/search', async ({ request }) => {
 		const url = new URL(request.url);
 		const q = url.searchParams.get('q');
 		const entity = url.searchParams.get('entity');
@@ -70,6 +70,14 @@ export const articleHandlers = [
 			}
 		};
 
+		skipDelayDuringTests();
+
 		return HttpResponse.json(response);
 	})
 ];
+
+const skipDelayDuringTests = async () => {
+	if (!import.meta.env.TEST) {
+		await delay(500);
+	}
+};
