@@ -43,6 +43,14 @@
 						</a>
 					</li>
 					<li>
+						<a
+							href={resolve('/terms')}
+							class="uppercase text-muted-foreground hover:text-accent transition-colors duration-200 font-medium tracking-wide text-sm"
+						>
+							TERMS
+						</a>
+					</li>
+					<li>
 						<button
 							onclick={openContactForm}
 							class="uppercase text-muted-foreground hover:text-accent transition-colors duration-200 font-medium tracking-wide text-sm"
