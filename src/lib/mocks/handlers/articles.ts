@@ -70,14 +70,10 @@ export const articleHandlers = [
 			}
 		};
 
-		skipDelayDuringTests();
+		if (!import.meta.env.TEST) {
+			await delay(500);
+		}
 
 		return HttpResponse.json(response);
 	})
 ];
-
-const skipDelayDuringTests = async () => {
-	if (!import.meta.env.TEST) {
-		await delay(500);
-	}
-};

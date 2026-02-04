@@ -68,6 +68,14 @@ Page-level, composed components that combine atomic components:
 - **Atomic components** go in `src/lib/components/ui/` (managed by shadcn-svelte)
 - **Feature components** go in `src/lib/components/features/` (page-level, composed)
 
+## State Management
+
+- **Page components (`+page.svelte`) own application/data state** — data fetched from APIs, search results, loading flags, and derived display values live in the page and are passed to feature components as props
+- **Feature components are presentational** — they receive data via `$props()` and render it. They do not fetch data or manage application state.
+- **Local UI state stays in components** — state that only affects a single component's appearance (scroll position, tooltip visibility, form input bindings, clipboard feedback) remains in that component
+- **Use `onMount` for one-time side effects** (e.g., initial data fetch). Use `$effect` for reactive side effects that should re-run when dependencies change.
+- **Group related state into a single `$state` object** rather than separate variables (e.g., `let searchState = $state({ results: [], isLoading: true, ... })`) and mutate properties directly
+
 ## Testing Conventions (BDD)
 
 Tests use **BDD-style Given/When/Then comments** with Vitest and @testing-library/svelte.

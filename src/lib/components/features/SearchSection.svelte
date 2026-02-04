@@ -3,64 +3,31 @@
 	import SearchBar from './SearchBar.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import type { Article, SearchResponse } from '$lib/api/types';
+	import type { Article } from '$lib/api/types';
 
-	const MAX_PREVIEW_RESULTS = 3;
-
-	let searchResults = $state<Article[]>([]);
-	let latestArticles = $state<Article[]>([]);
-	let isLoading = $state(true);
-	let hasSearched = $state(false);
-	let searchQuery = $state('');
-
-	const displayedArticles = $derived(
-		hasSearched ? searchResults.slice(0, MAX_PREVIEW_RESULTS) : latestArticles
-	);
-	const hasMoreResults = $derived(hasSearched && searchResults.length > MAX_PREVIEW_RESULTS);
-	const remainingCount = $derived(searchResults.length - MAX_PREVIEW_RESULTS);
-	const sectionLabel = $derived(hasSearched ? searchQuery : 'Latest Stories');
-	const noResults = $derived(hasSearched && searchResults.length === 0);
-
-	$effect(() => {
-		fetchLatestStories();
-	});
-
-	async function fetchLatestStories() {
-		try {
-			const response = await fetch(
-				'/api/v1/articles/search?sort=published_date&order=desc&page_size=3'
-			);
-			const data: SearchResponse = await response.json();
-			latestArticles = data.data;
-		} finally {
-			isLoading = false;
-		}
-	}
-
-	async function handleSearch(query: string) {
-		if (!query.trim()) {
-			hasSearched = false;
-			searchQuery = '';
-			return;
-		}
-
-		isLoading = true;
-		hasSearched = true;
-		searchQuery = query;
-		try {
-			const response = await fetch(`/api/v1/articles/search?q=${encodeURIComponent(query)}`);
-			const data: SearchResponse = await response.json();
-			searchResults = data.data;
-		} finally {
-			isLoading = false;
-		}
-	}
+	let {
+		displayedArticles,
+		hasMoreResults,
+		remainingCount,
+		sectionLabel,
+		noResults,
+		isLoading,
+		onSearch
+	}: {
+		displayedArticles: Article[];
+		hasMoreResults: boolean;
+		remainingCount: number;
+		sectionLabel: string;
+		noResults: boolean;
+		isLoading: boolean;
+		onSearch: (query: string) => void;
+	} = $props();
 </script>
 
 <section class="py-20 bg-neutral-100 border-y border-primary/5" id="search">
 	<div class="max-w-4xl mx-auto px-6">
 		<div class="max-w-3xl mx-auto">
-			<SearchBar placeholder="Search for articles. Ex. Petrojam" onSearch={handleSearch} />
+			<SearchBar placeholder="Search for articles. Ex. Petrojam" {onSearch} />
 		</div>
 
 		{#if isLoading}
@@ -84,7 +51,7 @@
 				{#if noResults}
 					<div class="text-center text-neutral-500">No results found</div>
 				{:else if displayedArticles.length > 0}
-					{#key hasSearched ? searchQuery : 'latest'}
+					{#key sectionLabel}
 						<div class="space-y-4">
 							{#each displayedArticles as article, index (article.id)}
 								<div class="opacity-0 animate-fade-in" style="animation-delay: {index * 0.1}s;">
