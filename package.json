@@ -57,7 +57,8 @@
 		"yaml": "^2.8.2"
 	},
 	"dependencies": {
-		"lucide-svelte": "^0.562.0"
+		"lucide-svelte": "^0.562.0",
+		"posthog-js": "^1.341.0"
 	},
 	"msw": {
 		"workerDirectory": [
