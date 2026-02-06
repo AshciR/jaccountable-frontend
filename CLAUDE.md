@@ -76,6 +76,48 @@ Page-level, composed components that combine atomic components:
 - **Use `onMount` for one-time side effects** (e.g., initial data fetch). Use `$effect` for reactive side effects that should re-run when dependencies change.
 - **Group related state into a single `$state` object** rather than separate variables (e.g., `let searchState = $state({ results: [], isLoading: true, ... })`) and mutate properties directly
 
+## Analytics (PostHog)
+
+Custom event tracking uses PostHog via `$lib/utils/analytics.ts`.
+
+### Tracking Utility
+
+- **`trackEvent(eventName, properties?)`** — wraps `posthog.capture()`, automatically attaches `environment` (from `import.meta.env.MODE`) and `is_internal` (from `isInternalUser()`) to every event. Guarded with `browser` check for SSR safety.
+- **`isInternalUser()`** — dedicated function for internal user detection, currently checks `window.location.hostname.includes('localhost')`. Extracted for future extensibility (e.g., email-based checks).
+
+### Event Naming Conventions
+
+Following [PostHog best practices](https://posthog.com/docs/product-analytics/best-practices):
+
+- **Event names**: `category:object_action` pattern, lowercase snake_case (e.g., `share:whatsapp_button_click`, `search:query_submit`)
+- **Property names**: `object_adjective` pattern (e.g., `search_query`, `results_count`)
+- **Boolean properties**: `is_` or `has_` prefix (e.g., `is_internal`, `has_results`)
+
+### Companion `.ts` Files
+
+When a component's handler logic becomes complex (e.g., combining share actions with tracking), extract the functions into a companion `.ts` file colocated with the component:
+
+- `ShareSection.svelte` → `share-section.ts` (handlers with `trackEvent` calls)
+- Each exported function includes its own `trackEvent` call
+- The `.svelte` component stays focused on template and local UI state
+- Component integration tests (e.g., `ShareSection.test.ts`) cover both UI behavior and tracking assertions — no separate unit tests needed for the companion `.ts` file
+
+### Test Setup for Analytics
+
+When testing components that use analytics, add these mocks at the top of the test file:
+
+```typescript
+vi.mock('posthog-js', () => ({
+	default: { capture: vi.fn() }
+}));
+
+vi.mock('$app/environment', () => ({
+	browser: true
+}));
+```
+
+Ensure `window.location` mocks include `hostname` (not just `href`) to avoid `isInternalUser()` errors.
+
 ## Testing Conventions (BDD)
 
 Tests use **BDD-style Given/When/Then comments** with Vitest and @testing-library/svelte.

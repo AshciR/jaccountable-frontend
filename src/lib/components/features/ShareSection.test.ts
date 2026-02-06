@@ -1,5 +1,18 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/svelte';
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+
+// Mock posthog-js (used by analytics utility and share-section)
+vi.mock('posthog-js', () => ({
+	default: {
+		capture: vi.fn()
+	}
+}));
+
+vi.mock('$app/environment', () => ({
+	browser: true
+}));
+
+import posthog from 'posthog-js';
 import ShareSection from './ShareSection.svelte';
 
 describe('ShareSection', () => {
@@ -7,12 +20,14 @@ describe('ShareSection', () => {
 	let writeTextMock: ReturnType<typeof vi.fn>;
 
 	beforeEach(() => {
+		vi.clearAllMocks();
+
 		// Mock window.open
 		windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
 
-		// Mock window.location.href
+		// Mock window.location
 		Object.defineProperty(window, 'location', {
-			value: { href: 'https://example.com' },
+			value: { href: 'https://example.com', hostname: 'example.com' },
 			writable: true,
 			configurable: true
 		});
@@ -96,6 +111,21 @@ describe('ShareSection', () => {
 		);
 	});
 
+	it('should track share:whatsapp_button_click event when WhatsApp button is clicked', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: user clicks the WhatsApp button
+		const whatsappButton = screen.getByLabelText('Share on WhatsApp');
+		fireEvent.click(whatsappButton);
+
+		// Then: should track the event
+		expect(posthog.capture).toHaveBeenCalledWith(
+			'share:whatsapp_button_click',
+			expect.objectContaining({ environment: 'test' })
+		);
+	});
+
 	// Twitter share functionality
 	it('should open Twitter share with custom message when Twitter button is clicked', () => {
 		// Given: the share section component renders with window.open mocked
@@ -117,6 +147,21 @@ describe('ShareSection', () => {
 		);
 	});
 
+	it('should track share:twitter_button_click event when Twitter button is clicked', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: user clicks the Twitter button
+		const twitterButton = screen.getByLabelText('Share on Twitter');
+		fireEvent.click(twitterButton);
+
+		// Then: should track the event
+		expect(posthog.capture).toHaveBeenCalledWith(
+			'share:twitter_button_click',
+			expect.objectContaining({ environment: 'test' })
+		);
+	});
+
 	// Bookmark functionality
 	it('should toggle bookmark tooltip when bookmark button is clicked', () => {
 		// Given: the share section component renders
@@ -128,6 +173,21 @@ describe('ShareSection', () => {
 
 		// Then: should display the keyboard shortcut tooltip
 		expect(screen.getByText(/Press (Cmd|Ctrl)\+D/)).toBeInTheDocument();
+	});
+
+	it('should track share:bookmark_button_click event when bookmark button is clicked', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: user clicks the bookmark button
+		const bookmarkButton = screen.getByLabelText('Bookmark this page');
+		fireEvent.click(bookmarkButton);
+
+		// Then: should track the event
+		expect(posthog.capture).toHaveBeenCalledWith(
+			'share:bookmark_button_click',
+			expect.objectContaining({ environment: 'test' })
+		);
 	});
 
 	it('should hide bookmark tooltip when clicked again', async () => {
@@ -157,6 +217,23 @@ describe('ShareSection', () => {
 		// Then: should copy URL to clipboard
 		await waitFor(() => {
 			expect(writeTextMock).toHaveBeenCalledWith('https://example.com');
+		});
+	});
+
+	it('should track share:copy_url_button_click event when copy button is clicked', async () => {
+		// Given: the share section component renders with clipboard API mocked
+		render(ShareSection);
+
+		// When: user clicks the copy URL button
+		const shareButton = screen.getByLabelText('Copy URL to clipboard');
+		fireEvent.click(shareButton);
+
+		// Then: should track the event
+		await waitFor(() => {
+			expect(posthog.capture).toHaveBeenCalledWith(
+				'share:copy_url_button_click',
+				expect.objectContaining({ environment: 'test' })
+			);
 		});
 	});
 
@@ -255,6 +332,21 @@ describe('ShareSection', () => {
 			'https://forms.gle/nVwg2J3pQVBiPwuJ7',
 			'_blank',
 			'noopener,noreferrer'
+		);
+	});
+
+	it('should track share:feedback_button_click event when feedback button is clicked', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: user clicks the feedback button
+		const feedbackButton = screen.getByLabelText('Open feedback form');
+		fireEvent.click(feedbackButton);
+
+		// Then: should track the event
+		expect(posthog.capture).toHaveBeenCalledWith(
+			'share:feedback_button_click',
+			expect.objectContaining({ environment: 'test' })
 		);
 	});
 });

@@ -2,7 +2,13 @@
 	import { Bookmark, Share2, Check, MessageCircle } from 'lucide-svelte';
 	import whatsappLogo from '$lib/assets/whatsapp-logo-green.png';
 	import xLogo from '$lib/assets/x-logo-black.png';
-	import { openContactForm } from '$lib/utils/contact';
+	import { trackEvent } from '$lib/utils/analytics';
+	import {
+		shareOnWhatsApp,
+		shareOnTwitter,
+		copyToClipboard,
+		handleFeedbackClick
+	} from './share-section';
 
 	// Reactive state
 	let copied = $state(false);
@@ -15,37 +21,18 @@
 	const encodedUrl = $derived(encodeURIComponent(shareUrl));
 	const encodedMessage = $derived(encodeURIComponent(shareMessage));
 
-	// Share action handlers
-	function shareOnWhatsApp() {
-		const whatsappText = `${shareMessage} ${shareUrl}`;
-		window.open(
-			`https://wa.me/?text=${encodeURIComponent(whatsappText)}`,
-			'_blank',
-			'noopener,noreferrer'
-		);
-	}
-
-	function shareOnTwitter() {
-		window.open(
-			`https://twitter.com/intent/tweet?text=${encodedMessage}&url=${encodedUrl}`,
-			'_blank',
-			'noopener,noreferrer'
-		);
-	}
-
 	function toggleBookmarkTooltip() {
+		trackEvent('share:bookmark_button_click');
 		showBookmarkTooltip = !showBookmarkTooltip;
 	}
 
-	async function copyToClipboard() {
-		try {
-			await navigator.clipboard.writeText(shareUrl);
+	async function handleCopyToClipboard() {
+		const success = await copyToClipboard(shareUrl);
+		if (success) {
 			copied = true;
 			setTimeout(() => {
 				copied = false;
 			}, 2000);
-		} catch (err) {
-			console.error('Failed to copy:', err);
 		}
 	}
 
@@ -74,7 +61,7 @@
 		<div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
 			<!-- WhatsApp Share -->
 			<button
-				onclick={shareOnWhatsApp}
+				onclick={() => shareOnWhatsApp(shareMessage, shareUrl)}
 				class="group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
 				aria-label="Share on WhatsApp"
 			>
@@ -88,7 +75,7 @@
 
 			<!-- Twitter/X Share -->
 			<button
-				onclick={shareOnTwitter}
+				onclick={() => shareOnTwitter(encodedMessage, encodedUrl)}
 				class="group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
 				aria-label="Share on Twitter"
 			>
@@ -121,7 +108,7 @@
 
 			<!-- Copy URL -->
 			<button
-				onclick={copyToClipboard}
+				onclick={handleCopyToClipboard}
 				class="group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
 				aria-label="Copy URL to clipboard"
 			>
@@ -148,7 +135,7 @@
 		<!-- Feedback Button -->
 		<div class="flex justify-center">
 			<button
-				onclick={openContactForm}
+				onclick={handleFeedbackClick}
 				class="group relative flex flex-col items-center gap-3 px-8 py-4 rounded-lg bg-surface border border-neutral-200 hover:border-secondary hover:shadow-md transition-all duration-200"
 				aria-label="Open feedback form"
 			>
