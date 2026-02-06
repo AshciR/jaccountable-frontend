@@ -8,6 +8,7 @@
 	import ShareSection from '$lib/components/features/ShareSection.svelte';
 	import Footer from '$lib/components/features/Footer.svelte';
 	import type { Article, SearchResponse } from '$lib/api/types';
+	import { trackEvent } from '$lib/utils/analytics';
 
 	const MAX_PREVIEW_RESULTS: number = 3;
 
@@ -71,6 +72,10 @@
 			);
 			const data: SearchResponse = await response.json();
 			searchState.results = data.data;
+			trackEvent('search:query_submit', {
+				search_query: query,
+				results_count: data.data.length
+			});
 		} finally {
 			searchState.isLoading = false;
 		}
