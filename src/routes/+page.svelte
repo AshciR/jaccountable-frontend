@@ -7,7 +7,7 @@
 	import FAQSection from '$lib/components/features/FAQSection.svelte';
 	import ShareSection from '$lib/components/features/ShareSection.svelte';
 	import Footer from '$lib/components/features/Footer.svelte';
-	import type { Article, SearchResponse } from '$lib/api/types';
+	import type { Article, SearchResponse, EntitySummary, EntityListResponse } from '$lib/api/types';
 	import { trackEvent } from '$lib/utils/analytics';
 
 	const MAX_PREVIEW_RESULTS: number = 3;
@@ -18,12 +18,14 @@
 		isLoading: boolean;
 		hasSearched: boolean;
 		query: string;
+		topics: EntitySummary[];
 	} = $state({
 		results: [],
 		latestArticles: [],
 		isLoading: true,
 		hasSearched: false,
-		query: ''
+		query: '',
+		topics: []
 	});
 
 	const displayedArticles: Article[] = $derived(
@@ -42,6 +44,7 @@
 
 	onMount(() => {
 		fetchLatestStories();
+		fetchTopics();
 	});
 
 	async function fetchLatestStories(): Promise<void> {
@@ -53,6 +56,16 @@
 			searchState.latestArticles = data.data;
 		} finally {
 			searchState.isLoading = false;
+		}
+	}
+
+	async function fetchTopics(): Promise<void> {
+		try {
+			const response: Response = await fetch('/api/v1/entities?sort=most_found&page_size=5');
+			const data: EntityListResponse = await response.json();
+			searchState.topics = data.data;
+		} catch {
+			// Topics are non-critical; silently fail
 		}
 	}
 
@@ -91,7 +104,9 @@
 	{sectionLabel}
 	{noResults}
 	isLoading={searchState.isLoading}
+	topics={searchState.topics}
 	onSearch={handleSearch}
+	onTopicClick={handleSearch}
 />
 <FeaturesSection />
 <FAQSection />
