@@ -43,3 +43,21 @@ export interface ErrorResponse {
 	message: string;
 	details?: Record<string, unknown>;
 }
+
+export interface EntitySummary {
+	name: string;
+	normalized_name: string;
+	article_count: number;
+	last_seen_date: string;
+}
+
+export interface EntityQueryEcho {
+	sort: 'latest' | 'most_found';
+	since: string | null;
+}
+
+export interface EntityListResponse {
+	data: EntitySummary[];
+	pagination: Pagination;
+	query: EntityQueryEcho;
+}

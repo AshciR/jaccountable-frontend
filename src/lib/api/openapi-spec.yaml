@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Articles Search API
-  description: API for searching and retrieving news articles with entity extraction and classification data.
+  title: JA Accountable API
+  description: API for searching news articles and browsing extracted entities with classification data.
   version: 1.0.0
 
 servers:
@@ -124,8 +124,91 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /entities:
+    get:
+      summary: List entities
+      description: |
+        List entities (people, organizations, government bodies) extracted from
+        articles, with article counts and recency data.
+
+        Supports sorting by most recent appearance or by frequency, with optional
+        time-window scoping via the `since` parameter. When `since` is provided,
+        both article_count and last_seen_date reflect only articles within that window.
+      operationId: listEntities
+      tags:
+        - Entities
+      parameters:
+        - name: sort
+          in: query
+          description: |
+            Sort mode:
+            - `latest`: ordered by most recent article appearance
+            - `most_found`: ordered by article count (most appearances first)
+          required: false
+          schema:
+            type: string
+            enum:
+              - latest
+              - most_found
+            default: latest
+
+        - name: since
+          in: query
+          description: |
+            Scope results to articles published on or after this date.
+            When provided, both article_count and last_seen_date reflect
+            only articles within this time window.
+          required: false
+          schema:
+            type: string
+            format: date
+          example: '2024-01-01'
+
+        - name: page
+          in: query
+          description: Page number (1-indexed)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+
+        - name: page_size
+          in: query
+          description: Results per page (max 100)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityListResponse'
+
+        '400':
+          description: Invalid query parameters (bad date format, page < 1, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+        '500':
+          description: Database/server errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
+    # ── Article Search ──────────────────────────────────────────────
+
     SearchResponse:
       type: object
       required:
@@ -140,7 +223,7 @@ components:
         pagination:
           $ref: '#/components/schemas/Pagination'
         query:
-          $ref: '#/components/schemas/QueryEcho'
+          $ref: '#/components/schemas/SearchQueryEcho'
 
     Article:
       type: object
@@ -221,6 +304,93 @@ components:
           description: Confidence score for the classification
           example: 0.92
 
+    SearchQueryEcho:
+      type: object
+      properties:
+        q:
+          type: string
+          nullable: true
+          description: The search query that was used
+          example: corruption
+        from_date:
+          type: string
+          format: date
+          nullable: true
+          description: The from_date filter that was applied
+          example: '2024-01-01'
+        to_date:
+          type: string
+          format: date
+          nullable: true
+          description: The to_date filter that was applied
+        entity:
+          type: string
+          nullable: true
+          description: The entity filter that was applied
+
+    # ── Entities ────────────────────────────────────────────────────
+
+    EntityListResponse:
+      type: object
+      required:
+        - data
+        - pagination
+        - query
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySummary'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        query:
+          $ref: '#/components/schemas/EntityQueryEcho'
+
+    EntitySummary:
+      type: object
+      required:
+        - name
+        - normalized_name
+        - article_count
+        - last_seen_date
+      properties:
+        name:
+          type: string
+          description: Display name of the entity as originally extracted
+          example: Ministry of Finance
+        normalized_name:
+          type: string
+          description: Normalized canonical name used for deduplication
+          example: ministry_of_finance
+        article_count:
+          type: integer
+          description: Number of articles this entity appears in (scoped by time window if since is provided)
+          example: 32
+        last_seen_date:
+          type: string
+          format: date-time
+          description: Most recent article publication date featuring this entity (scoped by time window if since is provided)
+          example: '2024-02-14T09:15:00Z'
+
+    EntityQueryEcho:
+      type: object
+      properties:
+        sort:
+          type: string
+          enum:
+            - latest
+            - most_found
+          description: The sort mode that was applied
+          example: latest
+        since:
+          type: string
+          format: date
+          nullable: true
+          description: The time-window filter that was applied
+          example: '2024-01-01'
+
+    # ── Shared ──────────────────────────────────────────────────────
+
     Pagination:
       type: object
       required:
@@ -245,30 +415,6 @@ components:
           type: integer
           description: Total number of pages
           example: 8
-
-    QueryEcho:
-      type: object
-      properties:
-        q:
-          type: string
-          nullable: true
-          description: The search query that was used
-          example: corruption
-        from_date:
-          type: string
-          format: date
-          nullable: true
-          description: The from_date filter that was applied
-          example: '2024-01-01'
-        to_date:
-          type: string
-          format: date
-          nullable: true
-          description: The to_date filter that was applied
-        entity:
-          type: string
-          nullable: true
-          description: The entity filter that was applied
 
     Error:
       type: object

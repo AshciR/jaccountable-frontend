@@ -11,7 +11,9 @@ describe('SearchSection', () => {
 		sectionLabel: 'Latest Stories',
 		noResults: false,
 		isLoading: false,
-		onSearch: vi.fn()
+		topics: [],
+		onSearch: vi.fn(),
+		onTopicClick: vi.fn()
 	};
 
 	it('should render the section with correct id', () => {

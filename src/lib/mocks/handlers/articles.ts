@@ -19,7 +19,8 @@ export const articleHandlers = [
 			filtered = filtered.filter(
 				(article) =>
 					article.title.toLowerCase().includes(query) ||
-					article.snippet.toLowerCase().includes(query)
+					article.snippet.toLowerCase().includes(query) ||
+					article.entities.some((e) => e.toLowerCase().includes(query))
 			);
 		}
 

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import SearchBar from './SearchBar.svelte';
+	import TopicsBar from './TopicsBar.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import type { Article } from '$lib/api/types';
+	import type { Article, EntitySummary } from '$lib/api/types';
 
 	let {
 		displayedArticles,
@@ -12,7 +13,9 @@
 		sectionLabel,
 		noResults,
 		isLoading,
-		onSearch
+		topics,
+		onSearch,
+		onTopicClick
 	}: {
 		displayedArticles: Article[];
 		hasMoreResults: boolean;
@@ -20,7 +23,9 @@
 		sectionLabel: string;
 		noResults: boolean;
 		isLoading: boolean;
+		topics: EntitySummary[];
 		onSearch: (query: string) => void;
+		onTopicClick: (name: string) => void;
 	} = $props();
 </script>
 
@@ -28,6 +33,9 @@
 	<div class="max-w-4xl mx-auto px-6">
 		<div class="max-w-3xl mx-auto">
 			<SearchBar placeholder="Search for articles. Ex. Petrojam" {onSearch} />
+			{#if topics.length > 0}
+				<TopicsBar {topics} {onTopicClick} />
+			{/if}
 		</div>
 
 		{#if isLoading}
