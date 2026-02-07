@@ -57,6 +57,7 @@
 		"yaml": "^2.8.2"
 	},
 	"dependencies": {
+		"@sentry/sveltekit": "^10",
 		"lucide-svelte": "^0.562.0",
 		"posthog-js": "^1.341.0"
 	},
