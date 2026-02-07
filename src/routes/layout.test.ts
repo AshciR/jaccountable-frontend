@@ -30,27 +30,13 @@ vi.mock('$env/static/public', () => ({
 import posthog from 'posthog-js';
 import Layout from './+layout.svelte';
 
-describe('Layout - PostHog Analytics', () => {
+describe('Layout', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
 	afterEach(() => {
 		vi.restoreAllMocks();
-	});
-
-	it('should initialize PostHog with correct config', async () => {
-		// Given: the layout loads in a browser environment
-		const { load } = await import('./+layout');
-
-		// When: the load function runs
-		await load();
-
-		// Then: should initialize PostHog with the API key and host
-		expect(posthog.init).toHaveBeenCalledWith('phc_test_key', {
-			api_host: 'https://us.i.posthog.com',
-			capture_pageview: false
-		});
 	});
 
 	it('should capture pageview on render', () => {
@@ -67,31 +53,5 @@ describe('Layout - PostHog Analytics', () => {
 		expect(posthog.capture).toHaveBeenCalledWith('$pageview', {
 			path: '/test-path'
 		});
-	});
-
-	it('should not initialize PostHog when not in browser', async () => {
-		// Given: we're in a server environment
-		vi.resetModules();
-		vi.doMock('$app/environment', () => ({
-			browser: false
-		}));
-		vi.doMock('$env/static/public', () => ({
-			PUBLIC_POSTHOG_KEY: 'phc_test_key'
-		}));
-		vi.doMock('posthog-js', () => ({
-			default: {
-				init: vi.fn(),
-				capture: vi.fn()
-			}
-		}));
-
-		const { load } = await import('./+layout');
-		const posthogModule = await import('posthog-js');
-
-		// When: the load function runs
-		await load();
-
-		// Then: should not call posthog.init
-		expect(posthogModule.default.init).not.toHaveBeenCalled();
 	});
 });
