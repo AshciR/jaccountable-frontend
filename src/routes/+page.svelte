@@ -7,7 +7,9 @@
 	import FAQSection from '$lib/components/features/FAQSection.svelte';
 	import ShareSection from '$lib/components/features/ShareSection.svelte';
 	import Footer from '$lib/components/features/Footer.svelte';
-	import type { Article, SearchResponse, EntitySummary, EntityListResponse } from '$lib/api/types';
+	import type { Article, EntitySummary } from '$lib/api/types';
+	import { searchArticles } from '$lib/api/articles';
+	import { fetchTopEntities } from '$lib/api/entities';
 	import { trackEvent } from '$lib/utils/analytics';
 
 	const MAX_PREVIEW_RESULTS: number = 3;
@@ -49,11 +51,7 @@
 
 	async function fetchLatestStories(): Promise<void> {
 		try {
-			const response: Response = await fetch(
-				'/api/v1/articles/search?sort=published_date&order=desc&page_size=3'
-			);
-			const data: SearchResponse = await response.json();
-			searchState.latestArticles = data.data;
+			searchState.latestArticles = await searchArticles();
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -61,9 +59,7 @@
 
 	async function fetchTopics(): Promise<void> {
 		try {
-			const response: Response = await fetch('/api/v1/entities?sort=most_found&page_size=5');
-			const data: EntityListResponse = await response.json();
-			searchState.topics = data.data;
+			searchState.topics = await fetchTopEntities();
 		} catch {
 			// Topics are non-critical; silently fail
 		}
@@ -80,14 +76,10 @@
 		searchState.hasSearched = true;
 		searchState.query = query;
 		try {
-			const response: Response = await fetch(
-				`/api/v1/articles/search?q=${encodeURIComponent(query)}`
-			);
-			const data: SearchResponse = await response.json();
-			searchState.results = data.data;
+			searchState.results = await searchArticles(query);
 			trackEvent('search:query_submit', {
 				search_query: query,
-				results_count: data.data.length
+				results_count: searchState.results.length
 			});
 		} finally {
 			searchState.isLoading = false;
