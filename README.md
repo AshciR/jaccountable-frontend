@@ -27,6 +27,7 @@ Each article receives a relevance score (1-10) based on accountability-related k
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
 - [shadcn-svelte](https://www.shadcn-svelte.com/) - UI component library
 - [Lucide](https://lucide.dev/) - Icons
+- [MSW](https://mswjs.io/) - API mocking for development
 
 ## Project Structure
 
@@ -53,33 +54,35 @@ src/lib/components/
 ### Installation
 
 ```sh
-npm install
+yarn install
 ```
 
 ### Development
 
-Start the development server:
+Start the development server with mock API data (default):
 
 ```sh
-npm run dev
+yarn dev
 ```
 
-Or start the server and open the app automatically:
+Start the development server pointed at a local backend (`http://localhost:8000`):
 
 ```sh
-npm run dev -- --open
+yarn dev:realapi
 ```
+
+You can also toggle this per-session by setting `PUBLIC_USE_REAL_API=true` in `.env.development`. See `.env.example` for all available environment variables.
 
 ### Building for Production
 
 ```sh
-npm run build
+yarn build
 ```
 
 Preview the production build:
 
 ```sh
-npm run preview
+yarn preview
 ```
 
 ## Testing
@@ -89,8 +92,8 @@ This project uses [Vitest](https://vitest.dev/) with [@testing-library/svelte](h
 ### Running Tests
 
 ```sh
-npm run test        # Run tests once
-npm run test:watch  # Run tests in watch mode
+yarn test        # Run tests once
+yarn test:watch  # Run tests in watch mode
 ```
 
 ### BDD Testing Pattern

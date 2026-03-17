@@ -8,11 +8,11 @@ const gleanerArticle: Article = {
 	url: 'https://jamaica-gleaner.com/article/test',
 	title: 'Test Gleaner Article Title',
 	section: 'news',
-	news_source: 'JAMAICA_GLEANER',
-	published_date: '2025-01-15T10:30:00Z',
+	newsSource: 'JAMAICA_GLEANER',
+	publishedDate: '2025-01-15T10:30:00Z',
 	snippet: 'This is a <mark>test</mark> snippet with highlighted text.',
 	entities: ['Entity One', 'Entity Two', 'Entity Three'],
-	classifications: [{ classifierType: 'CORRUPTION', confidence: 0.92 }]
+	classifications: [{ classifierType: 'CORRUPTION', confidenceScore: 0.92 }]
 };
 
 const observerArticle: Article = {
@@ -20,11 +20,11 @@ const observerArticle: Article = {
 	url: 'https://jamaica-observer.com/article/test',
 	title: 'Test Observer Article Title',
 	section: 'politics',
-	news_source: 'JAMAICA_OBSERVER',
-	published_date: '2025-01-14T08:00:00Z',
+	newsSource: 'JAMAICA_OBSERVER',
+	publishedDate: '2025-01-14T08:00:00Z',
 	snippet: 'Observer article snippet without highlights.',
 	entities: ['Person A', 'Organization B'],
-	classifications: [{ classifierType: 'FRAUD', confidence: 0.78 }]
+	classifications: [{ classifierType: 'FRAUD', confidenceScore: 0.78 }]
 };
 
 const unknownSourceArticle: Article = {
@@ -32,11 +32,11 @@ const unknownSourceArticle: Article = {
 	url: 'https://other-news.com/article/test',
 	title: 'Test Unknown Source Article',
 	section: 'news',
-	news_source: 'OTHER_SOURCE',
-	published_date: '2025-01-13T12:00:00Z',
+	newsSource: 'OTHER_SOURCE',
+	publishedDate: '2025-01-13T12:00:00Z',
 	snippet: 'Article from an unknown source.',
 	entities: ['Entity X'],
-	classifications: [{ classifierType: 'MISCONDUCT', confidence: 0.85 }]
+	classifications: [{ classifierType: 'MISCONDUCT', confidenceScore: 0.85 }]
 };
 
 /**
@@ -55,7 +55,7 @@ function assertArticleCardContent(article: Article) {
 
 	// Confidence score
 	if (article.classifications.length > 0) {
-		const confidenceDisplay = (article.classifications[0].confidence * 10).toFixed(1);
+		const confidenceDisplay = (article.classifications[0].confidenceScore * 10).toFixed(1);
 		expect(screen.getByText(confidenceDisplay)).toBeInTheDocument();
 		expect(screen.getByText('Confidence')).toBeInTheDocument();
 	}
@@ -77,9 +77,9 @@ function assertArticleCardContent(article: Article) {
 
 	// Source logo displayed
 	const sourceName =
-		article.news_source === 'JAMAICA_GLEANER'
+		article.newsSource === 'JAMAICA_GLEANER'
 			? 'Jamaica Gleaner'
-			: article.news_source === 'JAMAICA_OBSERVER'
+			: article.newsSource === 'JAMAICA_OBSERVER'
 				? 'Jamaica Observer'
 				: 'Source';
 	expect(screen.getByAltText(sourceName)).toBeInTheDocument();

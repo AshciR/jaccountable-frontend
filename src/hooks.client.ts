@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/sveltekit';
 import posthog from 'posthog-js';
-import { PUBLIC_POSTHOG_KEY } from '$env/static/public';
+import { PUBLIC_POSTHOG_KEY, PUBLIC_USE_REAL_API } from '$env/static/public';
 import type { ClientInit } from '@sveltejs/kit';
 
 export const init: ClientInit = async () => {
@@ -14,7 +14,8 @@ export const init: ClientInit = async () => {
 
 async function initMocks(environment: string) {
 	const isDev = environment === 'development';
-	if (isDev) {
+	const useRealApi = PUBLIC_USE_REAL_API === 'true';
+	if (isDev && !useRealApi) {
 		const { worker } = await import('$lib/mocks/browser');
 		await worker.start({ onUnhandledRequest: 'bypass' });
 		console.log('Mock APIs initialized');

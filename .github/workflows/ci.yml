@@ -12,6 +12,7 @@ jobs:
 
     env:
       PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+      PUBLIC_USE_REAL_API: false # not used during CI. Only applicable for local development
 
     steps:
       - name: Checkout

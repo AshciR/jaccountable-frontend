@@ -12,7 +12,7 @@
 </script>
 
 <div class="mt-4 flex flex-wrap justify-center gap-2" data-testid="topics-bar">
-	{#each topics as topic (topic.normalized_name)}
+	{#each topics as topic (topic.normalizedName)}
 		<button type="button" onclick={() => onTopicClick(topic.name)}>
 			<Badge
 				variant="outline"

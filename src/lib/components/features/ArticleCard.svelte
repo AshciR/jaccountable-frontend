@@ -10,14 +10,14 @@
 
 	const classification = $derived(article.classifications[0]);
 	const confidenceDisplay = $derived(
-		classification ? (classification.confidence * 10).toFixed(1) : null
+		classification ? (classification.confidenceScore * 10).toFixed(1) : null
 	);
 
 	// Confidence pill styling - color ranges from yellow (0.7) to green (1.0)
 	const confidencePillClasses = $derived(() => {
 		const base = 'inline-flex items-center rounded-full border px-3 py-1 text-sm font-semibold';
 		if (!classification) return `${base} bg-neutral-50 text-neutral-600 border-neutral-200`;
-		const confidence = classification.confidence;
+		const confidence = classification.confidenceScore;
 		if (confidence >= 0.9) return `${base} bg-green-100 text-green-700 border-green-400`;
 		if (confidence >= 0.8) return `${base} bg-green-50 text-green-500 border-green-200`;
 		return `${base} bg-gold-50 text-gold-700 border-gold-200`;
@@ -25,22 +25,22 @@
 
 	// Format the published date
 	const formattedDate = $derived(() => {
-		const date = new Date(article.published_date);
+		const date = new Date(article.publishedDate);
 		return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 	});
 
 	const sourceIcon = $derived(
-		article.news_source === 'JAMAICA_GLEANER'
+		article.newsSource === 'JAMAICA_GLEANER'
 			? gleanerIcon
-			: article.news_source === 'JAMAICA_OBSERVER'
+			: article.newsSource === 'JAMAICA_OBSERVER'
 				? observerIcon
 				: fallbackIcon
 	);
 
 	const sourceName = $derived(
-		article.news_source === 'JAMAICA_GLEANER'
+		article.newsSource === 'JAMAICA_GLEANER'
 			? 'Jamaica Gleaner'
-			: article.news_source === 'JAMAICA_OBSERVER'
+			: article.newsSource === 'JAMAICA_OBSERVER'
 				? 'Jamaica Observer'
 				: 'Source'
 	);
@@ -108,17 +108,18 @@
 	}
 
 	/**
-	 * Extracts 5 sentences from full_text centered around the snippet match.
+	 * Extracts 5 sentences from fullText centered around the snippet match.
 	 */
 	function extractFocusedSentences(
 		fullText: string | undefined,
 		snippet: string
 	): FocusedSentence[] {
-		const highlightWords = getHighlightedWords(snippet);
-		const snippetText = snippet.replace(/<\/?mark>/gi, '');
+		const normalized = snippet.replace(/<b>/gi, '<mark>').replace(/<\/b>/gi, '</mark>');
+		const highlightWords = getHighlightedWords(normalized);
+		const snippetText = normalized.replace(/<\/?mark>/gi, '');
 
 		if (!fullText) {
-			// Fallback to snippet if no full_text
+			// Fallback to snippet if no fullText
 			return [
 				{
 					text: snippetText,
@@ -152,7 +153,7 @@
 		}));
 	}
 
-	const focusedSentences = $derived(extractFocusedSentences(article.full_text, article.snippet));
+	const focusedSentences = $derived(extractFocusedSentences(article.fullText, article.snippet));
 </script>
 
 <Card.Root class="overflow-hidden shadow-sm transition-shadow duration-200 hover:shadow-md">
@@ -168,7 +169,7 @@
 				/>
 				<div>
 					<div class="text-sm font-medium text-muted-foreground">{sourceName}</div>
-					<time datetime={article.published_date} class="text-xs text-muted-foreground">
+					<time datetime={article.publishedDate} class="text-xs text-muted-foreground">
 						{formattedDate()}
 					</time>
 					{#if classification}

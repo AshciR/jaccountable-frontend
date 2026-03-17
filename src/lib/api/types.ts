@@ -1,6 +1,6 @@
 export interface Classification {
 	classifierType: string;
-	confidence: number;
+	confidenceScore: number;
 }
 
 export interface Article {
@@ -8,34 +8,20 @@ export interface Article {
 	url: string;
 	title: string;
 	section: string;
-	news_source: string;
-	published_date: string;
+	newsSource: string;
+	publishedDate: string;
 	snippet: string;
 	entities: string[];
 	classifications: Classification[];
-	full_text?: string;
+	fullText?: string;
 }
 
-export interface Pagination {
+export interface ArticleSearchResponse {
+	items: Article[];
+	total: number;
 	page: number;
-	page_size: number;
-	total_results: number;
-	total_pages: number;
-}
-
-export interface QueryInfo {
-	q: string | null;
-	from_date: string | null;
-	to_date: string | null;
-	entity: string | null;
-	sort?: string | null;
-	order?: string | null;
-}
-
-export interface SearchResponse {
-	data: Article[];
-	pagination: Pagination;
-	query: QueryInfo;
+	pageSize: number;
+	pages: number;
 }
 
 export interface ErrorResponse {
@@ -46,14 +32,21 @@ export interface ErrorResponse {
 
 export interface EntitySummary {
 	name: string;
-	normalized_name: string;
-	article_count: number;
-	last_seen_date: string;
+	normalizedName: string;
+	articleCount: number;
+	lastSeenDate: string;
 }
 
 export interface EntityQueryEcho {
 	sort: 'latest' | 'most_found';
 	since: string | null;
+}
+
+export interface Pagination {
+	page: number;
+	pageSize: number;
+	totalResults: number;
+	totalPages: number;
 }
 
 export interface EntityListResponse {
