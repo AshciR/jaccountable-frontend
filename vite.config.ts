@@ -5,6 +5,14 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+	server: {
+		proxy: {
+			'/api': {
+				target: 'http://localhost:8000',
+				changeOrigin: true
+			}
+		}
+	},
 	plugins: [
 		sentrySvelteKit({
 			org: 'jaccountable',

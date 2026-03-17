@@ -1,9 +1,9 @@
 import { http, HttpResponse, delay } from 'msw';
-import type { SearchResponse } from '$lib/api/types';
+import type { ArticleSearchResponse } from '$lib/api/types';
 import { mockArticles } from '../fixtures/articles';
 
 export const articleHandlers = [
-	http.get<never, never, SearchResponse>('/api/v1/articles/search', async ({ request }) => {
+	http.get<never, never, ArticleSearchResponse>('/api/v1/articles', async ({ request }) => {
 		const url = new URL(request.url);
 		const q = url.searchParams.get('q');
 		const entity = url.searchParams.get('entity');
@@ -32,11 +32,11 @@ export const articleHandlers = [
 		}
 
 		if (fromDate) {
-			filtered = filtered.filter((article) => article.published_date >= fromDate);
+			filtered = filtered.filter((article) => article.publishedDate >= fromDate);
 		}
 
 		if (toDate) {
-			filtered = filtered.filter((article) => article.published_date <= toDate);
+			filtered = filtered.filter((article) => article.publishedDate <= toDate);
 		}
 
 		const sort = url.searchParams.get('sort');
@@ -44,31 +44,23 @@ export const articleHandlers = [
 
 		if (sort === 'published_date') {
 			filtered = [...filtered].sort((a, b) => {
-				const dateA = new Date(a.published_date).getTime();
-				const dateB = new Date(b.published_date).getTime();
+				const dateA = new Date(a.publishedDate).getTime();
+				const dateB = new Date(b.publishedDate).getTime();
 				return order === 'desc' ? dateB - dateA : dateA - dateB;
 			});
 		}
 
-		const totalResults = filtered.length;
-		const totalPages = Math.ceil(totalResults / pageSize);
+		const total = filtered.length;
+		const pages = Math.ceil(total / pageSize);
 		const startIndex = (page - 1) * pageSize;
 		const paginatedData = filtered.slice(startIndex, startIndex + pageSize);
 
-		const response: SearchResponse = {
-			data: paginatedData,
-			pagination: {
-				page,
-				page_size: pageSize,
-				total_results: totalResults,
-				total_pages: totalPages
-			},
-			query: {
-				q,
-				from_date: fromDate,
-				to_date: toDate,
-				entity
-			}
+		const response: ArticleSearchResponse = {
+			items: paginatedData,
+			total,
+			page,
+			pageSize,
+			pages
 		};
 
 		if (!import.meta.env.TEST) {

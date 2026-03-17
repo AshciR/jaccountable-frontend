@@ -13,15 +13,15 @@ export const entityHandlers = [
 		let filtered = mockEntities;
 
 		if (since) {
-			filtered = filtered.filter((entity) => entity.last_seen_date >= since);
+			filtered = filtered.filter((entity) => entity.lastSeenDate >= since);
 		}
 
 		const sorted = [...filtered];
 		if (sort === 'most_found') {
-			sorted.sort((a, b) => b.article_count - a.article_count);
+			sorted.sort((a, b) => b.articleCount - a.articleCount);
 		} else {
 			sorted.sort(
-				(a, b) => new Date(b.last_seen_date).getTime() - new Date(a.last_seen_date).getTime()
+				(a, b) => new Date(b.lastSeenDate).getTime() - new Date(a.lastSeenDate).getTime()
 			);
 		}
 
@@ -34,9 +34,9 @@ export const entityHandlers = [
 			data: paginatedData,
 			pagination: {
 				page,
-				page_size: pageSize,
-				total_results: totalResults,
-				total_pages: totalPages
+				pageSize,
+				totalResults,
+				totalPages
 			},
 			query: {
 				sort: sort as 'latest' | 'most_found',
