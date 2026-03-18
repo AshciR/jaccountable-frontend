@@ -1,6 +1,7 @@
 export interface Classification {
 	classifierType: string;
 	confidenceScore: number;
+	reasoning?: string;
 }
 
 export interface Article {
