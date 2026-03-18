@@ -17,7 +17,14 @@ export const mockArticles: Article[] = [
 			'Major General Antony Anderson',
 			'Financial Investigations Division'
 		],
-		classifications: [{ classifierType: 'CORRUPTION', confidenceScore: 0.92 }],
+		classifications: [
+			{
+				classifierType: 'CORRUPTION',
+				confidenceScore: 0.92,
+				reasoning:
+					'The article covers criminal fraud charges against former government university officials, involving misappropriation of public funds — a direct accountability concern.'
+			}
+		],
 		fullText: `KINGSTON, Jamaica — The Supreme Court on Monday delivered a significant ruling in the ongoing fraud case involving former Caribbean Maritime University officials.
 Defence attorneys had filed motions arguing that procedural irregularities should render the charges null and void.
 The court has rejected arguments for nullity in the high-profile fraud case involving former Caribbean Maritime University (CMU) president, Professor Fritz Pinnock, and others. The trial will proceed as scheduled.

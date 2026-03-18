@@ -215,6 +215,16 @@
 			</div>
 		</div>
 
+		<!-- Classifier Reasoning -->
+		{#if classification?.reasoning}
+			<div class="border-l-4 border-amber-400 bg-amber-50 pl-3 py-2 text-sm">
+				<h4 class="mb-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+					Why flagged
+				</h4>
+				<p class="text-muted-foreground">{classification.reasoning}</p>
+			</div>
+		{/if}
+
 		<!-- Original Article Link -->
 		<div>
 			<!-- eslint-disable svelte/no-navigation-without-resolve -- External link -->
