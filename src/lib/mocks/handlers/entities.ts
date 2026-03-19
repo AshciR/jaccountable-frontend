@@ -31,17 +31,11 @@ export const entityHandlers = [
 		const paginatedData = sorted.slice(startIndex, startIndex + pageSize);
 
 		const response: EntityListResponse = {
-			data: paginatedData,
-			pagination: {
-				page,
-				pageSize,
-				totalResults,
-				totalPages
-			},
-			query: {
-				sort: sort as 'latest' | 'most_found',
-				since
-			}
+			items: paginatedData,
+			total: totalResults,
+			page,
+			pageSize,
+			pages: totalPages
 		};
 
 		if (!import.meta.env.TEST) {

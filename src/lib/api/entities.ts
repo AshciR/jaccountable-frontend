@@ -6,5 +6,5 @@ export async function fetchTopEntities(): Promise<EntitySummary[]> {
 		return [];
 	}
 	const data: EntityListResponse = await response.json();
-	return data.data;
+	return data.items;
 }
