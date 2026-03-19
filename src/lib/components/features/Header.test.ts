@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/svelte';
+import { render, screen, fireEvent } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 import Header from './Header.svelte';
 
@@ -105,7 +105,45 @@ describe('Header', () => {
 		// When: the page loads
 
 		// Then: should display navigation links in uppercase
-		const navLink = screen.getByRole('link', { name: 'WHY' });
+		const navLink = screen.getAllByRole('link', { name: 'WHY' })[0];
 		expect(navLink).toHaveClass('uppercase');
+	});
+
+	it('should render a hamburger menu button intended for mobile', () => {
+		// Given: the header component renders
+		render(Header);
+
+		// When: the page loads
+
+		// Then: should render the hamburger button with mobile-only visibility class
+		const button = screen.getByRole('button', { name: 'Open menu' });
+		expect(button).toBeInTheDocument();
+		expect(button).toHaveClass('md:hidden');
+	});
+
+	it('should show mobile nav links when hamburger button is clicked', async () => {
+		// Given: the header component renders
+		render(Header);
+
+		// When: user clicks the hamburger button
+		const button = screen.getByRole('button', { name: 'Open menu' });
+		await fireEvent.click(button);
+
+		// Then: should show the close button and duplicate nav links from mobile menu
+		expect(screen.getByRole('button', { name: 'Close menu' })).toBeInTheDocument();
+		expect(screen.getAllByRole('link', { name: 'WHY' })).toHaveLength(2);
+	});
+
+	it('should hide mobile menu when hamburger button is clicked again', async () => {
+		// Given: the header renders with menu open
+		render(Header);
+		const button = screen.getByRole('button', { name: 'Open menu' });
+		await fireEvent.click(button);
+
+		// When: user clicks the close button
+		await fireEvent.click(screen.getByRole('button', { name: 'Close menu' }));
+
+		// Then: should only have desktop nav links remaining
+		expect(screen.getAllByRole('link', { name: 'WHY' })).toHaveLength(1);
 	});
 });
