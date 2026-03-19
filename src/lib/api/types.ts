@@ -38,20 +38,10 @@ export interface EntitySummary {
 	lastSeenDate: string;
 }
 
-export interface EntityQueryEcho {
-	sort: 'latest' | 'most_found';
-	since: string | null;
-}
-
-export interface Pagination {
+export interface EntityListResponse {
+	items: EntitySummary[];
+	total: number;
 	page: number;
 	pageSize: number;
-	totalResults: number;
-	totalPages: number;
-}
-
-export interface EntityListResponse {
-	data: EntitySummary[];
-	pagination: Pagination;
-	query: EntityQueryEcho;
+	pages: number;
 }
