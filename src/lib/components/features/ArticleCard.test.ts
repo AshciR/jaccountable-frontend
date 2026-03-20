@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/svelte';
-import { describe, expect, it } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/svelte';
+import { describe, expect, it, vi } from 'vitest';
 import ArticleCard from './ArticleCard.svelte';
 import type { Article } from '$lib/api/types';
 
@@ -158,6 +158,30 @@ describe('ArticleCard', () => {
 
 		// And: should still display other content
 		expect(screen.getByText(articleWithNoEntities.title)).toBeInTheDocument();
+	});
+
+	it('should call onTopicClick with entity name when an entity pill is clicked', async () => {
+		// Given: an article with entities and an onTopicClick callback
+		const onTopicClick = vi.fn();
+		render(ArticleCard, { props: { article: gleanerArticle, onTopicClick } });
+
+		// When: user clicks an entity pill
+		await fireEvent.click(screen.getByRole('button', { name: 'Entity One' }));
+
+		// Then: should call onTopicClick with the entity name
+		expect(onTopicClick).toHaveBeenCalledWith('Entity One');
+		expect(onTopicClick).toHaveBeenCalledTimes(1);
+	});
+
+	it('should not throw when entity pill is clicked without onTopicClick prop', async () => {
+		// Given: an article rendered without an onTopicClick callback
+		render(ArticleCard, { props: { article: gleanerArticle } });
+
+		// When: user clicks an entity pill
+		// Then: should not throw
+		await expect(
+			fireEvent.click(screen.getByRole('button', { name: 'Entity One' }))
+		).resolves.not.toThrow();
 	});
 
 	it('should handle empty classifications array', () => {

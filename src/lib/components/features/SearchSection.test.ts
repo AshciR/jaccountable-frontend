@@ -121,6 +121,21 @@ describe('SearchSection', () => {
 		expect(cmuBadges.length).toBeGreaterThan(0);
 	});
 
+	it('should call onTopicClick when an entity pill in an article card is clicked', async () => {
+		// Given: articles are displayed and onTopicClick is provided
+		const onTopicClick = vi.fn();
+		const articles = mockArticles.slice(0, 1);
+		render(SearchSection, {
+			props: { ...defaultProps, displayedArticles: articles, onTopicClick }
+		});
+
+		// When: user clicks an entity pill
+		await fireEvent.click(screen.getByRole('button', { name: 'Fritz Pinnock' }));
+
+		// Then: should call onTopicClick with the entity name
+		expect(onTopicClick).toHaveBeenCalledWith('Fritz Pinnock');
+	});
+
 	it('should call onSearch when the search form is submitted', async () => {
 		// Given: the component renders with an onSearch callback
 		const onSearch = vi.fn();

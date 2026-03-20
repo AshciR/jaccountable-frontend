@@ -6,7 +6,8 @@
 	import observerIcon from '$lib/assets/observer-article-card-icon.png';
 	import fallbackIcon from '$lib/assets/fallback-article-card-icon.png';
 
-	let { article }: { article: Article } = $props();
+	let { article, onTopicClick }: { article: Article; onTopicClick?: (entity: string) => void } =
+		$props();
 
 	const classification = $derived(article.classifications[0]);
 	const confidenceDisplay = $derived(
@@ -245,11 +246,12 @@
 				<h4 class="mb-2 text-sm font-semibold text-neutral-500">Mentioned</h4>
 				<div class="flex flex-wrap gap-2">
 					{#each article.entities as entity (entity)}
-						<span
-							class="rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+						<button
+							class="rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer"
+							onclick={() => onTopicClick?.(entity)}
 						>
 							{entity}
-						</span>
+						</button>
 					{/each}
 				</div>
 			</div>

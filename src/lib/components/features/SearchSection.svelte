@@ -63,7 +63,7 @@
 						<div class="space-y-4">
 							{#each displayedArticles as article, index (article.id)}
 								<div class="opacity-0 animate-fade-in" style="animation-delay: {index * 0.1}s;">
-									<ArticleCard {article} />
+									<ArticleCard {article} {onTopicClick} />
 								</div>
 							{/each}
 						</div>
