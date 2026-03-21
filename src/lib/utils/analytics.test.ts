@@ -2,7 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('posthog-js', () => ({
 	default: {
-		capture: vi.fn()
+		capture: vi.fn(),
+		get_distinct_id: vi.fn().mockReturnValue('test-distinct-id')
 	}
 }));
 
@@ -11,7 +12,7 @@ vi.mock('$app/environment', () => ({
 }));
 
 import posthog from 'posthog-js';
-import { trackEvent, isInternalUser } from './analytics';
+import { trackEvent, isInternalUser, getDistinctId } from './analytics';
 
 describe('analytics', () => {
 	beforeEach(() => {
@@ -48,17 +49,44 @@ describe('analytics', () => {
 			// Given: custom properties to include
 
 			// When: tracking an event with additional properties
-			trackEvent('search:query_submit', {
-				search_query: 'petrojam',
-				results_count: 5
+			trackEvent('share:copy_url_button_click', {
+				url: 'https://jaccountable.com'
 			});
 
 			// Then: should include both common and custom properties
-			expect(posthog.capture).toHaveBeenCalledWith('search:query_submit', {
+			expect(posthog.capture).toHaveBeenCalledWith('share:copy_url_button_click', {
 				environment: 'test',
 				is_internal: true,
-				search_query: 'petrojam',
-				results_count: 5
+				url: 'https://jaccountable.com'
+			});
+		});
+
+		describe('getDistinctId', () => {
+			it('should return the PostHog distinct ID in browser context', () => {
+				// Given: a browser environment with an active PostHog session
+
+				// When: getting the distinct ID
+				const result = getDistinctId();
+
+				// Then: should return the PostHog-generated ID
+				expect(result).toBe('test-distinct-id');
+			});
+
+			it('should return undefined when not in browser', async () => {
+				// Given: a server environment
+				vi.resetModules();
+				vi.doMock('$app/environment', () => ({ browser: false }));
+				vi.doMock('posthog-js', () => ({
+					default: { capture: vi.fn(), get_distinct_id: vi.fn() }
+				}));
+
+				const { getDistinctId: serverGetDistinctId } = await import('./analytics');
+
+				// When: getting the distinct ID on the server
+				const result = serverGetDistinctId();
+
+				// Then: should return undefined
+				expect(result).toBeUndefined();
 			});
 		});
 

@@ -10,7 +10,6 @@
 	import type { Article, EntitySummary } from '$lib/api/types';
 	import { searchArticles } from '$lib/api/articles';
 	import { fetchTopEntities } from '$lib/api/entities';
-	import { trackEvent } from '$lib/utils/analytics';
 
 	const MAX_PREVIEW_RESULTS: number = 3;
 
@@ -77,10 +76,6 @@
 		searchState.query = query;
 		try {
 			searchState.results = await searchArticles(query);
-			trackEvent('search:query_submit', {
-				search_query: query,
-				results_count: searchState.results.length
-			});
 		} finally {
 			searchState.isLoading = false;
 		}

@@ -6,6 +6,11 @@ export function isInternalUser(): boolean {
 	return window.location.hostname.includes('localhost');
 }
 
+export function getDistinctId(): string | undefined {
+	if (!browser) return undefined;
+	return posthog.get_distinct_id();
+}
+
 export function trackEvent(eventName: string, properties: Record<string, unknown> = {}): void {
 	if (!browser) return;
 

@@ -117,3 +117,64 @@ describe('ComponentName', () => {
 - **Given**: Describes the initial context/state
 - **When**: Describes the action or event
 - **Then**: Describes the expected outcome (test assertions)
+
+## Analytics
+
+This project uses [PostHog](https://posthog.com/) for event tracking via `$lib/utils/analytics.ts`.
+
+### Utility Functions
+
+- **`trackEvent(eventName, properties?)`** — wraps `posthog.capture()`, automatically attaches `environment` and `is_internal` to every event. Guarded with a `browser` check for SSR safety.
+- **`getDistinctId()`** — returns PostHog's auto-generated anonymous `distinct_id` (browser-only, returns `undefined` server-side).
+- **`isInternalUser()`** — returns `true` when running on localhost.
+
+### Naming Conventions
+
+Following [PostHog best practices](https://posthog.com/docs/product-analytics/best-practices):
+
+- **Event names**: `category:object_action` pattern, lowercase snake_case (e.g., `share:whatsapp_button_click`)
+- **Property names**: `object_adjective` pattern (e.g., `search_query`, `results_count`)
+- **Boolean properties**: `is_` or `has_` prefix (e.g., `is_internal`, `has_results`)
+
+### Frontend Events (tracked in this repo)
+
+| Event                         | Location              |
+| ----------------------------- | --------------------- |
+| `share:whatsapp_button_click` | `share-section.ts`    |
+| `share:twitter_button_click`  | `share-section.ts`    |
+| `share:copy_url_button_click` | `share-section.ts`    |
+| `share:bookmark_button_click` | `ShareSection.svelte` |
+| `share:feedback_button_click` | `share-section.ts`    |
+
+### Backend Events (tracked in the backend repo)
+
+| Event                 | Reason moved to backend                                                                                                    |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `search:query_submit` | Server-side action — backend is authoritative for result counts; backend tracking avoids silent data loss from ad blockers |
+
+### User Identification (no login)
+
+PostHog auto-generates an anonymous `distinct_id` stored in `localStorage` — no `identify` call is needed.
+
+To link frontend and backend events to the same user, all API requests go through `apiFetch` (`$lib/api/fetch.ts`), a drop-in replacement for `fetch` that automatically injects:
+
+- **`X-PostHog-Distinct-Id`** — PostHog's anonymous ID, so the backend can use the same `distinct_id` when capturing events
+- **`X-Internal-Request: true`** — set when `isInternalUser()` is true, so the backend can flag internal traffic
+
+This means all events (frontend + backend) are associated with the same anonymous user across sessions without requiring authentication.
+
+### Test Setup for Analytics
+
+When testing components or utilities that use analytics, add these mocks at the top of the test file:
+
+```typescript
+vi.mock('posthog-js', () => ({
+	default: { capture: vi.fn(), get_distinct_id: vi.fn().mockReturnValue('test-id') }
+}));
+
+vi.mock('$app/environment', () => ({
+	browser: true
+}));
+```
+
+Ensure `window.location` mocks include `hostname` (not just `href`) to avoid `isInternalUser()` errors.
