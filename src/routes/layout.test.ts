@@ -24,7 +24,8 @@ vi.mock('$app/state', () => ({
 
 // Mock $env/static/public
 vi.mock('$env/static/public', () => ({
-	PUBLIC_POSTHOG_KEY: 'phc_test_key'
+	PUBLIC_POSTHOG_KEY: 'phc_test_key',
+	PUBLIC_SENTRY_DSN: 'https://fake@sentry.io/123'
 }));
 
 import posthog from 'posthog-js';
