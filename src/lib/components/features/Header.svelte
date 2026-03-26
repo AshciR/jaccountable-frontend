@@ -30,7 +30,7 @@
 				element.scrollIntoView({ behavior: 'smooth' });
 			}
 		} else {
-			goto(resolve(`/#${sectionId}`));
+			goto(`/#${sectionId}`);
 		}
 	}
 </script>
@@ -54,7 +54,7 @@
 			<ul class="flex items-center gap-8">
 				<li>
 					<a
-						href={resolve('/#why')}
+						href="/#why"
 						onclick={(e) => scrollToSection(e, 'why')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -63,7 +63,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#search')}
+						href="/#search"
 						onclick={(e) => scrollToSection(e, 'search')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -72,7 +72,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#how-it-works')}
+						href="/#how-it-works"
 						onclick={(e) => scrollToSection(e, 'how-it-works')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -81,7 +81,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#faq')}
+						href="/#faq"
 						onclick={(e) => scrollToSection(e, 'faq')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -90,7 +90,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#share')}
+						href="/#share"
 						onclick={(e) => scrollToSection(e, 'share')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -120,7 +120,7 @@
 			<ul class="flex flex-col gap-4">
 				<li>
 					<a
-						href={resolve('/#why')}
+						href="/#why"
 						onclick={(e) => scrollToSection(e, 'why')}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -129,7 +129,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#search')}
+						href="/#search"
 						onclick={(e) => scrollToSection(e, 'search')}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -138,7 +138,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#how-it-works')}
+						href="/#how-it-works"
 						onclick={(e) => scrollToSection(e, 'how-it-works')}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -147,7 +147,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#faq')}
+						href="/#faq"
 						onclick={(e) => scrollToSection(e, 'faq')}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
@@ -156,7 +156,7 @@
 				</li>
 				<li>
 					<a
-						href={resolve('/#share')}
+						href="/#share"
 						onclick={(e) => scrollToSection(e, 'share')}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>

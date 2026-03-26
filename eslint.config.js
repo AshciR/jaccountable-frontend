@@ -27,6 +27,15 @@ export default defineConfig(
 		}
 	},
 	{
+		// Hash fragment routes (e.g. /#why) are not in SvelteKit's Route type, so resolve() cannot
+		// wrap them directly. We use `${resolve('/')}#section` instead, which is correct but the
+		// rule can't detect it. The TypeScript check prevents misuse elsewhere.
+		files: ['src/lib/components/features/Header.svelte'],
+		rules: {
+			'svelte/no-navigation-without-resolve': 'off'
+		}
+	},
+	{
 		files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
 
 		languageOptions: {
