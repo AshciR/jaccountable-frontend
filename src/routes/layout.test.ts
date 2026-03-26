@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render } from '@testing-library/svelte';
+import type { Snippet } from 'svelte';
 
 // Mock posthog-js
 vi.mock('posthog-js', () => ({
@@ -46,7 +47,7 @@ describe('Layout', () => {
 		// When: the component mounts
 		render(Layout, {
 			props: {
-				children: () => {}
+				children: (() => {}) as unknown as Snippet<[]>
 			}
 		});
 

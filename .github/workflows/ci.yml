@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+      PUBLIC_POSTHOG_KEY: 'phc_fake_key_for_ci'
       PUBLIC_USE_REAL_API: false # not used during CI. Only applicable for local development
       PUBLIC_SENTRY_DSN: 'fake-dsn-for-ci'
+      PUBLIC_API_BASE_URL: 'https://doesnotmatter.com'
 
     steps:
       - name: Checkout
@@ -35,7 +36,7 @@ jobs:
         run: yarn lint
 
       - name: Type check
-        run: yarn check
+        run: yarn run check
 
       - name: Run tests
         run: yarn test
