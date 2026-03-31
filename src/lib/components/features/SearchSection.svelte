@@ -32,7 +32,7 @@
 <section class="py-20 bg-neutral-100 border-y border-primary/5" id="search">
 	<div class="max-w-4xl mx-auto px-6">
 		<div class="max-w-3xl mx-auto">
-			<SearchBar placeholder="Search for articles: E.g. INDECOM" {onSearch} />
+			<SearchBar placeholder="Search articles — try a name, place, or topic…" {onSearch} />
 			{#if topics.length > 0}
 				<TopicsBar {topics} {onTopicClick} />
 			{/if}
