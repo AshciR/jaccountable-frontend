@@ -29,7 +29,9 @@ export const mockArticles: Article[] = [
 Defence attorneys had filed motions arguing that procedural irregularities should render the charges null and void.
 The court has rejected arguments for nullity in the high-profile fraud case involving former Caribbean Maritime University (CMU) president, Professor Fritz Pinnock, and others. The trial will proceed as scheduled.
 Justice Michael Thompson stated that the evidence presented did not support claims of prosecutorial misconduct.
-The Financial Investigations Division welcomed the ruling, noting that years of investigative work will now proceed to trial.`
+The Financial Investigations Division welcomed the ruling, noting that years of investigative work will now proceed to trial.
+Legal experts say the decision sets an important precedent for accountability cases involving public institutions.
+The next hearing is scheduled for January, where the prosecution will present its opening arguments.`
 	},
 	{
 		id: 'b7c2d9f1-f3a4-42e5-b827-557766551112',
@@ -46,7 +48,9 @@ The Financial Investigations Division welcomed the ruling, noting that years of 
 New documents obtained by investigators reveal a pattern of irregular procurement practices spanning several years.
 Investigations into alleged financial irregularities at the Caribbean Maritime University continue as authorities examine procurement processes.
 Major General Antony Anderson confirmed that additional persons of interest have been identified.
-The university's board has pledged full cooperation with the ongoing investigation.`
+The university's board has pledged full cooperation with the ongoing investigation.
+Sources close to the matter suggest charges could be filed against additional individuals within the coming months.
+The probe is expected to conclude before the end of the next fiscal year.`
 	},
 	{
 		id: 'c8d3e0a2-g4b5-53f6-c938-668877662223',
@@ -63,7 +67,9 @@ The university's board has pledged full cooperation with the ongoing investigati
 Ministry of Education officials attended the session to provide oversight guidance.
 The CMU Board of Directors convened an emergency meeting to discuss governance reforms following recent controversies.
 Proposed changes include enhanced financial transparency and independent audit requirements.
-Student representatives expressed cautious optimism about the proposed reforms during the meeting.`
+Student representatives expressed cautious optimism about the proposed reforms during the meeting.
+A formal reform plan is expected to be submitted to the Ministry of Education by the end of the month.
+Faculty members have called for an independent review panel to oversee the implementation process.`
 	},
 	{
 		id: 'd9e4f1b3-h5c6-64g7-d049-779988773334',
@@ -80,7 +86,9 @@ Student representatives expressed cautious optimism about the proposed reforms d
 The Student Union organized the demonstration after weeks of planning and consultation with faculty supporters.
 Students at Caribbean Maritime University staged a peaceful demonstration demanding greater transparency in university administration.
 Protest signs called for the release of financial records and accountability for alleged mismanagement.
-University security maintained a peaceful presence throughout the two-hour demonstration.`
+University security maintained a peaceful presence throughout the two-hour demonstration.
+Campus officials have agreed to meet with student leaders this week to address their concerns.
+National student advocacy groups have expressed solidarity with the demonstrators.`
 	},
 	{
 		id: 'e0f5a2c4-i6d7-75h8-e150-880099884445',
@@ -102,7 +110,9 @@ University security maintained a peaceful presence throughout the two-hour demon
 The audit, covering the 2024-2025 fiscal year, found widespread non-compliance with procurement guidelines.
 The Auditor General has identified significant irregularities in spending by multiple parish councils across Jamaica, calling for immediate corrective action.
 Pamela Monroe Ellis stated that the findings reflect systemic weaknesses in local government oversight.
-The Ministry of Local Government has promised to implement the report's recommendations within 90 days.`
+The Ministry of Local Government has promised to implement the report's recommendations within 90 days.
+Opposition MPs have called for an emergency parliamentary session to discuss the audit findings.
+Several parish council chairs have disputed the report's characterisation of their spending practices.`
 	},
 	{
 		id: 'f1a6b3d5-j7e8-86i9-f261-991100995556',
@@ -124,7 +134,9 @@ The Ministry of Local Government has promised to implement the report's recommen
 The Office of the Public Defender released a comprehensive report examining gaps in the current oversight framework.
 The Public Defender has issued a formal recommendation urging the government to strengthen independent oversight of the Jamaica Constabulary Force.
 INDECOM officials have expressed support for the proposed reforms while noting resource constraints.
-The Ministry of National Security acknowledged receipt of the recommendations and committed to a formal review.`
+The Ministry of National Security acknowledged receipt of the recommendations and committed to a formal review.
+Civil society groups have welcomed the Public Defender's report and are calling for a public consultation process.
+The JCF has not issued an official response to the recommendations at this time.`
 	},
 	{
 		id: 'a2b7c4e6-k8f9-97j0-a372-002211006667',
@@ -146,6 +158,8 @@ The Ministry of National Security acknowledged receipt of the recommendations an
 Multiple whistleblower complaints triggered the investigation spanning three government ministries.
 The Integrity Commission has launched an investigation into several government ministries over allegations of improperly awarded no-bid contracts.
 The Office of the Contractor General confirmed that preliminary findings warrant a full statutory investigation.
-The Cabinet Office declined to comment on ongoing investigations but reiterated its commitment to transparent procurement.`
+The Cabinet Office declined to comment on ongoing investigations but reiterated its commitment to transparent procurement.
+Two senior ministry officials have been placed on administrative leave pending the outcome of the review.
+The investigation is expected to take up to six months, with an interim report due in the spring.`
 	}
 ];
