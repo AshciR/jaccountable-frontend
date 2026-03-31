@@ -163,6 +163,12 @@ To link frontend and backend events to the same user, all API requests go throug
 
 This means all events (frontend + backend) are associated with the same anonymous user across sessions without requiring authentication.
 
+### Reverse Proxy
+
+PostHog events are routed through a self-hosted nginx reverse proxy (`posthog-proxy/`) rather than sent directly to `posthog.com`. This avoids ad blockers that block analytics requests.
+
+The proxy URL is configured via `PUBLIC_POSTHOG_API_HOST` — see `.env.example`. See [`posthog-proxy/README.md`](posthog-proxy/README.md) for deployment details.
+
 ### Test Setup for Analytics
 
 When testing components or utilities that use analytics, add these mocks at the top of the test file:
