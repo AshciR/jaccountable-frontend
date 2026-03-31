@@ -1,6 +1,11 @@
 import * as Sentry from '@sentry/sveltekit';
 import posthog from 'posthog-js';
-import { PUBLIC_POSTHOG_KEY, PUBLIC_SENTRY_DSN, PUBLIC_USE_REAL_API } from '$env/static/public';
+import {
+	PUBLIC_POSTHOG_API_HOST,
+	PUBLIC_POSTHOG_KEY,
+	PUBLIC_SENTRY_DSN,
+	PUBLIC_USE_REAL_API
+} from '$env/static/public';
 import type { ClientInit } from '@sveltejs/kit';
 
 export const init: ClientInit = async () => {
@@ -24,7 +29,8 @@ async function initMocks(environment: string) {
 
 function initializePostHog() {
 	posthog.init(PUBLIC_POSTHOG_KEY, {
-		api_host: 'https://us.i.posthog.com',
+		api_host: PUBLIC_POSTHOG_API_HOST,
+		ui_host: 'https://us.posthog.com',
 		capture_pageview: false
 	});
 	console.log('Analytics initialized');

@@ -10,6 +10,10 @@ An accountability app frontend built with SvelteKit.
 - **Linting**: ESLint 9 + Prettier
 - **Adapter**: adapter-auto (auto-detects deployment platform)
 
+## Environment Variables
+
+Whenever a new `PUBLIC_*` env var is added, **also add it to the `env` block in `.github/workflows/ci-cd.yml`** with a fake/placeholder value so the CI build does not fail.
+
 ## Commands
 
 ```bash
