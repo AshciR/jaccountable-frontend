@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -7,6 +7,10 @@ on:
     branches: [main]
 
 jobs:
+  # ---
+  # CI — Continuous Integration
+  # Run lint, type check, tests, and build on every push and pull request to main.
+  # ---
   ci:
     runs-on: ubuntu-latest
 
@@ -43,3 +47,18 @@ jobs:
 
       - name: Build
         run: yarn build
+
+  # ---
+  # CD — Continuous Deployment
+  # Trigger a deploy on Render.
+  # Only runs on pushes to main (not pull requests).
+  # ---
+  deploy:
+    needs: [ci]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        env:
+          deploy_url: ${{ secrets.RENDER_STAGING_DEPLOY_HOOK_URL }}
+        run: curl "$deploy_url"
