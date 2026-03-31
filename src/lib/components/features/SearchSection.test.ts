@@ -34,7 +34,7 @@ describe('SearchSection', () => {
 		// When: the page loads
 
 		// Then: should contain the search bar with placeholder
-		const input = screen.getByPlaceholderText('Search for articles: E.g. INDECOM');
+		const input = screen.getByPlaceholderText('Search articles — try a name, place, or topic…');
 		expect(input).toBeInTheDocument();
 	});
 
@@ -140,7 +140,7 @@ describe('SearchSection', () => {
 		// Given: the component renders with an onSearch callback
 		const onSearch = vi.fn();
 		render(SearchSection, { props: { ...defaultProps, onSearch } });
-		const input = screen.getByPlaceholderText('Search for articles: E.g. INDECOM');
+		const input = screen.getByPlaceholderText('Search articles — try a name, place, or topic…');
 
 		// When: user types a query and submits the form
 		await fireEvent.input(input, { target: { value: 'CMU' } });
