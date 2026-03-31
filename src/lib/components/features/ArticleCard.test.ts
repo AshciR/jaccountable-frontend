@@ -184,6 +184,89 @@ describe('ArticleCard', () => {
 		).resolves.not.toThrow();
 	});
 
+	it('should show leading and trailing ellipsis for a mid-article excerpt', () => {
+		// Given: an article with fullText where the snippet is in the middle
+		const fullText =
+			'Sentence one. Sentence two. Sentence three. Sentence four. Sentence five. Sentence six. Sentence seven. Sentence eight.';
+		const articleWithFullText: Article = {
+			...gleanerArticle,
+			snippet: 'Sentence five.',
+			fullText
+		};
+		render(ArticleCard, { props: { article: articleWithFullText } });
+
+		// When: the component renders with the snippet matching sentence 5 (index 4 of 8)
+		// The window will be sentences 3–7 (adjustedStart=2, endIndex=7)
+		const paragraphs = screen.getAllByTestId('excerpt-sentence');
+
+		// Then: should show leading "..." on the first excerpt paragraph
+		expect(paragraphs[0].textContent).toMatch(/^\.\.\./);
+
+		// And: should show trailing "..." on the last excerpt paragraph
+		expect(paragraphs[paragraphs.length - 1].textContent).toMatch(/\.\.\.$/);
+	});
+
+	it('should not show leading ellipsis when excerpt starts at the beginning of the article', () => {
+		// Given: an article where the snippet matches the first sentence
+		const fullText =
+			'Sentence one. Sentence two. Sentence three. Sentence four. Sentence five. Sentence six. Sentence seven. Sentence eight.';
+		const articleWithFullText: Article = {
+			...gleanerArticle,
+			snippet: 'Sentence one.',
+			fullText
+		};
+		render(ArticleCard, { props: { article: articleWithFullText } });
+
+		// When: the component renders with snippet at the start (adjustedStart=0)
+		const paragraphs = screen.getAllByTestId('excerpt-sentence');
+
+		// Then: should not show leading "..."
+		expect(paragraphs[0].textContent).not.toMatch(/^\.\.\./);
+
+		// And: should still show trailing "..." since there are more sentences after
+		expect(paragraphs[paragraphs.length - 1].textContent).toMatch(/\.\.\.$/);
+	});
+
+	it('should not show trailing ellipsis when excerpt ends at the last sentence', () => {
+		// Given: an article where the snippet matches the last sentence
+		const fullText =
+			'Sentence one. Sentence two. Sentence three. Sentence four. Sentence five. Sentence six. Sentence seven. Sentence eight.';
+		const articleWithFullText: Article = {
+			...gleanerArticle,
+			snippet: 'Sentence eight.',
+			fullText
+		};
+		render(ArticleCard, { props: { article: articleWithFullText } });
+
+		// When: the component renders with snippet at the end (endIndex === sentences.length)
+		const paragraphs = screen.getAllByTestId('excerpt-sentence');
+
+		// Then: should show leading "..." since excerpt doesn't start at beginning
+		expect(paragraphs[0].textContent).toMatch(/^\.\.\./);
+
+		// And: should not show trailing "..."
+		expect(paragraphs[paragraphs.length - 1].textContent).not.toMatch(/\.\.\.$/);
+	});
+
+	it('should always show trailing ellipsis when there is no fullText', () => {
+		// Given: an article without fullText (snippet-only fallback)
+		const articleWithoutFullText: Article = {
+			...gleanerArticle,
+			snippet: 'Just a raw snippet with no full text.',
+			fullText: undefined
+		};
+		render(ArticleCard, { props: { article: articleWithoutFullText } });
+
+		// When: the component renders using the fallback path
+		const paragraphs = screen.getAllByTestId('excerpt-sentence');
+
+		// Then: should not show leading "..."
+		expect(paragraphs[0].textContent).not.toMatch(/^\.\.\./);
+
+		// And: should show trailing "..."
+		expect(paragraphs[0].textContent).toMatch(/\.\.\.$/);
+	});
+
 	it('should handle empty classifications array', () => {
 		// Given: an article with no classifications
 		const articleWithNoClassifications: Article = {

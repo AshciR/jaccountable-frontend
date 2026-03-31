@@ -48,6 +48,11 @@
 
 	type TextPart = { text: string; highlighted: boolean };
 	type FocusedSentence = { text: string; parts: TextPart[] };
+	type ExcerptResult = {
+		sentences: FocusedSentence[];
+		showLeading: boolean;
+		showTrailing: boolean;
+	};
 
 	/**
 	 * Extracts highlighted words from a snippet containing `<mark>` tags.
@@ -111,22 +116,18 @@
 	/**
 	 * Extracts 5 sentences from fullText centered around the snippet match.
 	 */
-	function extractFocusedSentences(
-		fullText: string | undefined,
-		snippet: string
-	): FocusedSentence[] {
+	function extractFocusedSentences(fullText: string | undefined, snippet: string): ExcerptResult {
 		const normalized = snippet.replace(/<b>/gi, '<mark>').replace(/<\/b>/gi, '</mark>');
 		const highlightWords = getHighlightedWords(normalized);
 		const snippetText = normalized.replace(/<\/?mark>/gi, '');
 
 		if (!fullText) {
-			// Fallback to snippet if no fullText
-			return [
-				{
-					text: snippetText,
-					parts: parseWithHighlights(snippetText, highlightWords)
-				}
-			];
+			// Fallback to snippet if no fullText — always show trailing ellipsis
+			return {
+				sentences: [{ text: snippetText, parts: parseWithHighlights(snippetText, highlightWords) }],
+				showLeading: false,
+				showTrailing: true
+			};
 		}
 
 		const sentences = splitIntoSentences(fullText);
@@ -148,13 +149,17 @@
 
 		const focusedSentences = sentences.slice(adjustedStart, endIndex);
 
-		return focusedSentences.map((sentence) => ({
-			text: sentence,
-			parts: parseWithHighlights(sentence, highlightWords)
-		}));
+		return {
+			sentences: focusedSentences.map((sentence) => ({
+				text: sentence,
+				parts: parseWithHighlights(sentence, highlightWords)
+			})),
+			showLeading: adjustedStart > 0,
+			showTrailing: endIndex < sentences.length
+		};
 	}
 
-	const focusedSentences = $derived(extractFocusedSentences(article.fullText, article.snippet));
+	const excerpt = $derived(extractFocusedSentences(article.fullText, article.snippet));
 </script>
 
 <Card.Root class="overflow-hidden shadow-sm transition-shadow duration-200 hover:shadow-md">
@@ -202,15 +207,14 @@
 		<div>
 			<h4 class="mb-1 text-sm font-semibold text-neutral-500">Excerpt</h4>
 			<div class="max-w-prose space-y-1 text-sm leading-relaxed text-muted-foreground">
-				{#each focusedSentences as sentence, index (index)}
-					<p>
-						{#each sentence.parts as part, index (index)}
-							{#if part.highlighted}
-								<span class="rounded bg-green-100 px-0.5">{part.text}</span>
-							{:else}
-								{part.text}
-							{/if}
-						{/each}
+				{#each excerpt.sentences as sentence, i (i)}
+					<!-- prettier-ignore: inline blocks are intentional — whitespace between them appears as visible text -->
+					<p data-testid="excerpt-sentence">
+						{#if i === 0 && excerpt.showLeading}...
+						{/if}{#each sentence.parts as part (part.text + part.highlighted)}{#if part.highlighted}<span
+									class="rounded bg-green-100 px-0.5">{part.text}</span
+								>{:else}{part.text}{/if}{/each}{#if i === excerpt.sentences.length - 1 && excerpt.showTrailing}
+							...{/if}
 					</p>
 				{/each}
 			</div>
