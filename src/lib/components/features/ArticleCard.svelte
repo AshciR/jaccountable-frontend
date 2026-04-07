@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import { Badge } from '$lib/components/ui/badge';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import type { Article } from '$lib/api/types';
 	import gleanerIcon from '$lib/assets/gleaner-article-card-icon.png';
 	import observerIcon from '$lib/assets/observer-article-card-icon.png';
@@ -11,7 +12,7 @@
 
 	const classification = $derived(article.classifications[0]);
 	const confidenceDisplay = $derived(
-		classification ? (classification.confidenceScore * 10).toFixed(1) : null
+		classification ? `${Math.round(classification.confidenceScore * 100)}%` : null
 	);
 
 	// Confidence pill styling - color ranges from yellow (0.7) to green (1.0)
@@ -186,11 +187,21 @@
 				</div>
 			</div>
 
-			<!-- Right: Confidence pill -->
+			<!-- Right: Certainty pill -->
 			{#if confidenceDisplay}
-				<span class={confidencePillClasses()}>
-					Confidence <strong class="ml-1">{confidenceDisplay}</strong>
-				</span>
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<span class={confidencePillClasses()}>
+							Certainty <strong class="ml-1">{confidenceDisplay}</strong>
+						</span>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>
+							How certain the AI is that this article belongs to this category. Scores above 80% are
+							considered high certainty.
+						</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
 			{/if}
 		</div>
 	</Card.Header>
