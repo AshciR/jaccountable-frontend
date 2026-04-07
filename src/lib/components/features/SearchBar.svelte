@@ -86,4 +86,10 @@
 	div :global(input) {
 		font-size: larger;
 	}
+
+	@media (max-width: 540px) {
+		div :global(input) {
+			font-size: medium;
+		}
+	}
 </style>

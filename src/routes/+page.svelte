@@ -7,7 +7,7 @@
 	import FAQSection from '$lib/components/features/FAQSection.svelte';
 	import ShareSection from '$lib/components/features/ShareSection.svelte';
 	import Footer from '$lib/components/features/Footer.svelte';
-	import type { Article, EntitySummary } from '$lib/api/types';
+	import type { Article, EntitySummary, EntitySortOrder } from '$lib/api/types';
 	import { searchArticles } from '$lib/api/articles';
 	import { fetchTopEntities } from '$lib/api/entities';
 
@@ -20,13 +20,17 @@
 		hasSearched: boolean;
 		query: string;
 		topics: EntitySummary[];
+		selectedTopic: string | null;
+		topicSort: EntitySortOrder;
 	} = $state({
 		results: [],
 		latestArticles: [],
 		isLoading: true,
 		hasSearched: false,
 		query: '',
-		topics: []
+		topics: [],
+		selectedTopic: null,
+		topicSort: 'most_found'
 	});
 
 	const displayedArticles: Article[] = $derived(
@@ -39,7 +43,7 @@
 	);
 	const remainingCount: number = $derived(searchState.results.length - MAX_PREVIEW_RESULTS);
 	const sectionLabel: string = $derived(
-		searchState.hasSearched ? searchState.query : 'Latest Stories'
+		searchState.hasSearched ? searchState.query : (searchState.selectedTopic ?? 'Latest Stories')
 	);
 	const noResults: boolean = $derived(searchState.hasSearched && searchState.results.length === 0);
 
@@ -58,7 +62,7 @@
 
 	async function fetchTopics(): Promise<void> {
 		try {
-			searchState.topics = await fetchTopEntities();
+			searchState.topics = await fetchTopEntities(searchState.topicSort);
 		} catch {
 			// Topics are non-critical; silently fail
 		}
@@ -71,6 +75,8 @@
 			return;
 		}
 
+		// Free-text search takes over from any topic selection
+		searchState.selectedTopic = null;
 		searchState.isLoading = true;
 		searchState.hasSearched = true;
 		searchState.query = query;
@@ -78,6 +84,38 @@
 			searchState.results = await searchArticles(query);
 		} finally {
 			searchState.isLoading = false;
+		}
+	}
+
+	async function handleTopicClick(name: string): Promise<void> {
+		// Clicking the already-selected topic deselects it, returning to latest stories
+		if (searchState.selectedTopic === name) {
+			searchState.selectedTopic = null;
+			searchState.hasSearched = false;
+			searchState.query = '';
+			return;
+		}
+
+		// Select the topic and search for articles mentioning it
+		searchState.selectedTopic = name;
+		searchState.isLoading = true;
+		searchState.hasSearched = true;
+		searchState.query = name;
+		try {
+			searchState.results = await searchArticles(name);
+		} finally {
+			searchState.isLoading = false;
+		}
+	}
+
+	async function handleSortChange(sort: EntitySortOrder): Promise<void> {
+		searchState.topicSort = sort;
+		// Clear selection since the topic list is changing
+		searchState.selectedTopic = null;
+		try {
+			searchState.topics = await fetchTopEntities(sort);
+		} catch {
+			// Topics are non-critical; silently fail
 		}
 	}
 </script>
@@ -92,8 +130,11 @@
 	{noResults}
 	isLoading={searchState.isLoading}
 	topics={searchState.topics}
+	selectedTopic={searchState.selectedTopic}
+	topicSort={searchState.topicSort}
 	onSearch={handleSearch}
-	onTopicClick={handleSearch}
+	onTopicClick={handleTopicClick}
+	onSortChange={handleSortChange}
 />
 <FeaturesSection />
 <FAQSection />

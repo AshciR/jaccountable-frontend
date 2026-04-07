@@ -30,5 +30,23 @@ export const mockEntities: EntitySummary[] = [
 		normalizedName: 'ministry_of_finance',
 		articleCount: 21,
 		lastSeenDate: '2025-11-20T08:30:00Z'
+	},
+	{
+		name: 'Office of the Contractor General',
+		normalizedName: 'office_of_the_contractor_general',
+		articleCount: 18,
+		lastSeenDate: '2025-11-19T11:00:00Z'
+	},
+	{
+		name: 'Tax Administration Jamaica',
+		normalizedName: 'tax_administration_jamaica',
+		articleCount: 14,
+		lastSeenDate: '2025-11-17T09:00:00Z'
+	},
+	{
+		name: 'National Water Commission',
+		normalizedName: 'national_water_commission',
+		articleCount: 11,
+		lastSeenDate: '2025-11-16T14:30:00Z'
 	}
 ];

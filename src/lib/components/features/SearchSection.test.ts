@@ -12,8 +12,11 @@ describe('SearchSection', () => {
 		noResults: false,
 		isLoading: false,
 		topics: [],
+		selectedTopic: null as string | null,
+		topicSort: 'most_found' as const,
 		onSearch: vi.fn(),
-		onTopicClick: vi.fn()
+		onTopicClick: vi.fn(),
+		onSortChange: vi.fn()
 	};
 
 	it('should render the section with correct id', () => {
