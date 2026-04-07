@@ -558,10 +558,10 @@
   resolved "https://registry.yarnpkg.com/@inquirer/type/-/type-3.0.10.tgz#11ed564ec78432a200ea2601a212d24af8150d50"
   integrity sha512-BvziSRxfz5Ov8ch0z/n3oijRSEcEsHnhggm4xFZe93DHcUCTlutlq9Ox4SVENAfcRD22UQq7T/atg9Wr3k09eA==
 
-"@internationalized/date@^3.10.0":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@internationalized/date/-/date-3.10.1.tgz#ca63817feadeffe97f710289b00af229cd8af15c"
-  integrity sha512-oJrXtQiAXLvT9clCf1K4kxp3eKsQhIaZqxEyowkBcsvZDdZkbWrVmnGknxs5flTD0VGsxrxKgBCZty1EzoiMzA==
+"@internationalized/date@^3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@internationalized/date/-/date-3.12.0.tgz#cdcd12adf36e1ccb05ec7b964f4857e7ec62137d"
+  integrity sha512-/PyIMzK29jtXaGU23qTvNZxvBXRtKbNnGDFD+PY6CZw/Y8Ex8pFUzkuCJCG9aOqmShjqhS9mPqP6Dk5onQY8rQ==
   dependencies:
     "@swc/helpers" "^0.5.0"
 
@@ -2246,10 +2246,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.3.0.tgz#f6e14a97858d327252200242d4ccfe522c445522"
   integrity sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==
 
-bits-ui@^2.14.4:
-  version "2.15.4"
-  resolved "https://registry.yarnpkg.com/bits-ui/-/bits-ui-2.15.4.tgz#89014d342679a6b2c6bd68e2a14043c4fee56f1a"
-  integrity sha512-7H9YUfp03KOk1LVDh8wPYSRPxlZgG/GRWLNSA8QC73/8Z8ytun+DWJhIuibyFyz7A0cP/RANVcB4iDrbY8q+Og==
+bits-ui@^2.16.3:
+  version "2.17.2"
+  resolved "https://registry.yarnpkg.com/bits-ui/-/bits-ui-2.17.2.tgz#9fb1afb49382df8035761b5e190d882987b8a844"
+  integrity sha512-Xbmrlf3ft/5RtMgUL/uam+rcrWYM4LoIGosklV34iSE6GGsPFWgaivzzX60rnWjWlG5F7ZuXXZ4iag949UekMA==
   dependencies:
     "@floating-ui/core" "^1.7.1"
     "@floating-ui/dom" "^1.7.1"

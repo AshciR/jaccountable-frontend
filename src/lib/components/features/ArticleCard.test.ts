@@ -53,11 +53,11 @@ function assertArticleCardContent(article: Article) {
 		expect(screen.getByText(classifierType)).toBeInTheDocument();
 	}
 
-	// Confidence score
+	// Certainty score
 	if (article.classifications.length > 0) {
-		const confidenceDisplay = (article.classifications[0].confidenceScore * 10).toFixed(1);
-		expect(screen.getByText(confidenceDisplay)).toBeInTheDocument();
-		expect(screen.getByText('Confidence')).toBeInTheDocument();
+		const certaintyDisplay = `${Math.round(article.classifications[0].confidenceScore * 100)}%`;
+		expect(screen.getByText(certaintyDisplay)).toBeInTheDocument();
+		expect(screen.getByText('Certainty')).toBeInTheDocument();
 	}
 
 	// Excerpt section label displayed
@@ -277,8 +277,8 @@ describe('ArticleCard', () => {
 
 		// When: the component renders
 
-		// Then: should not display confidence or category badge
-		expect(screen.queryByText('Confidence')).not.toBeInTheDocument();
+		// Then: should not display certainty or category badge
+		expect(screen.queryByText('Certainty')).not.toBeInTheDocument();
 		expect(screen.queryByText('corruption')).not.toBeInTheDocument();
 
 		// And: should still display other content
