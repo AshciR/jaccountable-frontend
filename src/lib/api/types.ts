@@ -38,6 +38,8 @@ export interface EntitySummary {
 	lastSeenDate: string;
 }
 
+export type EntitySortOrder = 'most_found' | 'latest';
+
 export interface EntityListResponse {
 	items: EntitySummary[];
 	total: number;

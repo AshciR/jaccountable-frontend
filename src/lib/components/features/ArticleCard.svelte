@@ -180,9 +180,19 @@
 						{formattedDate()}
 					</time>
 					{#if classification}
-						<Badge variant="destructive" class="mt-1 block w-fit capitalize">
-							{classification.classifierType.toLowerCase()}
-						</Badge>
+						<Tooltip.Root>
+							<Tooltip.Trigger class="mt-1 block w-fit">
+								<Badge variant="destructive" class="capitalize">
+									{classification.classifierType.toLowerCase()}
+								</Badge>
+							</Tooltip.Trigger>
+							<Tooltip.Content>
+								<p>
+									This label shows what kind of accountability issue our AI identified in this
+									article.
+								</p>
+							</Tooltip.Content>
+						</Tooltip.Root>
 					{/if}
 				</div>
 			</div>
@@ -222,7 +232,7 @@
 					<!-- prettier-ignore: inline blocks are intentional — whitespace between them appears as visible text -->
 					<p data-testid="excerpt-sentence">
 						{#if i === 0 && excerpt.showLeading}...
-						{/if}{#each sentence.parts as part (part.text + part.highlighted)}{#if part.highlighted}<span
+						{/if}{#each sentence.parts as part, partIndex (partIndex)}{#if part.highlighted}<span
 									class="rounded bg-green-100 px-0.5">{part.text}</span
 								>{:else}{part.text}{/if}{/each}{#if i === excerpt.sentences.length - 1 && excerpt.showTrailing}
 							...{/if}
@@ -235,7 +245,7 @@
 		{#if classification?.reasoning}
 			<div class="border-l-4 border-amber-400 bg-amber-50 pl-3 py-2 text-sm">
 				<h4 class="mb-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
-					Why flagged
+					Why this caught our attention
 				</h4>
 				<p class="text-muted-foreground">{classification.reasoning}</p>
 			</div>

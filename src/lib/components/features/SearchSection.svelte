@@ -4,7 +4,7 @@
 	import TopicsBar from './TopicsBar.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import type { Article, EntitySummary } from '$lib/api/types';
+	import type { Article, EntitySummary, EntitySortOrder } from '$lib/api/types';
 
 	let {
 		displayedArticles,
@@ -14,8 +14,11 @@
 		noResults,
 		isLoading,
 		topics,
+		selectedTopic,
+		topicSort,
 		onSearch,
-		onTopicClick
+		onTopicClick,
+		onSortChange
 	}: {
 		displayedArticles: Article[];
 		hasMoreResults: boolean;
@@ -24,8 +27,11 @@
 		noResults: boolean;
 		isLoading: boolean;
 		topics: EntitySummary[];
+		selectedTopic: string | null;
+		topicSort: EntitySortOrder;
 		onSearch: (query: string) => void;
 		onTopicClick: (name: string) => void;
+		onSortChange: (sort: EntitySortOrder) => void;
 	} = $props();
 </script>
 
@@ -34,7 +40,7 @@
 		<div class="max-w-3xl mx-auto">
 			<SearchBar placeholder="Search articles — try a name, place, or topic…" {onSearch} />
 			{#if topics.length > 0}
-				<TopicsBar {topics} {onTopicClick} />
+				<TopicsBar {topics} {selectedTopic} {topicSort} {onTopicClick} {onSortChange} />
 			{/if}
 		</div>
 
