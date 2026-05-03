@@ -61,7 +61,7 @@ describe('TopicsBar', () => {
 		expect(badges).toHaveLength(0);
 	});
 
-	it('should render Trending and Recent toggle labels', () => {
+	it('should render Most Mentioned and Recent toggle labels', () => {
 		// Given: the component renders
 		render(TopicsBar, { props: defaultProps });
 
@@ -69,18 +69,18 @@ describe('TopicsBar', () => {
 
 		// Then: should display the Topics prefix and both sort toggle labels
 		expect(screen.getByText('Topics:')).toBeInTheDocument();
-		expect(screen.getByText('Trending')).toBeInTheDocument();
+		expect(screen.getByText('Most Mentioned')).toBeInTheDocument();
 		expect(screen.getByText('Recent')).toBeInTheDocument();
 	});
 
-	it('should highlight Trending label when topicSort is most_found', () => {
+	it('should highlight Most Mentioned label when topicSort is most_found', () => {
 		// Given: the sort is set to most_found
 		render(TopicsBar, { props: { ...defaultProps, topicSort: 'most_found' as const } });
 
 		// When: the page loads
 
-		// Then: Trending should have active styling
-		const trendingButton = screen.getByText('Trending');
+		// Then: Most Mentioned should have active styling
+		const trendingButton = screen.getByText('Most Mentioned');
 		expect(trendingButton.className).toContain('font-bold');
 		expect(trendingButton.className).toContain('text-green-600');
 	});
@@ -116,8 +116,8 @@ describe('TopicsBar', () => {
 			props: { ...defaultProps, topicSort: 'latest' as const, onSortChange }
 		});
 
-		// When: user clicks the Trending toggle
-		await fireEvent.click(screen.getByText('Trending'));
+		// When: user clicks the Most Mentioned toggle
+		await fireEvent.click(screen.getByText('Most Mentioned'));
 
 		// Then: should call onSortChange with 'most_found'
 		expect(onSortChange).toHaveBeenCalledWith('most_found');

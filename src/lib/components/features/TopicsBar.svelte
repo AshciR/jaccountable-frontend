@@ -26,7 +26,7 @@
 			: 'cursor-pointer text-muted-foreground hover:text-green-600'}
 		onclick={() => onSortChange('most_found')}
 	>
-		Trending
+		Most Mentioned
 	</button>
 	<span class="text-muted-foreground">·</span>
 	<button
