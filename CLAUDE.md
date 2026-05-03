@@ -10,6 +10,10 @@ An accountability app frontend built with SvelteKit.
 - **Linting**: ESLint 9 + Prettier
 - **Adapter**: adapter-auto (auto-detects deployment platform)
 
+## API Types
+
+All API-related types and interfaces live in `src/lib/api/types.ts`. When adding new types for API requests, responses, or parameters, always add them there.
+
 ## Environment Variables
 
 Whenever a new `PUBLIC_*` env var is added, **also add it to the `env` block in `.github/workflows/ci-cd.yml`** with a fake/placeholder value so the CI build does not fail.
@@ -20,7 +24,7 @@ Whenever a new `PUBLIC_*` env var is added, **also add it to the `env` block in 
 yarn dev        # Start dev server
 yarn build      # Production build
 yarn preview    # Preview production build
-yarn check      # Type check
+yarn run check  # Type check
 yarn lint       # Lint and format check
 yarn format     # Format code with Prettier
 ```

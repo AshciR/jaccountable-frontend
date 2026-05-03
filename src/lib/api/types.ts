@@ -40,6 +40,16 @@ export interface EntitySummary {
 
 export type EntitySortOrder = 'most_found' | 'latest';
 
+export type ArticleSortOrder = 'asc' | 'desc';
+export type ArticleSortBy = 'published_date' | 'title' | 'relevance';
+
+export interface SearchOptions {
+	query?: string;
+	sortOrder?: ArticleSortOrder;
+	sortBy?: ArticleSortBy;
+	pageSize?: number;
+}
+
 export interface EntityListResponse {
 	items: EntitySummary[];
 	total: number;

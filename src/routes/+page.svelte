@@ -81,7 +81,7 @@
 		searchState.hasSearched = true;
 		searchState.query = query;
 		try {
-			searchState.results = await searchArticles(query);
+			searchState.results = await searchArticles({ query });
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -102,7 +102,7 @@
 		searchState.hasSearched = true;
 		searchState.query = name;
 		try {
-			searchState.results = await searchArticles(name);
+			searchState.results = await searchArticles({ query: name });
 		} finally {
 			searchState.isLoading = false;
 		}
