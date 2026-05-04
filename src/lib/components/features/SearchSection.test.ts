@@ -11,12 +11,14 @@ describe('SearchSection', () => {
 		sectionLabel: 'Latest Stories',
 		noResults: false,
 		isLoading: false,
+		isLoadingMore: false,
 		topics: [],
 		selectedTopic: null as string | null,
 		topicSort: 'most_found' as const,
 		onSearch: vi.fn(),
 		onTopicClick: vi.fn(),
-		onSortChange: vi.fn()
+		onSortChange: vi.fn(),
+		onLoadMore: vi.fn()
 	};
 
 	it('should render the section with correct id', () => {
@@ -80,22 +82,63 @@ describe('SearchSection', () => {
 		).toBeInTheDocument();
 	});
 
-	it('should display "more results" message when hasMoreResults is true', () => {
+	it('should display the Load More button when hasMoreResults is true', () => {
 		// Given: there are more results than displayed
 		render(SearchSection, {
 			props: {
 				...defaultProps,
-				displayedArticles: mockArticles.slice(0, 3),
+				displayedArticles: mockArticles.slice(0, 5),
 				hasMoreResults: true,
-				remainingCount: 1,
+				remainingCount: 7,
 				sectionLabel: 'CMU'
 			}
 		});
 
 		// When: the page loads
 
-		// Then: should show the remaining count
-		expect(screen.getByText('1 more result available')).toBeInTheDocument();
+		// Then: should show the Load More button with remaining count
+		expect(screen.getByRole('button', { name: /load more \(7 remaining\)/i })).toBeInTheDocument();
+	});
+
+	it('should call onLoadMore when the Load More button is clicked', async () => {
+		// Given: the Load More button is visible
+		const onLoadMore = vi.fn();
+		render(SearchSection, {
+			props: {
+				...defaultProps,
+				displayedArticles: mockArticles.slice(0, 5),
+				hasMoreResults: true,
+				remainingCount: 7,
+				sectionLabel: 'CMU',
+				onLoadMore
+			}
+		});
+
+		// When: user clicks Load More
+		await fireEvent.click(screen.getByRole('button', { name: /load more/i }));
+
+		// Then: should call onLoadMore
+		expect(onLoadMore).toHaveBeenCalledOnce();
+	});
+
+	it('should show loading state in the Load More button when isLoadingMore is true', () => {
+		// Given: a Load More operation is in progress
+		render(SearchSection, {
+			props: {
+				...defaultProps,
+				displayedArticles: mockArticles.slice(0, 5),
+				hasMoreResults: true,
+				remainingCount: 7,
+				sectionLabel: 'CMU',
+				isLoadingMore: true
+			}
+		});
+
+		// When: the page loads
+
+		// Then: the Load More button should be disabled and show loading text
+		const button = screen.getByRole('button', { name: /loading/i });
+		expect(button).toBeDisabled();
 	});
 
 	it('should display no results message when noResults is true', () => {
