@@ -48,6 +48,7 @@ export interface SearchOptions {
 	sortOrder?: ArticleSortOrder;
 	sortBy?: ArticleSortBy;
 	pageSize?: number;
+	page?: number;
 }
 
 export interface EntityListResponse {

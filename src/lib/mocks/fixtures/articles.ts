@@ -161,5 +161,53 @@ The Office of the Contractor General confirmed that preliminary findings warrant
 The Cabinet Office declined to comment on ongoing investigations but reiterated its commitment to transparent procurement.
 Two senior ministry officials have been placed on administrative leave pending the outcome of the review.
 The investigation is expected to take up to six months, with an interim report due in the spring.`
+	},
+	{
+		id: 'b3c8d5f7-l9g0-08k1-b483-113322117778',
+		url: 'https://jamaica-observer.com/article/news/20251118/parliament-debates-whistleblower-protection-bill',
+		title: 'Parliament Debates Whistleblower Protection Bill',
+		section: 'news',
+		newsSource: 'JAMAICA_OBSERVER',
+		publishedDate: '2025-11-18T09:00:00Z',
+		snippet:
+			'Members of parliament engaged in heated debate over the proposed <mark>Whistleblower Protection Bill</mark>, with opposition members calling for stronger safeguards.',
+		entities: ['Parliament', 'Ministry of Justice', 'Opposition Leader'],
+		classifications: [{ classifierType: 'GOVERNANCE', confidenceScore: 0.82 }]
+	},
+	{
+		id: 'c4d9e6a8-m0h1-19l2-c594-224433228889',
+		url: 'https://jamaica-gleaner.com/article/news/20251116/national-water-commission-audit-reveals-billing-fraud',
+		title: 'NWC Audit Reveals Systematic Billing Fraud',
+		section: 'news',
+		newsSource: 'JAMAICA_GLEANER',
+		publishedDate: '2025-11-16T11:30:00Z',
+		snippet:
+			'An internal audit at the <mark>National Water Commission</mark> has uncovered evidence of systematic billing fraud affecting thousands of customers across Kingston.',
+		entities: ['National Water Commission', 'NWC', 'Auditor General', 'Ministry of Water'],
+		classifications: [{ classifierType: 'CORRUPTION', confidenceScore: 0.89 }]
+	},
+	{
+		id: 'd5e0f7b9-n1i2-20m3-d605-335544339990',
+		url: 'https://jamaica-observer.com/article/news/20251114/supreme-court-orders-release-of-cabinet-minutes',
+		title: 'Supreme Court Orders Release of Cabinet Minutes',
+		section: 'news',
+		newsSource: 'JAMAICA_OBSERVER',
+		publishedDate: '2025-11-14T14:00:00Z',
+		snippet:
+			'In a landmark ruling, the <mark>Supreme Court</mark> has ordered the government to release cabinet minutes related to a controversial land divestment deal.',
+		entities: ['Supreme Court', 'Cabinet Office', 'Ministry of Finance', 'Land Authority'],
+		classifications: [{ classifierType: 'GOVERNANCE', confidenceScore: 0.84 }]
+	},
+	{
+		id: 'e6f1a8c0-o2j3-31n4-e716-446655440001',
+		url: 'https://jamaica-gleaner.com/article/news/20251112/tax-administration-officers-charged-with-bribery',
+		title: 'Tax Administration Officers Charged with Bribery',
+		section: 'news',
+		newsSource: 'JAMAICA_GLEANER',
+		publishedDate: '2025-11-12T08:15:00Z',
+		snippet:
+			'Four officers from the <mark>Tax Administration Jamaica</mark> have been charged with accepting bribes in exchange for reduced tax assessments.',
+		entities: ['Tax Administration Jamaica', 'TAJ', 'Financial Investigations Division', 'DPP'],
+		classifications: [{ classifierType: 'CORRUPTION', confidenceScore: 0.95 }]
 	}
 ];

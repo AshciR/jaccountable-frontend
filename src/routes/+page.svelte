@@ -11,37 +11,35 @@
 	import { searchArticles } from '$lib/api/articles';
 	import { fetchTopEntities } from '$lib/api/entities';
 
-	const MAX_PREVIEW_RESULTS: number = 3;
-
 	let searchState: {
 		results: Article[];
-		latestArticles: Article[];
 		isLoading: boolean;
+		isLoadingMore: boolean;
 		hasSearched: boolean;
 		query: string;
 		topics: EntitySummary[];
 		selectedTopic: string | null;
 		topicSort: EntitySortOrder;
+		currentPage: number;
+		totalPages: number;
+		total: number;
 	} = $state({
 		results: [],
-		latestArticles: [],
 		isLoading: true,
+		isLoadingMore: false,
 		hasSearched: false,
 		query: '',
 		topics: [],
 		selectedTopic: null,
-		topicSort: 'most_found'
+		topicSort: 'most_found',
+		currentPage: 1,
+		totalPages: 1,
+		total: 0
 	});
 
-	const displayedArticles: Article[] = $derived(
-		searchState.hasSearched
-			? searchState.results.slice(0, MAX_PREVIEW_RESULTS)
-			: searchState.latestArticles
-	);
-	const hasMoreResults: boolean = $derived(
-		searchState.hasSearched && searchState.results.length > MAX_PREVIEW_RESULTS
-	);
-	const remainingCount: number = $derived(searchState.results.length - MAX_PREVIEW_RESULTS);
+	const displayedArticles: Article[] = $derived(searchState.results);
+	const hasMoreResults: boolean = $derived(searchState.currentPage < searchState.totalPages);
+	const remainingCount: number = $derived(searchState.total - searchState.results.length);
 	const sectionLabel: string = $derived(
 		searchState.hasSearched ? searchState.query : (searchState.selectedTopic ?? 'Latest Stories')
 	);
@@ -54,7 +52,11 @@
 
 	async function fetchLatestStories(): Promise<void> {
 		try {
-			searchState.latestArticles = await searchArticles();
+			const data = await searchArticles();
+			searchState.results = data.items;
+			searchState.currentPage = data.page;
+			searchState.totalPages = data.pages;
+			searchState.total = data.total;
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -72,6 +74,8 @@
 		if (!query.trim()) {
 			searchState.hasSearched = false;
 			searchState.query = '';
+			searchState.isLoading = true;
+			await fetchLatestStories();
 			return;
 		}
 
@@ -81,7 +85,11 @@
 		searchState.hasSearched = true;
 		searchState.query = query;
 		try {
-			searchState.results = await searchArticles({ query });
+			const data = await searchArticles({ query });
+			searchState.results = data.items;
+			searchState.currentPage = data.page;
+			searchState.totalPages = data.pages;
+			searchState.total = data.total;
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -93,6 +101,8 @@
 			searchState.selectedTopic = null;
 			searchState.hasSearched = false;
 			searchState.query = '';
+			searchState.isLoading = true;
+			await fetchLatestStories();
 			return;
 		}
 
@@ -102,7 +112,11 @@
 		searchState.hasSearched = true;
 		searchState.query = name;
 		try {
-			searchState.results = await searchArticles({ query: name });
+			const data = await searchArticles({ query: name });
+			searchState.results = data.items;
+			searchState.currentPage = data.page;
+			searchState.totalPages = data.pages;
+			searchState.total = data.total;
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -118,6 +132,22 @@
 			// Topics are non-critical; silently fail
 		}
 	}
+
+	async function handleLoadMore(): Promise<void> {
+		searchState.isLoadingMore = true;
+		try {
+			const data = await searchArticles({
+				...(searchState.hasSearched ? { query: searchState.query } : {}),
+				page: searchState.currentPage + 1
+			});
+			searchState.results = [...searchState.results, ...data.items];
+			searchState.currentPage = data.page;
+			searchState.totalPages = data.pages;
+			searchState.total = data.total;
+		} finally {
+			searchState.isLoadingMore = false;
+		}
+	}
 </script>
 
 <HeroSection />
@@ -129,12 +159,14 @@
 	{sectionLabel}
 	{noResults}
 	isLoading={searchState.isLoading}
+	isLoadingMore={searchState.isLoadingMore}
 	topics={searchState.topics}
 	selectedTopic={searchState.selectedTopic}
 	topicSort={searchState.topicSort}
 	onSearch={handleSearch}
 	onTopicClick={handleTopicClick}
 	onSortChange={handleSortChange}
+	onLoadMore={handleLoadMore}
 />
 <FeaturesSection />
 <FAQSection />

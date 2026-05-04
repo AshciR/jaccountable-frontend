@@ -13,12 +13,14 @@
 		sectionLabel,
 		noResults,
 		isLoading,
+		isLoadingMore,
 		topics,
 		selectedTopic,
 		topicSort,
 		onSearch,
 		onTopicClick,
-		onSortChange
+		onSortChange,
+		onLoadMore
 	}: {
 		displayedArticles: Article[];
 		hasMoreResults: boolean;
@@ -26,12 +28,14 @@
 		sectionLabel: string;
 		noResults: boolean;
 		isLoading: boolean;
+		isLoadingMore: boolean;
 		topics: EntitySummary[];
 		selectedTopic: string | null;
 		topicSort: EntitySortOrder;
 		onSearch: (query: string) => void;
 		onTopicClick: (name: string) => void;
 		onSortChange: (sort: EntitySortOrder) => void;
+		onLoadMore: () => void;
 	} = $props();
 </script>
 
@@ -76,9 +80,18 @@
 					{/key}
 					{#if hasMoreResults}
 						<div class="mt-6 text-center">
-							<p class="text-neutral-600 mb-2">
-								{remainingCount} more result{remainingCount === 1 ? '' : 's'} available
-							</p>
+							<button
+								onclick={onLoadMore}
+								disabled={isLoadingMore}
+								class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-muted-foreground text-sm font-medium text-muted-foreground hover:bg-green-400 hover:text-accent-foreground hover:border-transparent disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+							>
+								{#if isLoadingMore}
+									<Spinner class="size-4 text-accent" />
+									Loading…
+								{:else}
+									Load More ({remainingCount} remaining)
+								{/if}
+							</button>
 						</div>
 					{/if}
 				{/if}
