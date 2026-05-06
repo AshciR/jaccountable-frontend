@@ -3,7 +3,7 @@ import type { EntityListResponse } from '$lib/api/types';
 import { mockEntities } from '../fixtures/entities';
 
 export const entityHandlers = [
-	http.get<never, never, EntityListResponse>('/api/v1/entities', async ({ request }) => {
+	http.get<never, never, EntityListResponse>('*/api/v1/entities', async ({ request }) => {
 		const url = new URL(request.url);
 		const sort = url.searchParams.get('sort') || 'latest';
 		const pageSize = parseInt(url.searchParams.get('page_size') || '20', 10);

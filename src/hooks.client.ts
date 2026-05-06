@@ -23,7 +23,7 @@ async function initMocks(environment: string) {
 	if (isDev && !useRealApi) {
 		const { worker } = await import('$lib/mocks/browser');
 		await worker.start({ onUnhandledRequest: 'bypass' });
-		console.log('Mock APIs initialized');
+		console.log('Mock APIs initialized [service worker]');
 	}
 }
 
