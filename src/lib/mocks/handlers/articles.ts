@@ -3,7 +3,7 @@ import type { ArticleSearchResponse } from '$lib/api/types';
 import { mockArticles } from '../fixtures/articles';
 
 export const articleHandlers = [
-	http.get<never, never, ArticleSearchResponse>('/api/v1/articles', async ({ request }) => {
+	http.get<never, never, ArticleSearchResponse>('*/api/v1/articles', async ({ request }) => {
 		const url = new URL(request.url);
 		const q = url.searchParams.get('q');
 		const entity = url.searchParams.get('entity');

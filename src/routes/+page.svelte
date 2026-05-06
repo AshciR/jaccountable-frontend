@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import HeroSection from '$lib/components/features/HeroSection.svelte';
 	import ChallengeSection from '$lib/components/features/ChallengeSection.svelte';
 	import SearchSection from '$lib/components/features/SearchSection.svelte';
@@ -7,9 +6,21 @@
 	import FAQSection from '$lib/components/features/FAQSection.svelte';
 	import ShareSection from '$lib/components/features/ShareSection.svelte';
 	import Footer from '$lib/components/features/Footer.svelte';
+	import { untrack } from 'svelte';
 	import type { Article, EntitySummary, EntitySortOrder } from '$lib/api/types';
+	import type { PageData } from './$types';
 	import { searchArticles } from '$lib/api/articles';
 	import { fetchTopEntities } from '$lib/api/entities';
+
+	let { data }: { data: PageData } = $props();
+
+	const {
+		latestArticles,
+		latestPage,
+		latestTotalPages,
+		latestTotal,
+		topics: initialTopics
+	} = untrack(() => data);
 
 	let searchState: {
 		results: Article[];
@@ -24,17 +35,17 @@
 		totalPages: number;
 		total: number;
 	} = $state({
-		results: [],
-		isLoading: true,
+		results: latestArticles,
+		isLoading: false,
 		isLoadingMore: false,
 		hasSearched: false,
 		query: '',
-		topics: [],
+		topics: initialTopics,
 		selectedTopic: null,
 		topicSort: 'most_found',
-		currentPage: 1,
-		totalPages: 1,
-		total: 0
+		currentPage: latestPage,
+		totalPages: latestTotalPages,
+		total: latestTotal
 	});
 
 	const displayedArticles: Article[] = $derived(searchState.results);
@@ -45,37 +56,14 @@
 	);
 	const noResults: boolean = $derived(searchState.hasSearched && searchState.results.length === 0);
 
-	onMount(() => {
-		fetchLatestStories();
-		fetchTopics();
-	});
-
-	async function fetchLatestStories(): Promise<void> {
-		try {
-			const data = await searchArticles();
-			searchState.results = data.items;
-			searchState.currentPage = data.page;
-			searchState.totalPages = data.pages;
-			searchState.total = data.total;
-		} finally {
-			searchState.isLoading = false;
-		}
-	}
-
-	async function fetchTopics(): Promise<void> {
-		try {
-			searchState.topics = await fetchTopEntities(searchState.topicSort);
-		} catch {
-			// Topics are non-critical; silently fail
-		}
-	}
-
 	async function handleSearch(query: string): Promise<void> {
 		if (!query.trim()) {
 			searchState.hasSearched = false;
 			searchState.query = '';
-			searchState.isLoading = true;
-			await fetchLatestStories();
+			searchState.results = latestArticles;
+			searchState.currentPage = latestPage;
+			searchState.totalPages = latestTotalPages;
+			searchState.total = latestTotal;
 			return;
 		}
 
@@ -85,11 +73,11 @@
 		searchState.hasSearched = true;
 		searchState.query = query;
 		try {
-			const data = await searchArticles({ query });
-			searchState.results = data.items;
-			searchState.currentPage = data.page;
-			searchState.totalPages = data.pages;
-			searchState.total = data.total;
+			const result = await searchArticles({ query });
+			searchState.results = result.items;
+			searchState.currentPage = result.page;
+			searchState.totalPages = result.pages;
+			searchState.total = result.total;
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -101,8 +89,10 @@
 			searchState.selectedTopic = null;
 			searchState.hasSearched = false;
 			searchState.query = '';
-			searchState.isLoading = true;
-			await fetchLatestStories();
+			searchState.results = latestArticles;
+			searchState.currentPage = latestPage;
+			searchState.totalPages = latestTotalPages;
+			searchState.total = latestTotal;
 			return;
 		}
 
@@ -112,11 +102,11 @@
 		searchState.hasSearched = true;
 		searchState.query = name;
 		try {
-			const data = await searchArticles({ query: name });
-			searchState.results = data.items;
-			searchState.currentPage = data.page;
-			searchState.totalPages = data.pages;
-			searchState.total = data.total;
+			const result = await searchArticles({ query: name });
+			searchState.results = result.items;
+			searchState.currentPage = result.page;
+			searchState.totalPages = result.pages;
+			searchState.total = result.total;
 		} finally {
 			searchState.isLoading = false;
 		}
@@ -136,14 +126,14 @@
 	async function handleLoadMore(): Promise<void> {
 		searchState.isLoadingMore = true;
 		try {
-			const data = await searchArticles({
+			const result = await searchArticles({
 				...(searchState.hasSearched ? { query: searchState.query } : {}),
 				page: searchState.currentPage + 1
 			});
-			searchState.results = [...searchState.results, ...data.items];
-			searchState.currentPage = data.page;
-			searchState.totalPages = data.pages;
-			searchState.total = data.total;
+			searchState.results = [...searchState.results, ...result.items];
+			searchState.currentPage = result.page;
+			searchState.totalPages = result.pages;
+			searchState.total = result.total;
 		} finally {
 			searchState.isLoadingMore = false;
 		}
