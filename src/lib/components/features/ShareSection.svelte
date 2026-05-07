@@ -110,7 +110,6 @@
 			<button
 				onclick={handleCopyToClipboard}
 				class="group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
-				aria-label="Copy URL to clipboard"
 			>
 				<div
 					class="relative w-12 h-12 flex items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors"
@@ -137,7 +136,6 @@
 			<button
 				onclick={handleFeedbackClick}
 				class="group relative flex flex-col items-center gap-3 px-8 py-4 rounded-lg bg-surface border border-neutral-200 hover:border-secondary hover:shadow-md transition-all duration-200"
-				aria-label="Open feedback form"
 			>
 				<div
 					class="relative w-12 h-12 flex items-center justify-center rounded-full bg-secondary/15 group-hover:bg-secondary/20 transition-colors"

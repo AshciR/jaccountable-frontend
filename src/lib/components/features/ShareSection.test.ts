@@ -88,7 +88,7 @@ describe('ShareSection', () => {
 		expect(screen.getByLabelText('Share on WhatsApp')).toBeInTheDocument();
 		expect(screen.getByLabelText('Share on Twitter')).toBeInTheDocument();
 		expect(screen.getByLabelText('Bookmark this page')).toBeInTheDocument();
-		expect(screen.getByLabelText('Copy URL to clipboard')).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: 'Share' })).toBeInTheDocument();
 	});
 
 	// WhatsApp share functionality
@@ -211,7 +211,7 @@ describe('ShareSection', () => {
 		render(ShareSection);
 
 		// When: user clicks the share button
-		const shareButton = screen.getByLabelText('Copy URL to clipboard');
+		const shareButton = screen.getByRole('button', { name: 'Share' });
 		fireEvent.click(shareButton);
 
 		// Then: should copy URL to clipboard
@@ -225,7 +225,7 @@ describe('ShareSection', () => {
 		render(ShareSection);
 
 		// When: user clicks the copy URL button
-		const shareButton = screen.getByLabelText('Copy URL to clipboard');
+		const shareButton = screen.getByRole('button', { name: 'Share' });
 		fireEvent.click(shareButton);
 
 		// Then: should track the event
@@ -242,7 +242,7 @@ describe('ShareSection', () => {
 		render(ShareSection);
 
 		// When: user clicks the share button
-		const shareButton = screen.getByLabelText('Copy URL to clipboard');
+		const shareButton = screen.getByRole('button', { name: 'Share' });
 		fireEvent.click(shareButton);
 
 		// Then: should show "URL Copied!" confirmation
@@ -255,7 +255,7 @@ describe('ShareSection', () => {
 		// Given: the share section component renders with copied state active
 		vi.useFakeTimers();
 		render(ShareSection);
-		const shareButton = screen.getByLabelText('Copy URL to clipboard');
+		const shareButton = screen.getByRole('button', { name: 'Share' });
 		fireEvent.click(shareButton);
 
 		// When: 2 seconds pass
@@ -286,7 +286,7 @@ describe('ShareSection', () => {
 		render(ShareSection);
 
 		// When: user clicks the share button
-		const shareButton = screen.getByLabelText('Copy URL to clipboard');
+		const shareButton = screen.getByRole('button', { name: 'Share' });
 		fireEvent.click(shareButton);
 
 		// Then: should log error and not show copied state
@@ -305,8 +305,8 @@ describe('ShareSection', () => {
 
 		// When: the page loads
 
-		// Then: should display the feedback button
-		expect(screen.getByLabelText('Open feedback form')).toBeInTheDocument();
+		// Then: should display the feedback button with correct label
+		expect(screen.getByRole('button', { name: 'Tell us what you think' })).toBeInTheDocument();
 	});
 
 	it('should display "Tell us what you think" label on the button', () => {
@@ -324,7 +324,7 @@ describe('ShareSection', () => {
 		render(ShareSection);
 
 		// When: user clicks the feedback button
-		const feedbackButton = screen.getByLabelText('Open feedback form');
+		const feedbackButton = screen.getByRole('button', { name: 'Tell us what you think' });
 		fireEvent.click(feedbackButton);
 
 		// Then: should open the Google Form with correct parameters
@@ -340,7 +340,7 @@ describe('ShareSection', () => {
 		render(ShareSection);
 
 		// When: user clicks the feedback button
-		const feedbackButton = screen.getByLabelText('Open feedback form');
+		const feedbackButton = screen.getByRole('button', { name: 'Tell us what you think' });
 		fireEvent.click(feedbackButton);
 
 		// Then: should track the event

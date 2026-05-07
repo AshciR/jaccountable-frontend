@@ -22,7 +22,7 @@
 	--secondary-foreground: #1a1a1a;
 	--muted: #faf8f2; /* neutral-100 */
 	--muted-foreground: #6b6b6b; /* neutral-500 */
-	--accent: #009b3a; /* green-500 */
+	--accent: #007a2f; /* green-600 — darkened for WCAG 4.5:1 contrast */
 	--accent-foreground: #ffffff;
 	--accent-hover: #007a2f; /* green-600 */
 	--destructive: #d32f2f;
