@@ -20,6 +20,11 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>JAccountable — Jamaica Government Accountability Tracker</title>
+	<meta
+		name="description"
+		content="Track government accountability and corruption stories in Jamaica. JAccountable monitors Jamaican news sources to archive and surface political accountability journalism."
+	/>
 </svelte:head>
 
 <Tooltip.Provider>

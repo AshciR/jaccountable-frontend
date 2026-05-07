@@ -140,25 +140,27 @@
 	}
 </script>
 
-<HeroSection />
-<ChallengeSection />
-<SearchSection
-	{displayedArticles}
-	{hasMoreResults}
-	{remainingCount}
-	{sectionLabel}
-	{noResults}
-	isLoading={searchState.isLoading}
-	isLoadingMore={searchState.isLoadingMore}
-	topics={searchState.topics}
-	selectedTopic={searchState.selectedTopic}
-	topicSort={searchState.topicSort}
-	onSearch={handleSearch}
-	onTopicClick={handleTopicClick}
-	onSortChange={handleSortChange}
-	onLoadMore={handleLoadMore}
-/>
-<FeaturesSection />
-<FAQSection />
-<ShareSection />
-<Footer />
+<main>
+	<HeroSection />
+	<ChallengeSection />
+	<SearchSection
+		{displayedArticles}
+		{hasMoreResults}
+		{remainingCount}
+		{sectionLabel}
+		{noResults}
+		isLoading={searchState.isLoading}
+		isLoadingMore={searchState.isLoadingMore}
+		topics={searchState.topics}
+		selectedTopic={searchState.selectedTopic}
+		topicSort={searchState.topicSort}
+		onSearch={handleSearch}
+		onTopicClick={handleTopicClick}
+		onSortChange={handleSortChange}
+		onLoadMore={handleLoadMore}
+	/>
+	<FeaturesSection />
+	<FAQSection />
+	<ShareSection />
+	<Footer />
+</main>
