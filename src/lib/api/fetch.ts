@@ -1,4 +1,6 @@
-import { PUBLIC_API_BASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
+const { PUBLIC_API_BASE_URL } = env;
 import { getDistinctId, isInternalUser } from '$lib/utils/analytics';
 
 export function apiFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {

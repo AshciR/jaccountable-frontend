@@ -1,6 +1,8 @@
 import type { PageServerLoad } from './$types';
 import type { Article, EntitySummary } from '$lib/api/types';
-import { PUBLIC_API_BASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
+const { PUBLIC_API_BASE_URL } = env;
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	const base = PUBLIC_API_BASE_URL ?? '';

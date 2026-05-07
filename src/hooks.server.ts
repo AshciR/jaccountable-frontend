@@ -1,5 +1,7 @@
 import { dev } from '$app/environment';
-import { PUBLIC_USE_REAL_API } from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
+const { PUBLIC_USE_REAL_API } = env;
 
 const mockMode = dev && PUBLIC_USE_REAL_API !== 'true';
 

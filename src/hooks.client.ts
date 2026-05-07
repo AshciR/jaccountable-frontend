@@ -1,17 +1,13 @@
 import * as Sentry from '@sentry/sveltekit';
 import posthog from 'posthog-js';
-import {
-	PUBLIC_POSTHOG_API_HOST,
-	PUBLIC_POSTHOG_KEY,
-	PUBLIC_SENTRY_DSN,
-	PUBLIC_USE_REAL_API
-} from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
+const { PUBLIC_POSTHOG_API_HOST, PUBLIC_POSTHOG_KEY, PUBLIC_SENTRY_DSN, PUBLIC_USE_REAL_API } = env;
 import type { ClientInit } from '@sveltejs/kit';
 
 export const init: ClientInit = async () => {
 	const environment = getEnvironment().toLowerCase();
 	console.log('Environment:', environment);
-
 	await initMocks(environment);
 	initializePostHog();
 	initializeSentry(environment);

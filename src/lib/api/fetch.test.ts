@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+vi.mock('$env/dynamic/public', () => ({
+	env: { PUBLIC_API_BASE_URL: '' }
+}));
+
 vi.mock('$lib/utils/analytics', () => ({
 	getDistinctId: vi.fn(),
 	isInternalUser: vi.fn()
