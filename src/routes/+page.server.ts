@@ -1,11 +1,16 @@
 import type { PageServerLoad } from './$types';
 import type { Article, EntitySummary } from '$lib/api/types';
-import { env } from '$env/dynamic/public';
-
-const { PUBLIC_API_BASE_URL } = env;
+import { env as privateEnv } from '$env/dynamic/private';
+import { env as publicEnv } from '$env/dynamic/public';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const base = PUBLIC_API_BASE_URL ?? '';
+	// In Docker, the browser can reach the API at localhost but the container cannot —
+	// inside a container, localhost refers to the container itself, not the host machine.
+	// INTERNAL_API_BASE_URL lets the server use a container-reachable URL (e.g.
+	// http://host.docker.internal:8000) while PUBLIC_API_BASE_URL stays as the
+	// browser-reachable URL. Falls back to PUBLIC_API_BASE_URL in production where
+	// both use the same public host.
+	const base = privateEnv.INTERNAL_API_BASE_URL ?? publicEnv.PUBLIC_API_BASE_URL ?? '';
 
 	const [articlesRes, entitiesRes] = await Promise.all([
 		fetch(`${base}/api/v1/articles?sort=published_date&order=desc&page_size=5&page=1`),
