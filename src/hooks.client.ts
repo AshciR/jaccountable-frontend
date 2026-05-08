@@ -24,8 +24,8 @@ async function initMocks(environment: string) {
 }
 
 function initializePostHog() {
-	posthog.init(PUBLIC_POSTHOG_KEY, {
-		api_host: PUBLIC_POSTHOG_API_HOST,
+	posthog.init(PUBLIC_POSTHOG_KEY ?? '', {
+		api_host: PUBLIC_POSTHOG_API_HOST ?? '',
 		ui_host: 'https://us.posthog.com',
 		capture_pageview: false
 	});
