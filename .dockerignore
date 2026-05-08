@@ -1,0 +1,16 @@
+node_modules
+.svelte-kit
+build
+.git
+.github
+.husky
+coverage
+
+# Env files — all vars are runtime-injected
+.env
+.env.*
+!.env.example
+
+# Dev-only
+static/mockServiceWorker.js
+scripts/
