@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PrivacyPolicy from '$lib/content/legal/privacy-v0.svx';
+	import PrivacyPolicy from '$lib/content/legal/privacy-v1.svx';
 	import Footer from '$lib/components/features/Footer.svelte';
 </script>
 
