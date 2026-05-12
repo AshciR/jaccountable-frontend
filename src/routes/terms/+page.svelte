@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TermsOfService from '$lib/content/legal/terms-of-service-v0.svx';
+	import TermsOfService from '$lib/content/legal/terms-of-service-v1.svx';
 	import Footer from '$lib/components/features/Footer.svelte';
 </script>
 
