@@ -78,15 +78,16 @@ describe('ShareSection', () => {
 		expect(screen.getByText("Share it with someone who'd want to know.")).toBeInTheDocument();
 	});
 
-	it('should display all four share options', () => {
+	it('should display all five share options', () => {
 		// Given: the share section component renders
 		render(ShareSection);
 
 		// When: the page loads
 
-		// Then: should display all four share buttons
+		// Then: should display all five share buttons
 		expect(screen.getByLabelText('Share on WhatsApp')).toBeInTheDocument();
 		expect(screen.getByLabelText('Share on Twitter')).toBeInTheDocument();
+		expect(screen.getByLabelText('Follow on Instagram')).toBeInTheDocument();
 		expect(screen.getByLabelText('Bookmark this page')).toBeInTheDocument();
 		expect(screen.getByRole('button', { name: 'Share' })).toBeInTheDocument();
 	});
@@ -158,6 +159,48 @@ describe('ShareSection', () => {
 		// Then: should track the event
 		expect(posthog.capture).toHaveBeenCalledWith(
 			'share:twitter_button_click',
+			expect.objectContaining({ environment: 'test' })
+		);
+	});
+
+	// Instagram functionality
+	it('should display the Instagram button', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: the page loads
+
+		// Then: should display the Instagram button
+		expect(screen.getByLabelText('Follow on Instagram')).toBeInTheDocument();
+	});
+
+	it('should open Instagram profile when Instagram button is clicked', () => {
+		// Given: the share section component renders with window.open mocked
+		render(ShareSection);
+
+		// When: user clicks the Instagram button
+		const instagramButton = screen.getByLabelText('Follow on Instagram');
+		fireEvent.click(instagramButton);
+
+		// Then: should open the Instagram profile
+		expect(windowOpenSpy).toHaveBeenCalledWith(
+			'https://www.instagram.com/jaccountableorg/',
+			'_blank',
+			'noopener,noreferrer'
+		);
+	});
+
+	it('should track share:instagram_button_click event when Instagram button is clicked', () => {
+		// Given: the share section component renders
+		render(ShareSection);
+
+		// When: user clicks the Instagram button
+		const instagramButton = screen.getByLabelText('Follow on Instagram');
+		fireEvent.click(instagramButton);
+
+		// Then: should track the event
+		expect(posthog.capture).toHaveBeenCalledWith(
+			'share:instagram_button_click',
 			expect.objectContaining({ environment: 'test' })
 		);
 	});

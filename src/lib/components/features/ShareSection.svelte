@@ -2,10 +2,12 @@
 	import { Bookmark, Share2, Check, MessageCircle } from 'lucide-svelte';
 	import whatsappLogo from '$lib/assets/whatsapp-logo-green.png';
 	import xLogo from '$lib/assets/x-logo-black.png';
+	import instagramLogo from '$lib/assets/instagram-logo-gradient.png';
 	import { trackEvent } from '$lib/utils/analytics';
 	import {
 		shareOnWhatsApp,
 		shareOnTwitter,
+		openInstagram,
 		copyToClipboard,
 		handleFeedbackClick
 	} from './share-section';
@@ -58,7 +60,7 @@
 		</p>
 
 		<!-- Share Options Grid -->
-		<div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+		<div class="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-3xl mx-auto">
 			<!-- WhatsApp Share -->
 			<button
 				onclick={() => shareOnWhatsApp(shareMessage, shareUrl)}
@@ -87,6 +89,20 @@
 				<span class="text-sm font-medium text-primary">Twitter</span>
 			</button>
 
+			<!-- Instagram -->
+			<button
+				onclick={openInstagram}
+				class="group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
+				aria-label="Follow on Instagram"
+			>
+				<div
+					class="relative w-12 h-12 flex items-center justify-center rounded-full bg-pink-500/10 group-hover:bg-pink-500/20 transition-colors"
+				>
+					<img src={instagramLogo} alt="" class="w-7 h-7" />
+				</div>
+				<span class="text-sm font-medium text-primary">Instagram</span>
+			</button>
+
 			<!-- Bookmark -->
 			<button
 				onclick={toggleBookmarkTooltip}
@@ -109,7 +125,7 @@
 			<!-- Copy URL -->
 			<button
 				onclick={handleCopyToClipboard}
-				class="group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
+				class="col-span-2 justify-self-center w-[calc(50%-0.75rem)] md:col-span-1 md:w-full md:justify-self-stretch group relative flex flex-col items-center gap-3 p-6 rounded-lg bg-surface border border-neutral-200 hover:border-accent hover:shadow-md transition-all duration-200"
 			>
 				<div
 					class="relative w-12 h-12 flex items-center justify-center rounded-full bg-accent/10 group-hover:bg-accent/20 transition-colors"
