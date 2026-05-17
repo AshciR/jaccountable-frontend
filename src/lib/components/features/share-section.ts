@@ -20,6 +20,11 @@ export function shareOnTwitter(encodedMessage: string, encodedUrl: string): void
 	);
 }
 
+export function openInstagram(): void {
+	trackEvent('share:instagram_button_click');
+	window.open('https://www.instagram.com/jaccountableorg/', '_blank', 'noopener,noreferrer');
+}
+
 export async function copyToClipboard(shareUrl: string): Promise<boolean> {
 	trackEvent('share:copy_url_button_click');
 	try {
