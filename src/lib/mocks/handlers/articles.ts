@@ -1,8 +1,28 @@
 import { http, HttpResponse, delay } from 'msw';
-import type { ArticleSearchResponse } from '$lib/api/types';
+import type { Article, ArticleSearchResponse, ErrorResponse } from '$lib/api/types';
 import { mockArticles } from '../fixtures/articles';
 
 export const articleHandlers = [
+	http.get<{ id: string }, never, Article | ErrorResponse>(
+		'*/api/v1/articles/:id',
+		async ({ params }) => {
+			const article = mockArticles.find((a) => a.id === params.id);
+
+			if (!article) {
+				return HttpResponse.json(
+					{ error: 'NOT_FOUND', message: 'Article not found' },
+					{ status: 404 }
+				);
+			}
+
+			if (!import.meta.env.TEST) {
+				await delay(300);
+			}
+
+			return HttpResponse.json(article);
+		}
+	),
+
 	http.get<never, never, ArticleSearchResponse>('*/api/v1/articles', async ({ request }) => {
 		const url = new URL(request.url);
 		const q = url.searchParams.get('q');

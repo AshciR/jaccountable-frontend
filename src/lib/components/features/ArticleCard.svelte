@@ -1,51 +1,13 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
-	import { Badge } from '$lib/components/ui/badge';
-	import * as Tooltip from '$lib/components/ui/tooltip';
+	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
-	import gleanerIcon from '$lib/assets/gleaner-article-card-icon.png';
-	import observerIcon from '$lib/assets/observer-article-card-icon.png';
-	import fallbackIcon from '$lib/assets/fallback-article-card-icon.png';
+	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
 
 	let { article, onTopicClick }: { article: Article; onTopicClick?: (entity: string) => void } =
 		$props();
 
 	const classification = $derived(article.classifications[0]);
-	const confidenceDisplay = $derived(
-		classification ? `${Math.round(classification.confidenceScore * 100)}%` : null
-	);
-
-	// Confidence pill styling - color ranges from yellow (0.7) to green (1.0)
-	const confidencePillClasses = $derived(() => {
-		const base = 'inline-flex items-center rounded-full border px-3 py-1 text-sm font-semibold';
-		if (!classification) return `${base} bg-neutral-50 text-neutral-600 border-neutral-200`;
-		const confidence = classification.confidenceScore;
-		if (confidence >= 0.9) return `${base} bg-green-100 text-green-700 border-green-400`;
-		if (confidence >= 0.8) return `${base} bg-green-50 text-green-500 border-green-200`;
-		return `${base} bg-gold-50 text-gold-700 border-gold-200`;
-	});
-
-	// Format the published date
-	const formattedDate = $derived(() => {
-		const date = new Date(article.publishedDate);
-		return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-	});
-
-	const sourceIcon = $derived(
-		article.newsSource === 'JAMAICA_GLEANER'
-			? gleanerIcon
-			: article.newsSource === 'JAMAICA_OBSERVER'
-				? observerIcon
-				: fallbackIcon
-	);
-
-	const sourceName = $derived(
-		article.newsSource === 'JAMAICA_GLEANER'
-			? 'Jamaica Gleaner'
-			: article.newsSource === 'JAMAICA_OBSERVER'
-				? 'Jamaica Observer'
-				: 'Source'
-	);
 
 	type TextPart = { text: string; highlighted: boolean };
 	type FocusedSentence = { text: string; parts: TextPart[] };
@@ -165,62 +127,19 @@
 
 <Card.Root class="overflow-hidden shadow-sm transition-shadow duration-200 hover:shadow-md">
 	<Card.Header class="pb-3">
-		<div class="flex items-start justify-between gap-4">
-			<!-- Left: Source + Date + Badge -->
-			<div class="flex items-center gap-3">
-				<img
-					src={sourceIcon}
-					alt={sourceName}
-					class="h-9 w-9 rounded-sm object-cover"
-					loading="lazy"
-				/>
-				<div>
-					<div class="text-sm font-medium text-muted-foreground">{sourceName}</div>
-					<time datetime={article.publishedDate} class="text-xs text-muted-foreground">
-						{formattedDate()}
-					</time>
-					{#if classification}
-						<Tooltip.Root>
-							<Tooltip.Trigger class="mt-1 block w-fit">
-								<Badge variant="destructive" class="capitalize">
-									{classification.classifierType.toLowerCase()}
-								</Badge>
-							</Tooltip.Trigger>
-							<Tooltip.Content>
-								<p>
-									This label shows what kind of accountability issue our AI identified in this
-									article.
-								</p>
-							</Tooltip.Content>
-						</Tooltip.Root>
-					{/if}
-				</div>
-			</div>
-
-			<!-- Right: Certainty pill -->
-			{#if confidenceDisplay}
-				<Tooltip.Root>
-					<Tooltip.Trigger>
-						<span class={confidencePillClasses()}>
-							Certainty <strong class="ml-1">{confidenceDisplay}</strong>
-						</span>
-					</Tooltip.Trigger>
-					<Tooltip.Content>
-						<p>
-							How certain the AI is that this article belongs to this category. Scores above 80% are
-							considered high certainty.
-						</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
-			{/if}
-		</div>
+		<ArticleSourceHeader {article} />
 	</Card.Header>
 
 	<Card.Content class="space-y-4 px-4 sm:px-6">
 		<!-- Title -->
 		<div>
 			<h3 class="text-lg font-semibold leading-tight text-card-foreground md:text-xl">
-				{article.title}
+				<a
+					href={resolve(`/articles/${article.id}`)}
+					class="hover:underline hover:text-accent-hover"
+				>
+					{article.title}
+				</a>
 			</h3>
 		</div>
 

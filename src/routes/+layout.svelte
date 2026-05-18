@@ -4,6 +4,7 @@
 	import posthog from 'posthog-js';
 	import favicon from '$lib/assets/favicon-96x96.png';
 	import Header from '$lib/components/features/Header.svelte';
+	import Footer from '$lib/components/features/Footer.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import '../app.css';
 
@@ -32,4 +33,7 @@
 		<Header />
 	{/if}
 	{@render children()}
+	{#if !page.error}
+		<Footer />
+	{/if}
 </Tooltip.Provider>
