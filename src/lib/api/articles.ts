@@ -1,5 +1,10 @@
-import type { ArticleSearchResponse, SearchOptions } from './types';
+import type { Article, ArticleSearchResponse, SearchOptions } from './types';
 import { apiFetch } from './fetch';
+
+export async function fetchArticleById(id: string): Promise<Article> {
+	const response = await apiFetch(`/api/v1/articles/${id}`);
+	return response.json();
+}
 
 export async function searchArticles({
 	query,

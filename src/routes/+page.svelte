@@ -5,7 +5,6 @@
 	import FeaturesSection from '$lib/components/features/FeaturesSection.svelte';
 	import FAQSection from '$lib/components/features/FAQSection.svelte';
 	import ShareSection from '$lib/components/features/ShareSection.svelte';
-	import Footer from '$lib/components/features/Footer.svelte';
 	import { untrack } from 'svelte';
 	import type { Article, EntitySummary, EntitySortOrder } from '$lib/api/types';
 	import type { PageData } from './$types';
@@ -162,5 +161,4 @@
 	<FeaturesSection />
 	<FAQSection />
 	<ShareSection />
-	<Footer />
 </main>
