@@ -3,6 +3,7 @@
 	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
+	import AnalysisAlert from './AnalysisAlert.svelte';
 
 	let { article, onTopicClick }: { article: Article; onTopicClick?: (entity: string) => void } =
 		$props();
@@ -145,7 +146,7 @@
 
 		<!-- Excerpt -->
 		<div>
-			<h4 class="mb-1 text-sm font-semibold text-neutral-500">Excerpt</h4>
+			<h4 class="mb-1 text-sm font-semibold text-accent">Excerpt</h4>
 			<div class="max-w-prose space-y-1 text-sm leading-relaxed text-muted-foreground">
 				{#each excerpt.sentences as sentence, i (i)}
 					<!-- prettier-ignore: inline blocks are intentional — whitespace between them appears as visible text -->
@@ -160,14 +161,9 @@
 			</div>
 		</div>
 
-		<!-- Classifier Reasoning -->
+		<!-- Analysis -->
 		{#if classification?.reasoning}
-			<div class="border-l-4 border-amber-400 bg-amber-50 pl-3 py-2 text-sm">
-				<h4 class="mb-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
-					Why this caught our attention
-				</h4>
-				<p class="text-muted-foreground">{classification.reasoning}</p>
-			</div>
+			<AnalysisAlert reasoning={classification.reasoning} />
 		{/if}
 
 		<!-- Original Article Link -->
@@ -187,7 +183,7 @@
 		<!-- Mentioned Entities -->
 		{#if article.entities.length > 0}
 			<div>
-				<h4 class="mb-2 text-sm font-semibold text-neutral-500">Mentioned</h4>
+				<h4 class="mb-2 text-sm font-semibold text-accent">Mentioned</h4>
 				<div class="flex flex-wrap gap-2">
 					{#each article.entities as entity (entity)}
 						<button

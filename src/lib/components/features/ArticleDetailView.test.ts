@@ -28,7 +28,9 @@ const observerArticle: Article = {
 	id: 'b7c2d9f1-f3a4-42e5-b827-557766551112',
 	url: 'https://jamaica-observer.com/article/news/test',
 	newsSource: 'JAMAICA_OBSERVER',
-	classifications: [{ classifierType: 'FRAUD', confidenceScore: 0.78 }]
+	classifications: [
+		{ classifierType: 'FRAUD', confidenceScore: 0.78, reasoning: 'Article covers financial fraud.' }
+	]
 };
 
 const unknownSourceArticle: Article = {
@@ -129,11 +131,10 @@ describe('ArticleDetailView', () => {
 		// When: the page loads
 
 		// Then: should display the classification badge in lowercase
-		expect(screen.getByText('corruption')).toBeInTheDocument();
+		expect(screen.getByTestId('source-header-classifier-type')).toHaveTextContent('corruption');
 
 		// And: should display the certainty pill with the correct score
-		expect(screen.getByText('Certainty')).toBeInTheDocument();
-		expect(screen.getByText('92%')).toBeInTheDocument();
+		expect(screen.getByTestId('source-header-confidence')).toHaveTextContent('92%');
 	});
 
 	it('should not render badge or certainty pill when classifications is empty', () => {
@@ -187,5 +188,37 @@ describe('ArticleDetailView', () => {
 
 		// Then: should not render a time element
 		expect(screen.queryByRole('time')).not.toBeInTheDocument();
+	});
+
+	it('should render the Analysis heading', () => {
+		// Given: the component renders with an article that has a classification
+		render(ArticleDetailView, { props: { article: gleanerArticle } });
+
+		// When: the page loads
+
+		// Then: should display the Analysis heading
+		expect(screen.getByRole('heading', { level: 2, name: 'Analysis' })).toBeInTheDocument();
+	});
+
+	it('should render the reasoning text in the Analysis section', () => {
+		// Given: the component renders with an article that has classification reasoning
+		render(ArticleDetailView, { props: { article: gleanerArticle } });
+
+		// When: the page loads
+
+		// Then: should display the reasoning text
+		expect(screen.getByTestId('analysis-reasoning')).toHaveTextContent(
+			gleanerArticle.classifications[0].reasoning!
+		);
+	});
+
+	it('should not render the Analysis section when classifications is empty', () => {
+		// Given: the component renders with an article with no classifications
+		render(ArticleDetailView, { props: { article: { ...gleanerArticle, classifications: [] } } });
+
+		// When: the page loads
+
+		// Then: should not display the Analysis heading
+		expect(screen.queryByRole('heading', { level: 2, name: 'Analysis' })).not.toBeInTheDocument();
 	});
 });

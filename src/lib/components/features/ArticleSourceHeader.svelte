@@ -9,18 +9,18 @@
 	let { article }: { article: Article } = $props();
 
 	const classification = $derived(article.classifications[0]);
-	const confidenceDisplay = $derived(
-		classification ? `${Math.round(classification.confidenceScore * 100)}%` : null
-	);
 
-	const confidencePillClasses = $derived(() => {
-		const base = 'inline-flex items-center rounded-full border px-3 py-1 text-sm font-semibold';
-		if (!classification) return `${base} bg-neutral-50 text-neutral-600 border-neutral-200`;
-		const confidence = classification.confidenceScore;
-		if (confidence >= 0.9) return `${base} bg-green-100 text-green-700 border-green-400`;
-		if (confidence >= 0.8) return `${base} bg-green-50 text-green-500 border-green-200`;
+	const base = 'inline-flex items-center rounded-full border px-3 py-1 text-sm font-semibold';
+
+	function confidencePillClass(score: number): string {
+		if (score >= 0.9) return `${base} bg-green-100 text-green-700 border-green-400`;
+		if (score >= 0.8) return `${base} bg-green-50 text-green-500 border-green-200`;
 		return `${base} bg-gold-50 text-gold-700 border-gold-200`;
-	});
+	}
+
+	function confidenceDisplay(score: number): string {
+		return `${Math.round(score * 100)}%`;
+	}
 
 	const formattedDate = $derived(() => {
 		if (!article.publishedDate) return '';
@@ -58,7 +58,11 @@
 			{#if classification}
 				<Tooltip.Root>
 					<Tooltip.Trigger class="mt-1 block w-fit">
-						<Badge variant="destructive" class="capitalize">
+						<Badge
+							variant="destructive"
+							class="capitalize"
+							data-testid="source-header-classifier-type"
+						>
 							{classification.classifierType.toLowerCase()}
 						</Badge>
 					</Tooltip.Trigger>
@@ -72,11 +76,15 @@
 		</div>
 	</div>
 
-	{#if confidenceDisplay}
+	{#if classification}
 		<Tooltip.Root>
 			<Tooltip.Trigger>
-				<span class={confidencePillClasses()}>
-					Certainty <strong class="ml-1">{confidenceDisplay}</strong>
+				<span
+					class={confidencePillClass(classification.confidenceScore)}
+					data-testid="source-header-confidence"
+				>
+					Certainty <strong class="ml-1">{confidenceDisplay(classification.confidenceScore)}</strong
+					>
 				</span>
 			</Tooltip.Trigger>
 			<Tooltip.Content>
