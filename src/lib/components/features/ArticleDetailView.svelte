@@ -3,6 +3,7 @@
 	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
+	import AnalysisAlert from './AnalysisAlert.svelte';
 
 	let { article }: { article: Article } = $props();
 
@@ -38,7 +39,7 @@
 			<!-- Mentioned entities -->
 			{#if article.entities.length > 0}
 				<div>
-					<h2 class="mb-2 text-sm font-semibold text-neutral-500">Mentioned</h2>
+					<h2 class="mb-2 text-sm font-semibold text-accent">Mentioned</h2>
 					<div class="flex flex-wrap gap-2">
 						{#each article.entities as entity (entity)}
 							<span
@@ -51,9 +52,20 @@
 				</div>
 			{/if}
 
+			<!-- Analysis -->
+			{#if article.classifications.length > 0}
+				{@const classification = article.classifications[0]}
+				<div>
+					<h2 class="mb-3 text-sm font-semibold text-accent">Analysis</h2>
+					{#if classification.reasoning}
+						<AnalysisAlert reasoning={classification.reasoning} />
+					{/if}
+				</div>
+			{/if}
+
 			<!-- Full article text -->
 			<div>
-				<h2 class="mb-3 text-sm font-semibold text-neutral-500">Full Article</h2>
+				<h2 class="mb-3 text-sm font-semibold text-accent">Full Article</h2>
 				{#if paragraphs.length > 0}
 					<div class="space-y-4 text-md leading-7 text-foreground">
 						{#each paragraphs as paragraph, i (i)}
