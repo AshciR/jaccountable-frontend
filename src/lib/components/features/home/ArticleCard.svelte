@@ -2,8 +2,8 @@
 	import * as Card from '$lib/components/ui/card';
 	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
-	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
-	import AnalysisAlert from './AnalysisAlert.svelte';
+	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
+	import AnalysisAlert from '../AnalysisAlert.svelte';
 
 	let { article, onTopicClick }: { article: Article; onTopicClick?: (entity: string) => void } =
 		$props();
@@ -142,7 +142,7 @@
 </script>
 
 <Card.Root
-	class="relative overflow-hidden shadow-sm transition-all duration-300 ease-in-out hover:shadow-md hover:border-green-400"
+	class="relative overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
 >
 	<Card.Header class="pb-3">
 		<ArticleSourceHeader {article} />

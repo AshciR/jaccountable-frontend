@@ -1,4 +1,9 @@
-import type { Article, ArticleSearchResponse, SearchOptions } from './types';
+import type {
+	Article,
+	ArticleSearchResponse,
+	RelatedArticlesResponse,
+	SearchOptions
+} from './types';
 import { apiFetch } from './fetch';
 
 export async function fetchArticleById(id: string): Promise<Article> {
@@ -9,7 +14,7 @@ export async function fetchArticleById(id: string): Promise<Article> {
 export async function fetchRelatedArticles(id: string): Promise<Article[]> {
 	const response = await apiFetch(`/api/v1/articles/${id}/related`);
 	if (!response.ok) return [];
-	const data: { articles: Article[] } = await response.json();
+	const data: RelatedArticlesResponse = await response.json();
 	return data.articles ?? [];
 }
 

@@ -1,8 +1,47 @@
 import { http, HttpResponse, delay } from 'msw';
-import type { Article, ArticleSearchResponse, ErrorResponse } from '$lib/api/types';
+import type {
+	Article,
+	ArticleSearchResponse,
+	RelatedArticlesResponse,
+	ErrorResponse
+} from '$lib/api/types';
 import { mockArticles } from '../fixtures/articles';
 
 export const articleHandlers = [
+	http.get<{ id: string }, never, RelatedArticlesResponse | ErrorResponse>(
+		'*/api/v1/articles/:id/related',
+		async ({ params, request }) => {
+			const article = mockArticles.find((a) => a.id === params.id);
+
+			if (!article) {
+				return HttpResponse.json(
+					{ error: 'NOT_FOUND', message: 'Article not found' },
+					{ status: 404 }
+				);
+			}
+
+			const url = new URL(request.url);
+			const limit = parseInt(url.searchParams.get('limit') || '5', 10);
+
+			const related = mockArticles
+				.filter((a) => a.id !== article.id)
+				.map((a) => ({
+					article: a,
+					sharedEntities: a.entities.filter((e) => article.entities.includes(e)).length
+				}))
+				.filter(({ sharedEntities }) => sharedEntities > 0)
+				.sort((a, b) => b.sharedEntities - a.sharedEntities)
+				.slice(0, limit)
+				.map(({ article: a }) => a);
+
+			if (!import.meta.env.TEST) {
+				await delay(300);
+			}
+
+			return HttpResponse.json({ articles: related });
+		}
+	),
+
 	http.get<{ id: string }, never, Article | ErrorResponse>(
 		'*/api/v1/articles/:id',
 		async ({ params }) => {

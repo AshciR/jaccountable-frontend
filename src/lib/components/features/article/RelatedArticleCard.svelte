@@ -2,7 +2,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
-	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
+	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
 
 	let { article }: { article: Article } = $props();
 
@@ -18,7 +18,7 @@
 </script>
 
 <Card.Root
-	class="relative overflow-hidden shadow-sm transition-all duration-300 ease-in-out hover:shadow-md hover:border-green-400 h-full"
+	class="relative overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-green-500 h-full"
 >
 	<Card.Header class="pb-3">
 		<ArticleSourceHeader {article} />
