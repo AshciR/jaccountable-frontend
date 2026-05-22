@@ -25,6 +25,10 @@ export interface ArticleSearchResponse {
 	pages: number;
 }
 
+export interface RelatedArticlesResponse {
+	articles: Article[];
+}
+
 export interface ErrorResponse {
 	error: string;
 	message: string;

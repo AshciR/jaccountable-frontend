@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ArticleDetailView from '$lib/components/features/ArticleDetailView.svelte';
+	import ArticleDetailView from '$lib/components/features/article/ArticleDetailView.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
 

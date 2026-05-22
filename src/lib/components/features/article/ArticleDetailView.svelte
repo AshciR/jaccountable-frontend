@@ -2,8 +2,8 @@
 	import * as Card from '$lib/components/ui/card';
 	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
-	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
-	import AnalysisAlert from './AnalysisAlert.svelte';
+	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
+	import AnalysisAlert from '../AnalysisAlert.svelte';
 	import RelatedArticleCard from './RelatedArticleCard.svelte';
 
 	let { article, relatedArticles = [] }: { article: Article; relatedArticles?: Article[] } =
