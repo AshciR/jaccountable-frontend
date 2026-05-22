@@ -6,6 +6,13 @@ export async function fetchArticleById(id: string): Promise<Article> {
 	return response.json();
 }
 
+export async function fetchRelatedArticles(id: string): Promise<Article[]> {
+	const response = await apiFetch(`/api/v1/articles/${id}/related`);
+	if (!response.ok) return [];
+	const data: { articles: Article[] } = await response.json();
+	return data.articles ?? [];
+}
+
 export async function searchArticles({
 	query,
 	sortOrder = 'desc',

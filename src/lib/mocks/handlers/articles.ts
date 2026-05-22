@@ -39,7 +39,7 @@ export const articleHandlers = [
 			filtered = filtered.filter(
 				(article) =>
 					article.title.toLowerCase().includes(query) ||
-					article.snippet.toLowerCase().includes(query) ||
+					(article.snippet?.toLowerCase().includes(query) ?? false) ||
 					article.entities.some((e) => e.toLowerCase().includes(query))
 			);
 		}

@@ -4,8 +4,10 @@
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from './ArticleSourceHeader.svelte';
 	import AnalysisAlert from './AnalysisAlert.svelte';
+	import RelatedArticleCard from './RelatedArticleCard.svelte';
 
-	let { article }: { article: Article } = $props();
+	let { article, relatedArticles = [] }: { article: Article; relatedArticles?: Article[] } =
+		$props();
 
 	const paragraphs = $derived(
 		article.fullText
@@ -89,4 +91,19 @@
 			<!-- eslint-enable svelte/no-navigation-without-resolve -->
 		</Card.Content>
 	</Card.Root>
+
+	<section class="mt-10">
+		<h2 class="mb-4 text-lg font-semibold text-accent">Related Articles</h2>
+		{#if relatedArticles.length > 0}
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+				{#each relatedArticles as related (related.id)}
+					<RelatedArticleCard article={related} />
+				{/each}
+			</div>
+		{:else}
+			<p data-testid="no-related-articles" class="text-sm italic text-muted-foreground">
+				No related articles found.
+			</p>
+		{/if}
+	</section>
 </main>

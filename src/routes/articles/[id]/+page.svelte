@@ -34,4 +34,4 @@
 	<meta name="twitter:description" content={description} />
 </svelte:head>
 
-<ArticleDetailView article={data.article} />
+<ArticleDetailView article={data.article} relatedArticles={data.relatedArticles} />

@@ -80,7 +80,22 @@
 	/**
 	 * Extracts 5 sentences from fullText centered around the snippet match.
 	 */
-	function extractFocusedSentences(fullText: string | undefined, snippet: string): ExcerptResult {
+	function extractFocusedSentences(
+		fullText: string | undefined,
+		snippet: string | null
+	): ExcerptResult {
+		if (!snippet) {
+			// No snippet (e.g. related articles) — show first sentences of fullText
+			if (!fullText) return { sentences: [], showLeading: false, showTrailing: false };
+			const all = splitIntoSentences(fullText);
+			const window = all.slice(0, 5);
+			return {
+				sentences: window.map((text) => ({ text, parts: [{ text, highlighted: false }] })),
+				showLeading: false,
+				showTrailing: all.length > 5
+			};
+		}
+
 		const normalized = snippet.replace(/<b>/gi, '<mark>').replace(/<\/b>/gi, '</mark>');
 		const highlightWords = getHighlightedWords(normalized);
 		const snippetText = normalized.replace(/<\/?mark>/gi, '');
@@ -126,7 +141,9 @@
 	const excerpt = $derived(extractFocusedSentences(article.fullText, article.snippet));
 </script>
 
-<Card.Root class="overflow-hidden shadow-sm transition-shadow duration-200 hover:shadow-md">
+<Card.Root
+	class="relative overflow-hidden shadow-sm transition-all duration-300 ease-in-out hover:shadow-md hover:border-green-400"
+>
 	<Card.Header class="pb-3">
 		<ArticleSourceHeader {article} />
 	</Card.Header>
@@ -137,7 +154,7 @@
 			<h3 class="text-lg font-semibold leading-tight text-card-foreground md:text-xl">
 				<a
 					href={resolve(`/articles/${article.id}`)}
-					class="hover:underline hover:text-accent-hover"
+					class="after:absolute after:inset-0 hover:underline hover:text-accent-hover"
 				>
 					{article.title}
 				</a>
@@ -167,7 +184,7 @@
 		{/if}
 
 		<!-- Original Article Link -->
-		<div>
+		<div class="relative z-10">
 			<!-- eslint-disable svelte/no-navigation-without-resolve -- External link -->
 			<a
 				href={article.url}
@@ -182,7 +199,7 @@
 
 		<!-- Mentioned Entities -->
 		{#if article.entities.length > 0}
-			<div>
+			<div class="relative z-10">
 				<h4 class="mb-2 text-sm font-semibold text-accent">Mentioned</h4>
 				<div class="flex flex-wrap gap-2">
 					{#each article.entities as entity (entity)}

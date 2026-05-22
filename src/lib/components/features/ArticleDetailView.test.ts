@@ -221,4 +221,51 @@ describe('ArticleDetailView', () => {
 		// Then: should not display the Analysis heading
 		expect(screen.queryByRole('heading', { level: 2, name: 'Analysis' })).not.toBeInTheDocument();
 	});
+
+	it('should render related article cards when relatedArticles are provided', () => {
+		// Given: two related articles with null snippets (as returned by the API)
+		const related1: Article = {
+			...gleanerArticle,
+			id: 'rel-00000000-0000-0000-0000-000000000001',
+			title: 'Related Article One',
+			snippet: null
+		};
+		const related2: Article = {
+			...observerArticle,
+			id: 'rel-00000000-0000-0000-0000-000000000002',
+			title: 'Related Article Two',
+			snippet: null
+		};
+		render(ArticleDetailView, {
+			props: { article: gleanerArticle, relatedArticles: [related1, related2] }
+		});
+
+		// When: the page loads
+
+		// Then: should display both related article titles
+		expect(screen.getByText('Related Article One')).toBeInTheDocument();
+		expect(screen.getByText('Related Article Two')).toBeInTheDocument();
+	});
+
+	it('should show empty state when relatedArticles is an empty array', () => {
+		// Given: the component renders with no related articles
+		render(ArticleDetailView, { props: { article: gleanerArticle, relatedArticles: [] } });
+
+		// When: the page loads
+
+		// Then: should display the empty state message
+		expect(screen.getByTestId('no-related-articles')).toHaveTextContent(
+			'No related articles found.'
+		);
+	});
+
+	it('should show empty state when relatedArticles prop is omitted', () => {
+		// Given: the component renders without a relatedArticles prop
+		render(ArticleDetailView, { props: { article: gleanerArticle } });
+
+		// When: the page loads
+
+		// Then: should display the empty state message
+		expect(screen.getByTestId('no-related-articles')).toBeInTheDocument();
+	});
 });

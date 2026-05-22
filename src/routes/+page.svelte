@@ -83,6 +83,8 @@
 	}
 
 	async function handleTopicClick(name: string): Promise<void> {
+		document.getElementById('search')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
 		// Clicking the already-selected topic deselects it, returning to latest stories
 		if (searchState.selectedTopic === name) {
 			searchState.selectedTopic = null;
