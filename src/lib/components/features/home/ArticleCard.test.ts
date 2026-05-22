@@ -60,8 +60,8 @@ function assertArticleCardContent(article: Article) {
 		expect(screen.getByText('Certainty')).toBeInTheDocument();
 	}
 
-	// Excerpt section label displayed
-	expect(screen.getByText('Excerpt')).toBeInTheDocument();
+	// Preview section label displayed
+	expect(screen.getByText('Preview')).toBeInTheDocument();
 
 	// Entity badges in Mentioned section
 	article.entities.forEach((entity) => {
