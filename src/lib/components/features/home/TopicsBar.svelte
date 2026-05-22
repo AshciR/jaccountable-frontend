@@ -43,17 +43,35 @@
 	</button>
 	<span class="text-muted-foreground shrink-0 px-1">|</span>
 	<div class="topics-scroll flex gap-2 overflow-x-auto" data-testid="topics-bar">
-		{#each topics as topic (topic.normalizedName)}
-			<button type="button" onclick={() => onTopicClick(topic.name)} class="shrink-0">
-				<Badge
-					variant={selectedTopic === topic.name ? 'default' : 'outline'}
-					class={selectedTopic === topic.name
-						? 'cursor-pointer rounded-md bg-green-500 text-white border-transparent'
-						: 'cursor-pointer rounded-md text-muted-foreground border-muted-foreground hover:bg-green-400 hover:text-accent-foreground hover:border-transparent'}
+		{#key topicSort}
+			{#each topics as topic, index (topic.normalizedName)}
+				<button
+					type="button"
+					onclick={() => onTopicClick(topic.name)}
+					class="shrink-0 opacity-0 animate-fade-in"
+					style="animation-delay: {index * 0.05}s;"
 				>
-					{topic.name}
-				</Badge>
-			</button>
-		{/each}
+					<Badge
+						variant={selectedTopic === topic.name ? 'default' : 'outline'}
+						class={selectedTopic === topic.name
+							? 'cursor-pointer rounded-md bg-green-500 text-white border-transparent'
+							: 'cursor-pointer rounded-md text-muted-foreground border-muted-foreground hover:bg-green-400 hover:text-accent-foreground hover:border-transparent'}
+					>
+						{topic.name}
+					</Badge>
+				</button>
+			{/each}
+		{/key}
 	</div>
 </div>
+
+<style>
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	.animate-fade-in {
+		animation: fadeIn 0.3s ease-in forwards;
+	}
+</style>
