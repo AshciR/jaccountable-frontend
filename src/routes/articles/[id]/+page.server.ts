@@ -7,7 +7,10 @@ import { env as publicEnv } from '$env/dynamic/public';
 export const load: PageServerLoad = async ({ fetch, params }) => {
 	const base = privateEnv.INTERNAL_API_BASE_URL ?? publicEnv.PUBLIC_API_BASE_URL ?? '';
 
-	const res = await fetch(`${base}/api/v1/articles/${params.id}`);
+	const [res, relatedRes] = await Promise.all([
+		fetch(`${base}/api/v1/articles/${params.id}`),
+		fetch(`${base}/api/v1/articles/${params.id}/related?limit=4`).catch(() => null)
+	]);
 
 	if (res.status === 404 || res.status === 422) {
 		throw error(404, 'Article not found');
@@ -18,5 +21,12 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	}
 
 	const article: Article = await res.json();
-	return { article };
+
+	let relatedArticles: Article[] = [];
+	if (relatedRes?.ok) {
+		const data: { articles: Article[] } = await relatedRes.json();
+		relatedArticles = data.articles ?? [];
+	}
+
+	return { article, relatedArticles };
 };

@@ -11,7 +11,7 @@ export interface Article {
 	section: string;
 	newsSource: string;
 	publishedDate: string;
-	snippet: string;
+	snippet: string | null;
 	entities: string[];
 	classifications: Classification[];
 	fullText?: string;
