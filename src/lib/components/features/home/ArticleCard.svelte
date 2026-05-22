@@ -163,7 +163,7 @@
 
 		<!-- Excerpt -->
 		<div>
-			<h4 class="mb-1 text-sm font-semibold text-accent">Excerpt</h4>
+			<h4 class="mb-1 text-sm font-semibold text-accent">Preview</h4>
 			<div class="max-w-prose space-y-1 text-sm leading-relaxed text-muted-foreground">
 				{#each excerpt.sentences as sentence, i (i)}
 					<!-- prettier-ignore: inline blocks are intentional — whitespace between them appears as visible text -->
