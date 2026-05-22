@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import { TrendingUp, Sparkles } from 'lucide-svelte';
 	import type { EntitySummary, EntitySortOrder } from '$lib/api/types';
 
 	let {
@@ -17,26 +18,28 @@
 	} = $props();
 </script>
 
-<div class="mt-8 flex justify-center items-center gap-1 text-sm" data-testid="topics-sort-toggle">
+<div class="mt-8 flex justify-center items-center gap-1 text-base" data-testid="topics-sort-toggle">
 	<span class="text-muted-foreground">Topics:</span>
 	<button
 		type="button"
-		class={topicSort === 'most_found'
-			? 'cursor-pointer font-bold text-green-600 underline underline-offset-4'
-			: 'cursor-pointer text-muted-foreground hover:text-green-600'}
-		onclick={() => onSortChange('most_found')}
+		class={topicSort === 'latest'
+			? 'inline-flex items-center gap-1 cursor-pointer font-bold text-green-600 underline underline-offset-4'
+			: 'inline-flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-green-600'}
+		onclick={() => onSortChange('latest')}
 	>
-		Most Mentioned
+		<Sparkles class="size-4" />
+		New
 	</button>
 	<span class="text-muted-foreground">·</span>
 	<button
 		type="button"
-		class={topicSort === 'latest'
-			? 'cursor-pointer font-bold text-green-600 underline underline-offset-4'
-			: 'cursor-pointer text-muted-foreground hover:text-green-600'}
-		onclick={() => onSortChange('latest')}
+		class={topicSort === 'most_found'
+			? 'inline-flex items-center gap-1 cursor-pointer font-bold text-green-600 underline underline-offset-4'
+			: 'inline-flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-green-600'}
+		onclick={() => onSortChange('most_found')}
 	>
-		Recent
+		<TrendingUp class="size-4" />
+		Top
 	</button>
 </div>
 

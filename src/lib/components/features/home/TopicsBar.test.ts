@@ -61,7 +61,7 @@ describe('TopicsBar', () => {
 		expect(badges).toHaveLength(0);
 	});
 
-	it('should render Most Mentioned and Recent toggle labels', () => {
+	it('should render Top and New toggle labels', () => {
 		// Given: the component renders
 		render(TopicsBar, { props: defaultProps });
 
@@ -69,55 +69,55 @@ describe('TopicsBar', () => {
 
 		// Then: should display the Topics prefix and both sort toggle labels
 		expect(screen.getByText('Topics:')).toBeInTheDocument();
-		expect(screen.getByText('Most Mentioned')).toBeInTheDocument();
-		expect(screen.getByText('Recent')).toBeInTheDocument();
+		expect(screen.getByText('Top')).toBeInTheDocument();
+		expect(screen.getByText('New')).toBeInTheDocument();
 	});
 
-	it('should highlight Most Mentioned label when topicSort is most_found', () => {
+	it('should highlight Top label when topicSort is most_found', () => {
 		// Given: the sort is set to most_found
 		render(TopicsBar, { props: { ...defaultProps, topicSort: 'most_found' as const } });
 
 		// When: the page loads
 
-		// Then: Most Mentioned should have active styling
-		const trendingButton = screen.getByText('Most Mentioned');
-		expect(trendingButton.className).toContain('font-bold');
-		expect(trendingButton.className).toContain('text-green-600');
+		// Then: Top should have active styling
+		const topButton = screen.getByText('Top');
+		expect(topButton.className).toContain('font-bold');
+		expect(topButton.className).toContain('text-green-600');
 	});
 
-	it('should highlight Recent label when topicSort is latest', () => {
+	it('should highlight New label when topicSort is latest', () => {
 		// Given: the sort is set to latest
 		render(TopicsBar, { props: { ...defaultProps, topicSort: 'latest' as const } });
 
 		// When: the page loads
 
-		// Then: Recent should have active styling
-		const recentButton = screen.getByText('Recent');
-		expect(recentButton.className).toContain('font-bold');
-		expect(recentButton.className).toContain('text-green-600');
+		// Then: New should have active styling
+		const newButton = screen.getByText('New');
+		expect(newButton.className).toContain('font-bold');
+		expect(newButton.className).toContain('text-green-600');
 	});
 
-	it('should call onSortChange with latest when Recent is clicked', async () => {
+	it('should call onSortChange with latest when New is clicked', async () => {
 		// Given: the component renders with default sort
 		const onSortChange = vi.fn();
 		render(TopicsBar, { props: { ...defaultProps, onSortChange } });
 
-		// When: user clicks the Recent toggle
-		await fireEvent.click(screen.getByText('Recent'));
+		// When: user clicks the New toggle
+		await fireEvent.click(screen.getByText('New'));
 
 		// Then: should call onSortChange with 'latest'
 		expect(onSortChange).toHaveBeenCalledWith('latest');
 	});
 
-	it('should call onSortChange with most_found when Trending is clicked', async () => {
+	it('should call onSortChange with most_found when Top is clicked', async () => {
 		// Given: the component renders with latest sort
 		const onSortChange = vi.fn();
 		render(TopicsBar, {
 			props: { ...defaultProps, topicSort: 'latest' as const, onSortChange }
 		});
 
-		// When: user clicks the Most Mentioned toggle
-		await fireEvent.click(screen.getByText('Most Mentioned'));
+		// When: user clicks the Top toggle
+		await fireEvent.click(screen.getByText('Top'));
 
 		// Then: should call onSortChange with 'most_found'
 		expect(onSortChange).toHaveBeenCalledWith('most_found');

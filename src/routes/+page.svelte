@@ -41,7 +41,7 @@
 		query: '',
 		topics: initialTopics,
 		selectedTopic: null,
-		topicSort: 'most_found',
+		topicSort: 'latest',
 		currentPage: latestPage,
 		totalPages: latestTotalPages,
 		total: latestTotal
