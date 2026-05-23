@@ -18,30 +18,35 @@
 	} = $props();
 </script>
 
-<div class="mt-8 flex items-center gap-2 text-base" data-testid="topics-sort-toggle">
-	<span class="text-muted-foreground shrink-0">Topics:</span>
-	<button
-		type="button"
-		class={topicSort === 'latest'
-			? 'inline-flex items-center gap-1 cursor-pointer font-bold text-green-600 underline underline-offset-4 shrink-0'
-			: 'inline-flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-green-600 shrink-0'}
-		onclick={() => onSortChange('latest')}
-	>
-		<Sparkles class="size-4" />
-		New
-	</button>
-	<span class="text-muted-foreground shrink-0">·</span>
-	<button
-		type="button"
-		class={topicSort === 'most_found'
-			? 'inline-flex items-center gap-1 cursor-pointer font-bold text-green-600 underline underline-offset-4 shrink-0'
-			: 'inline-flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-green-600 shrink-0'}
-		onclick={() => onSortChange('most_found')}
-	>
-		<TrendingUp class="size-4" />
-		Top
-	</button>
-	<span class="text-muted-foreground shrink-0 px-1">|</span>
+<div
+	class="mt-8 flex flex-col gap-4 text-base sm:flex-row sm:items-center"
+	data-testid="topics-sort-toggle"
+>
+	<div class="flex shrink-0 items-center gap-2 justify-center sm:justify-start">
+		<span class="text-muted-foreground shrink-0">Topics:</span>
+		<button
+			type="button"
+			class={topicSort === 'latest'
+				? 'inline-flex items-center gap-1 cursor-pointer font-bold text-green-600 underline underline-offset-4 shrink-0'
+				: 'inline-flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-green-600 shrink-0'}
+			onclick={() => onSortChange('latest')}
+		>
+			<Sparkles class="size-4" />
+			New
+		</button>
+		<span class="text-muted-foreground shrink-0">·</span>
+		<button
+			type="button"
+			class={topicSort === 'most_found'
+				? 'inline-flex items-center gap-1 cursor-pointer font-bold text-green-600 underline underline-offset-4 shrink-0'
+				: 'inline-flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-green-600 shrink-0'}
+			onclick={() => onSortChange('most_found')}
+		>
+			<TrendingUp class="size-4" />
+			Top
+		</button>
+	</div>
+	<span class="text-muted-foreground hidden px-1 sm:block">|</span>
 	<div class="topics-scroll flex gap-2 overflow-x-auto" data-testid="topics-bar">
 		{#key topicSort}
 			{#each topics as topic, index (topic.normalizedName)}
