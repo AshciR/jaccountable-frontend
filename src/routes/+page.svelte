@@ -3,11 +3,14 @@
 	import SearchSection from '$lib/components/features/home/SearchSection.svelte';
 	import FeaturesSection from '$lib/components/features/home/FeaturesSection.svelte';
 	import ShareSection from '$lib/components/features/home/ShareSection.svelte';
-	import { untrack } from 'svelte';
+	import { untrack, onMount } from 'svelte';
 	import type { Article, EntitySummary, EntitySortOrder } from '$lib/api/types';
 	import type { PageData } from './$types';
 	import { searchArticles } from '$lib/api/articles';
 	import { fetchTopEntities } from '$lib/api/entities';
+	import { replaceState } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 
 	let { data }: { data: PageData } = $props();
 
@@ -53,6 +56,14 @@
 		searchState.hasSearched ? searchState.query : (searchState.selectedTopic ?? 'Latest Stories')
 	);
 	const noResults: boolean = $derived(searchState.hasSearched && searchState.results.length === 0);
+
+	onMount(() => {
+		const topic = page.url.searchParams.get('topic');
+		if (topic) {
+			handleTopicClick(topic);
+			replaceState(resolve('/') + '#search', {});
+		}
+	});
 
 	async function handleSearch(query: string): Promise<void> {
 		if (!query.trim()) {
