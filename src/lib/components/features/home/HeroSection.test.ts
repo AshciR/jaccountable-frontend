@@ -1,11 +1,11 @@
-import { render, screen } from '@testing-library/svelte';
+import { render, screen, waitFor } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 import HeroSection from './HeroSection.svelte';
 
 describe('HeroSection', () => {
 	it('should display the main headline', () => {
-		// Given: the hero component renders
-		render(HeroSection);
+		// Given: the hero component renders with no metrics
+		render(HeroSection, { props: { metrics: null } });
 
 		// When: the page loads
 
@@ -17,7 +17,7 @@ describe('HeroSection', () => {
 
 	it('should display gradient text spans with gradient-text class', () => {
 		// Given: the hero component renders
-		render(HeroSection);
+		render(HeroSection, { props: { metrics: null } });
 
 		// When: the page loads
 
@@ -30,19 +30,50 @@ describe('HeroSection', () => {
 		});
 	});
 
-	it('should display each headline line with staggered animation classes', () => {
+	it('should display the description', () => {
 		// Given: the hero component renders
-		render(HeroSection);
+		render(HeroSection, { props: { metrics: null } });
 
 		// When: the page loads
 
-		// Then: should display each headline line with staggered animation classes
-		const heading = screen.getByRole('heading', { level: 1 });
-		const lineSpans = heading.querySelectorAll(':scope > span.block');
+		// Then: should display the description copy with key words bolded
+		expect(screen.getByText(/Track how Jamaican news outlets cover/i)).toBeInTheDocument();
+		['scandals', 'investigations', 'people'].forEach((word) => {
+			const node = screen.getByText(word);
+			expect(node.tagName).toBe('STRONG');
+		});
+	});
 
-		expect(lineSpans).toHaveLength(3);
-		expect(lineSpans[0]).toHaveClass('animate-line-1');
-		expect(lineSpans[1]).toHaveClass('animate-line-2');
-		expect(lineSpans[2]).toHaveClass('animate-line-3');
+	it('should display formatted metric counts and labels when metrics are provided', async () => {
+		// Given: the hero component renders with metrics
+		render(HeroSection, {
+			props: { metrics: { articleCount: 12345, entityCount: 1200 } }
+		});
+
+		// When: the page loads and the count-up animation finishes
+
+		// Then: should eventually show both stats with thousands separators and labels
+		const articles = screen.getByTestId('metric-articles');
+		const topics = screen.getByTestId('metric-topics');
+		expect(articles).toHaveTextContent('Articles');
+		expect(topics).toHaveTextContent('Topics');
+		await waitFor(
+			() => {
+				expect(articles).toHaveTextContent('12,345');
+				expect(topics).toHaveTextContent('1,200');
+			},
+			{ timeout: 3000 }
+		);
+	});
+
+	it('should not render the stats block when metrics are null', () => {
+		// Given: the hero component renders with no metrics
+		render(HeroSection, { props: { metrics: null } });
+
+		// When: the page loads
+
+		// Then: should not render either metric block
+		expect(screen.queryByTestId('metric-articles')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('metric-topics')).not.toBeInTheDocument();
 	});
 });

@@ -18,7 +18,8 @@
 		latestPage,
 		latestTotalPages,
 		latestTotal,
-		topics: initialTopics
+		topics: initialTopics,
+		metrics
 	} = untrack(() => data);
 
 	let searchState: {
@@ -142,7 +143,7 @@
 </script>
 
 <main>
-	<HeroSection />
+	<HeroSection {metrics} />
 	<ChallengeSection />
 	<SearchSection
 		{displayedArticles}

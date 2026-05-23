@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { Article, EntitySummary } from '$lib/api/types';
+import type { Article, EntitySummary, MetricsResponse } from '$lib/api/types';
 import { env as privateEnv } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 
@@ -12,9 +12,10 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	// both use the same public host.
 	const base = privateEnv.INTERNAL_API_BASE_URL ?? publicEnv.PUBLIC_API_BASE_URL ?? '';
 
-	const [articlesRes, entitiesRes] = await Promise.all([
+	const [articlesRes, entitiesRes, metricsRes] = await Promise.all([
 		fetch(`${base}/api/v1/articles?sort=published_date&order=desc&page_size=5&page=1`),
-		fetch(`${base}/api/v1/entities?sort=most_found&page_size=8`)
+		fetch(`${base}/api/v1/entities?sort=most_found&page_size=8`),
+		fetch(`${base}/api/v1/metrics`)
 	]);
 
 	const articlesData = articlesRes.ok ? await articlesRes.json() : null;
@@ -26,5 +27,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	const entitiesData = entitiesRes.ok ? await entitiesRes.json() : null;
 	const topics: EntitySummary[] = entitiesData?.items ?? [];
 
-	return { latestArticles, latestPage, latestTotalPages, latestTotal, topics };
+	const metrics: MetricsResponse | null = metricsRes.ok ? await metricsRes.json() : null;
+
+	return { latestArticles, latestPage, latestTotalPages, latestTotal, topics, metrics };
 };
