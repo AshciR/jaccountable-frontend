@@ -62,3 +62,8 @@ export interface EntityListResponse {
 	pageSize: number;
 	pages: number;
 }
+
+export interface MetricsResponse {
+	articleCount: number;
+	entityCount: number;
+}
