@@ -27,6 +27,18 @@ describe('Footer', () => {
 		expect(brandName.textContent).toBe('JACCOUNTABLE');
 	});
 
+	it('should display ABOUT link with correct href', () => {
+		// Given: the footer renders
+		render(Footer);
+
+		// When: the page loads
+
+		// Then: should display ABOUT link pointing to /about
+		const aboutLink = screen.getByRole('link', { name: /about/i });
+		expect(aboutLink).toBeInTheDocument();
+		expect(aboutLink).toHaveAttribute('href', '/about');
+	});
+
 	it('should display PRIVACY link with correct href', () => {
 		// Given: the footer renders
 		render(Footer);
