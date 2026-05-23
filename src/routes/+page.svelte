@@ -144,7 +144,6 @@
 
 <main>
 	<HeroSection {metrics} />
-	<ChallengeSection />
 	<SearchSection
 		{displayedArticles}
 		{hasMoreResults}
@@ -163,6 +162,7 @@
 		onSortChange={handleSortChange}
 		onLoadMore={handleLoadMore}
 	/>
+	<ChallengeSection />
 	<FeaturesSection />
 	<FAQSection />
 	<ShareSection />
