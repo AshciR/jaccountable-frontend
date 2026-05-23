@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import { resolve } from '$app/paths';
+	import { goto } from '$app/navigation';
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
 	import AnalysisAlert from '../AnalysisAlert.svelte';
@@ -8,6 +9,10 @@
 
 	let { article, relatedArticles = [] }: { article: Article; relatedArticles?: Article[] } =
 		$props();
+
+	function handleTopicClick(entity: string) {
+		goto(resolve('/') + '?topic=' + encodeURIComponent(entity) + '#search');
+	}
 
 	const paragraphs = $derived(
 		article.fullText
@@ -44,11 +49,12 @@
 					<h2 class="mb-2 text-sm font-semibold text-accent">Mentioned</h2>
 					<div class="flex flex-wrap gap-2">
 						{#each article.entities as entity (entity)}
-							<span
-								class="rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground"
+							<button
+								class="rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer"
+								onclick={() => handleTopicClick(entity)}
 							>
 								{entity}
-							</span>
+							</button>
 						{/each}
 					</div>
 				</div>

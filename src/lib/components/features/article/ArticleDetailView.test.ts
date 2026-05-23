@@ -1,6 +1,11 @@
-import { render, screen } from '@testing-library/svelte';
-import { describe, expect, it } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/svelte';
+import { describe, expect, it, vi } from 'vitest';
 import ArticleDetailView from './ArticleDetailView.svelte';
+
+vi.mock('$app/navigation', () => ({
+	goto: vi.fn()
+}));
+import { goto } from '$app/navigation';
 import type { Article } from '$lib/api/types';
 
 const gleanerArticle: Article = {
@@ -267,5 +272,29 @@ describe('ArticleDetailView', () => {
 
 		// Then: should display the empty state message
 		expect(screen.getByTestId('no-related-articles')).toBeInTheDocument();
+	});
+
+	it('should render entity pills as clickable buttons', () => {
+		// Given: the component renders with an article that has entities
+		render(ArticleDetailView, { props: { article: gleanerArticle } });
+
+		// When: the page loads
+
+		// Then: each entity should be a button
+		gleanerArticle.entities.forEach((entity) => {
+			expect(screen.getByRole('button', { name: entity })).toBeInTheDocument();
+		});
+	});
+
+	it('should navigate to home with topic query param when entity pill is clicked', () => {
+		// Given: the component renders with an article
+		render(ArticleDetailView, { props: { article: gleanerArticle } });
+
+		// When: user clicks the first entity pill
+		const firstEntity = gleanerArticle.entities[0];
+		fireEvent.click(screen.getByRole('button', { name: firstEntity }));
+
+		// Then: should navigate to /?topic={entity}#search
+		expect(goto).toHaveBeenCalledWith(`/?topic=${encodeURIComponent(firstEntity)}#search`);
 	});
 });
