@@ -15,6 +15,8 @@ describe('SearchSection', () => {
 		topics: [],
 		selectedTopic: null as string | null,
 		topicSort: 'most_found' as const,
+		total: 0,
+		hasSearched: false,
 		onSearch: vi.fn(),
 		onTopicClick: vi.fn(),
 		onSortChange: vi.fn(),
@@ -180,6 +182,42 @@ describe('SearchSection', () => {
 
 		// Then: should call onTopicClick with the entity name
 		expect(onTopicClick).toHaveBeenCalledWith('Fritz Pinnock');
+	});
+
+	it('should display the results count after a search', () => {
+		// Given: a search has been performed with results
+		render(SearchSection, {
+			props: {
+				...defaultProps,
+				hasSearched: true,
+				total: 42,
+				displayedArticles: mockArticles.slice(0, 3),
+				sectionLabel: 'CMU'
+			}
+		});
+
+		// When: the page loads
+
+		// Then: should display the results count
+		expect(screen.getByText('42 articles found')).toBeInTheDocument();
+	});
+
+	it('should not display the results count when noResults is true', () => {
+		// Given: a search returned no results
+		render(SearchSection, {
+			props: {
+				...defaultProps,
+				hasSearched: true,
+				total: 0,
+				noResults: true,
+				sectionLabel: 'xyznonexistent'
+			}
+		});
+
+		// When: the page loads
+
+		// Then: should not display a results count
+		expect(screen.queryByText(/articles found/)).not.toBeInTheDocument();
 	});
 
 	it('should call onSearch when the search form is submitted', async () => {

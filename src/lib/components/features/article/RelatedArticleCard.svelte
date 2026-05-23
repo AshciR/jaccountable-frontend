@@ -18,7 +18,7 @@
 </script>
 
 <Card.Root
-	class="relative overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-green-500 h-full"
+	class="relative overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-gold-600 h-full"
 >
 	<Card.Header class="pb-3">
 		<ArticleSourceHeader {article} />
