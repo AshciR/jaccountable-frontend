@@ -63,11 +63,11 @@
 				</li>
 				<li>
 					<a
-						href="/#why"
-						onclick={(e) => scrollToSection(e, 'why')}
+						href={resolve('/about')}
+						onclick={() => (menuOpen = false)}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
-						WHY
+						ABOUT
 					</a>
 				</li>
 				<li>
@@ -77,15 +77,6 @@
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
 						HOW IT WORKS
-					</a>
-				</li>
-				<li>
-					<a
-						href="/#faq"
-						onclick={(e) => scrollToSection(e, 'faq')}
-						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
-					>
-						FAQ
 					</a>
 				</li>
 				<li>
@@ -129,11 +120,11 @@
 				</li>
 				<li>
 					<a
-						href="/#why"
-						onclick={(e) => scrollToSection(e, 'why')}
+						href={resolve('/about')}
+						onclick={() => (menuOpen = false)}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
-						WHY
+						ABOUT
 					</a>
 				</li>
 				<li>
@@ -143,15 +134,6 @@
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
 						HOW IT WORKS
-					</a>
-				</li>
-				<li>
-					<a
-						href="/#faq"
-						onclick={(e) => scrollToSection(e, 'faq')}
-						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
-					>
-						FAQ
 					</a>
 				</li>
 				<li>

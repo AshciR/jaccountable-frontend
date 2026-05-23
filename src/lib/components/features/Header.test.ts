@@ -39,16 +39,16 @@ describe('Header', () => {
 		expect(navLink).toHaveAttribute('href', '/#search');
 	});
 
-	it('should display the WHY navigation link with correct href', () => {
+	it('should display the ABOUT navigation link with correct href', () => {
 		// Given: the header component renders
 		render(Header);
 
 		// When: the page loads
 
-		// Then: should display the WHY navigation link with correct href
-		const navLink = screen.getByRole('link', { name: 'WHY' });
+		// Then: should display the ABOUT navigation link pointing to /about
+		const navLink = screen.getByRole('link', { name: 'ABOUT' });
 		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '/#why');
+		expect(navLink).toHaveAttribute('href', '/about');
 	});
 
 	it('should display the HOW IT WORKS navigation link with correct href', () => {
@@ -63,16 +63,15 @@ describe('Header', () => {
 		expect(navLink).toHaveAttribute('href', '/#how-it-works');
 	});
 
-	it('should display the FAQ navigation link with correct href', () => {
+	it('should not display the removed WHY or FAQ navigation links', () => {
 		// Given: the header component renders
 		render(Header);
 
 		// When: the page loads
 
-		// Then: should display the FAQ navigation link with correct href
-		const navLink = screen.getByRole('link', { name: 'FAQ' });
-		expect(navLink).toBeInTheDocument();
-		expect(navLink).toHaveAttribute('href', '/#faq');
+		// Then: the WHY and FAQ links should no longer be present
+		expect(screen.queryByRole('link', { name: 'WHY' })).not.toBeInTheDocument();
+		expect(screen.queryByRole('link', { name: 'FAQ' })).not.toBeInTheDocument();
 	});
 
 	it('should display the SHARE navigation link with correct href', () => {
@@ -105,7 +104,7 @@ describe('Header', () => {
 		// When: the page loads
 
 		// Then: should display navigation links in uppercase
-		const navLink = screen.getAllByRole('link', { name: 'WHY' })[0];
+		const navLink = screen.getAllByRole('link', { name: 'ABOUT' })[0];
 		expect(navLink).toHaveClass('uppercase');
 	});
 
@@ -131,7 +130,7 @@ describe('Header', () => {
 
 		// Then: should show the close button and duplicate nav links from mobile menu
 		expect(screen.getByRole('button', { name: 'Close menu' })).toBeInTheDocument();
-		expect(screen.getAllByRole('link', { name: 'WHY' })).toHaveLength(2);
+		expect(screen.getAllByRole('link', { name: 'ABOUT' })).toHaveLength(2);
 	});
 
 	it('should hide mobile menu when hamburger button is clicked again', async () => {
@@ -144,6 +143,6 @@ describe('Header', () => {
 		await fireEvent.click(screen.getByRole('button', { name: 'Close menu' }));
 
 		// Then: should only have desktop nav links remaining
-		expect(screen.getAllByRole('link', { name: 'WHY' })).toHaveLength(1);
+		expect(screen.getAllByRole('link', { name: 'ABOUT' })).toHaveLength(1);
 	});
 });

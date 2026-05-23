@@ -36,6 +36,14 @@
 				<ul class="flex flex-col md:flex-row gap-4 md:gap-8">
 					<li>
 						<a
+							href={resolve('/about')}
+							class="uppercase text-muted-foreground hover:text-accent transition-colors duration-200 font-medium tracking-wide text-sm"
+						>
+							ABOUT
+						</a>
+					</li>
+					<li>
+						<a
 							href={resolve('/privacy')}
 							class="uppercase text-muted-foreground hover:text-accent transition-colors duration-200 font-medium tracking-wide text-sm"
 						>
