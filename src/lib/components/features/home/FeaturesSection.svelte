@@ -2,7 +2,7 @@
 	import { Newspaper, BrainCog, UserSearch } from 'lucide-svelte';
 </script>
 
-<section id="how-it-works" class="bg-surface py-24 relative overflow-hidden">
+<section id="how-it-works" class="bg-neutral-100 py-24 relative overflow-hidden">
 	<!-- Decorative blur element -->
 	<div
 		class="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -ml-48 -mb-48"

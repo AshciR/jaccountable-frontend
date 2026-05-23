@@ -54,20 +54,20 @@
 			<ul class="flex items-center gap-8">
 				<li>
 					<a
-						href="/#why"
-						onclick={(e) => scrollToSection(e, 'why')}
-						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
-					>
-						WHY
-					</a>
-				</li>
-				<li>
-					<a
 						href="/#search"
 						onclick={(e) => scrollToSection(e, 'search')}
 						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
 						SEARCH
+					</a>
+				</li>
+				<li>
+					<a
+						href="/#why"
+						onclick={(e) => scrollToSection(e, 'why')}
+						class="text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
+					>
+						WHY
 					</a>
 				</li>
 				<li>
@@ -120,20 +120,20 @@
 			<ul class="flex flex-col gap-4">
 				<li>
 					<a
-						href="/#why"
-						onclick={(e) => scrollToSection(e, 'why')}
-						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
-					>
-						WHY
-					</a>
-				</li>
-				<li>
-					<a
 						href="/#search"
 						onclick={(e) => scrollToSection(e, 'search')}
 						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
 					>
 						SEARCH
+					</a>
+				</li>
+				<li>
+					<a
+						href="/#why"
+						onclick={(e) => scrollToSection(e, 'why')}
+						class="block text-sm font-semibold tracking-[0.15em] uppercase text-primary hover:text-accent transition-colors"
+					>
+						WHY
 					</a>
 				</li>
 				<li>
