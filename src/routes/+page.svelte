@@ -155,6 +155,8 @@
 		topics={searchState.topics}
 		selectedTopic={searchState.selectedTopic}
 		topicSort={searchState.topicSort}
+		total={searchState.total}
+		hasSearched={searchState.hasSearched}
 		onSearch={handleSearch}
 		onTopicClick={handleTopicClick}
 		onSortChange={handleSortChange}

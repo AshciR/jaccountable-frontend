@@ -17,6 +17,8 @@
 		topics,
 		selectedTopic,
 		topicSort,
+		total,
+		hasSearched,
 		onSearch,
 		onTopicClick,
 		onSortChange,
@@ -32,6 +34,8 @@
 		topics: EntitySummary[];
 		selectedTopic: string | null;
 		topicSort: EntitySortOrder;
+		total: number;
+		hasSearched: boolean;
 		onSearch: (query: string) => void;
 		onTopicClick: (name: string) => void;
 		onSortChange: (sort: EntitySortOrder) => void;
@@ -57,13 +61,19 @@
 				<div class="text-center mb-8">
 					{#key sectionLabel}
 						<span
-							class="text-accent font-bold tracking-[0.2em] text-xs uppercase mb-4 block"
+							class="text-accent font-bold tracking-[0.2em] text-sm uppercase mb-4 block"
 							data-testid="search-section-search-query"
 							transition:fade={{ duration: 300 }}
 						>
 							{sectionLabel}
 						</span>
 					{/key}
+					{#if hasSearched && !noResults}
+						<span class="text-green-500 text-sm block mt-1">
+							{total}
+							{total === 1 ? 'article' : 'articles'} found
+						</span>
+					{/if}
 				</div>
 
 				{#if noResults}
