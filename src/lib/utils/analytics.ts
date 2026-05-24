@@ -3,7 +3,8 @@ import { browser } from '$app/environment';
 
 export function isInternalUser(): boolean {
 	if (!browser) return false;
-	return window.location.hostname.includes('localhost');
+	const { hostname } = window.location;
+	return hostname.includes('localhost') || hostname === 'staging.jaccountable.org';
 }
 
 export function getDistinctId(): string | undefined {

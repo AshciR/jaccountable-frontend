@@ -17,6 +17,10 @@ import { trackEvent, isInternalUser, getDistinctId } from './analytics';
 describe('analytics', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
+		Object.defineProperty(window, 'location', {
+			value: { hostname: 'localhost' },
+			writable: true
+		});
 	});
 
 	describe('isInternalUser', () => {
@@ -28,6 +32,34 @@ describe('analytics', () => {
 
 			// Then: should return true
 			expect(result).toBe(true);
+		});
+
+		it('should return true when hostname is staging.jaccountable.org', () => {
+			// Given: the hostname is the staging domain
+			Object.defineProperty(window, 'location', {
+				value: { hostname: 'staging.jaccountable.org' },
+				writable: true
+			});
+
+			// When: checking if the user is internal
+			const result = isInternalUser();
+
+			// Then: should return true
+			expect(result).toBe(true);
+		});
+
+		it('should return false for production hostname', () => {
+			// Given: the hostname is the production domain
+			Object.defineProperty(window, 'location', {
+				value: { hostname: 'jaccountable.org' },
+				writable: true
+			});
+
+			// When: checking if the user is internal
+			const result = isInternalUser();
+
+			// Then: should return false
+			expect(result).toBe(false);
 		});
 	});
 
