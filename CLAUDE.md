@@ -91,7 +91,22 @@ Custom event tracking uses PostHog via `$lib/utils/analytics.ts`.
 ### Tracking Utility
 
 - **`trackEvent(eventName, properties?)`** — wraps `posthog.capture()`, automatically attaches `environment` (from `import.meta.env.MODE`) and `is_internal` (from `isInternalUser()`) to every event. Guarded with `browser` check for SSR safety.
-- **`isInternalUser()`** — dedicated function for internal user detection, currently checks `window.location.hostname.includes('localhost')`. Extracted for future extensibility (e.g., email-based checks).
+- **`isInternalUser()`** — browser-side internal user detection. Delegates to the shared `isInternalHost(hostname)` predicate (also used server-side) which currently matches `localhost` and `staging.jaccountable.org`.
+
+### Backend Event Attribution
+
+The backend (`posthog-python`) also captures events for some flows (e.g. `article:detail_view`). To stitch those events into the same PostHog session/person as the browser, the frontend forwards three headers on every backend request:
+
+- `X-PostHog-Distinct-Id`
+- `X-PostHog-Session-Id`
+- `X-Internal-Request`
+
+There are two code paths because session/distinct IDs live in different places client-side vs server-side:
+
+- **Client-side fetches** (`+page.svelte` → `$lib/api/*` → `apiFetch`): `src/lib/api/fetch.ts` reads from `posthog-js` directly via `getDistinctId()` / `getSessionId()` in `$lib/utils/analytics.ts`.
+- **Server-side loads** (`+page.server.ts` using SvelteKit's `fetch`): `src/lib/server/analytics.ts` exports `buildAnalyticHeaders(cookies, url)` which parses the `ph_<PUBLIC_POSTHOG_KEY>_posthog` cookie (PostHog stores `distinct_id` and `$sesid[1]` there) and derives `is_internal` from the request hostname. Lives under `$lib/server/` so SvelteKit blocks accidental client imports.
+
+When adding a new `+page.server.ts` (or any server-side backend fetch), call `buildAnalyticHeaders(cookies, url)` once and pass the resulting `headers` to every `fetch` call. Header casing matches `X-PostHog-Distinct-Id` style (not the all-caps form in the PostHog docs) — the backend reads them with that casing.
 
 ### Event Naming Conventions
 

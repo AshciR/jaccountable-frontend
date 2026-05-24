@@ -4,7 +4,11 @@ import { server } from '$lib/mocks/server';
 import { searchArticles } from './articles';
 
 vi.mock('$env/dynamic/public', () => ({ env: { PUBLIC_API_BASE_URL: '' } }));
-vi.mock('$lib/utils/analytics', () => ({ getDistinctId: vi.fn(), isInternalUser: vi.fn() }));
+vi.mock('$lib/utils/analytics', () => ({
+	getDistinctId: vi.fn(),
+	getSessionId: vi.fn(),
+	isInternalUser: vi.fn()
+}));
 
 function captureArticlesRequest() {
 	let params: URLSearchParams;

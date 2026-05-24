@@ -6,6 +6,7 @@ vi.mock('$env/dynamic/public', () => ({
 
 vi.mock('$lib/utils/analytics', () => ({
 	getDistinctId: vi.fn(),
+	getSessionId: vi.fn(),
 	isInternalUser: vi.fn()
 }));
 
@@ -13,10 +14,11 @@ vi.mock('$app/environment', () => ({
 	browser: true
 }));
 
-import { getDistinctId, isInternalUser } from '$lib/utils/analytics';
+import { getDistinctId, getSessionId, isInternalUser } from '$lib/utils/analytics';
 import { apiFetch } from './fetch';
 
 const mockGetDistinctId = vi.mocked(getDistinctId);
+const mockGetSessionId = vi.mocked(getSessionId);
 const mockIsInternalUser = vi.mocked(isInternalUser);
 
 describe('apiFetch', () => {
@@ -51,6 +53,34 @@ describe('apiFetch', () => {
 		const [, init] = vi.mocked(fetch).mock.calls[0];
 		const headers = new Headers(init?.headers);
 		expect(headers.get('X-PostHog-Distinct-Id')).toBeNull();
+	});
+
+	it('should inject X-PostHog-Session-Id header when a session ID is available', async () => {
+		// Given: PostHog has an active session
+		mockGetSessionId.mockReturnValue('session-xyz');
+		mockIsInternalUser.mockReturnValue(false);
+
+		// When: making an API request
+		await apiFetch('/api/v1/articles');
+
+		// Then: should send the session ID header
+		const [, init] = vi.mocked(fetch).mock.calls[0];
+		const headers = new Headers(init?.headers);
+		expect(headers.get('X-PostHog-Session-Id')).toBe('session-xyz');
+	});
+
+	it('should not inject X-PostHog-Session-Id header when session ID is unavailable', async () => {
+		// Given: PostHog has no active session (e.g. SSR or recording disabled)
+		mockGetSessionId.mockReturnValue(undefined);
+		mockIsInternalUser.mockReturnValue(false);
+
+		// When: making an API request
+		await apiFetch('/api/v1/articles');
+
+		// Then: should not include the header
+		const [, init] = vi.mocked(fetch).mock.calls[0];
+		const headers = new Headers(init?.headers);
+		expect(headers.get('X-PostHog-Session-Id')).toBeNull();
 	});
 
 	it('should inject X-Internal-Request header when user is internal', async () => {

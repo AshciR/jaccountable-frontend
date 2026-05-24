@@ -3,13 +3,15 @@ import type { Article } from '$lib/api/types';
 import { error } from '@sveltejs/kit';
 import { env as privateEnv } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
+import { buildAnalyticHeaders } from '$lib/server/analytics';
 
-export const load: PageServerLoad = async ({ fetch, params }) => {
+export const load: PageServerLoad = async ({ fetch, params, cookies, url }) => {
 	const base = privateEnv.INTERNAL_API_BASE_URL ?? publicEnv.PUBLIC_API_BASE_URL ?? '';
+	const headers = buildAnalyticHeaders(cookies, url);
 
 	const [res, relatedRes] = await Promise.all([
-		fetch(`${base}/api/v1/articles/${params.id}`),
-		fetch(`${base}/api/v1/articles/${params.id}/related?limit=4`).catch(() => null)
+		fetch(`${base}/api/v1/articles/${params.id}`, { headers }),
+		fetch(`${base}/api/v1/articles/${params.id}/related?limit=4`, { headers }).catch(() => null)
 	]);
 
 	if (res.status === 404 || res.status === 422) {
