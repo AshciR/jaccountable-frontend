@@ -3,7 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 vi.mock('posthog-js', () => ({
 	default: {
 		capture: vi.fn(),
-		get_distinct_id: vi.fn().mockReturnValue('test-distinct-id')
+		get_distinct_id: vi.fn().mockReturnValue('test-distinct-id'),
+		get_session_id: vi.fn().mockReturnValue('test-session-id')
 	}
 }));
 
@@ -12,7 +13,7 @@ vi.mock('$app/environment', () => ({
 }));
 
 import posthog from 'posthog-js';
-import { trackEvent, isInternalUser, getDistinctId } from './analytics';
+import { trackEvent, isInternalUser, getDistinctId, getSessionId } from './analytics';
 
 describe('analytics', () => {
 	beforeEach(() => {
@@ -116,6 +117,35 @@ describe('analytics', () => {
 
 				// When: getting the distinct ID on the server
 				const result = serverGetDistinctId();
+
+				// Then: should return undefined
+				expect(result).toBeUndefined();
+			});
+		});
+
+		describe('getSessionId', () => {
+			it('should return the PostHog session ID in browser context', () => {
+				// Given: a browser environment with an active PostHog session
+
+				// When: getting the session ID
+				const result = getSessionId();
+
+				// Then: should return the PostHog-generated session ID
+				expect(result).toBe('test-session-id');
+			});
+
+			it('should return undefined when not in browser', async () => {
+				// Given: a server environment
+				vi.resetModules();
+				vi.doMock('$app/environment', () => ({ browser: false }));
+				vi.doMock('posthog-js', () => ({
+					default: { capture: vi.fn(), get_session_id: vi.fn() }
+				}));
+
+				const { getSessionId: serverGetSessionId } = await import('./analytics');
+
+				// When: getting the session ID on the server
+				const result = serverGetSessionId();
 
 				// Then: should return undefined
 				expect(result).toBeUndefined();

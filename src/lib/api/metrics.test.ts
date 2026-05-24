@@ -4,7 +4,11 @@ import { server } from '$lib/mocks/server';
 import { fetchMetrics } from './metrics';
 
 vi.mock('$env/dynamic/public', () => ({ env: { PUBLIC_API_BASE_URL: '' } }));
-vi.mock('$lib/utils/analytics', () => ({ getDistinctId: vi.fn(), isInternalUser: vi.fn() }));
+vi.mock('$lib/utils/analytics', () => ({
+	getDistinctId: vi.fn(),
+	getSessionId: vi.fn(),
+	isInternalUser: vi.fn()
+}));
 
 describe('fetchMetrics', () => {
 	it('should request /api/v1/metrics and return the parsed response', async () => {
