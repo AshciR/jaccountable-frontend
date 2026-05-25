@@ -26,6 +26,28 @@
 		name="description"
 		content="Track government accountability and corruption stories in Jamaica. JAccountable monitors Jamaican news sources to archive and surface political accountability journalism."
 	/>
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="JAccountable" />
+	<meta property="og:title" content="JAccountable — Jamaica Government Accountability Tracker" />
+	<meta
+		property="og:description"
+		content="Track government accountability and corruption stories in Jamaica. JAccountable monitors Jamaican news sources to archive and surface political accountability journalism."
+	/>
+	<meta property="og:url" content={page.url.href} />
+	<meta property="og:image" content={`${page.url.origin}/og-image.png`} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="JAccountable — Jamaica Government Accountability Tracker" />
+	<meta
+		name="twitter:description"
+		content="Track government accountability and corruption stories in Jamaica. JAccountable monitors Jamaican news sources to archive and surface political accountability journalism."
+	/>
+	<meta name="twitter:image" content={`${page.url.origin}/og-image.png`} />
 </svelte:head>
 
 <Tooltip.Provider>
