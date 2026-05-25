@@ -2,8 +2,15 @@
 	import ArticleDetailView from '$lib/components/features/article/ArticleDetailView.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
+	import { afterNavigate } from '$app/navigation';
 
 	let { data }: { data: PageData } = $props();
+
+	afterNavigate(({ from, to }) => {
+		if (from?.route.id === to?.route.id && from?.params?.id !== to?.params?.id) {
+			window.scrollTo(0, 0);
+		}
+	});
 
 	const description = $derived(
 		data.article.snippet
