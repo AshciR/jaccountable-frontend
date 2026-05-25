@@ -49,6 +49,7 @@ jobs:
       PUBLIC_USE_REAL_API: false # not used during CI. Only applicable for local development
       PUBLIC_SENTRY_DSN: 'fake-dsn-for-ci'
       PUBLIC_API_BASE_URL: 'https://doesnotmatter.com'
+      PUBLIC_APP_ENV: 'ci'
 
     steps:
       - name: Checkout

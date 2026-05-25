@@ -1,6 +1,10 @@
 import '@testing-library/jest-dom/vitest';
 import { server } from '$lib/mocks/server';
-import { beforeAll, afterEach, afterAll } from 'vitest';
+import { beforeAll, afterEach, afterAll, vi } from 'vitest';
+
+vi.mock('$env/dynamic/public', () => ({
+	env: { PUBLIC_APP_ENV: 'test' }
+}));
 
 // jsdom does not support the Web Animations API used by Svelte 5 transitions
 Element.prototype.animate = function () {
