@@ -1,5 +1,6 @@
 import posthog from 'posthog-js';
 import { browser } from '$app/environment';
+import { env } from '$env/dynamic/public';
 
 export function isInternalHost(hostname: string): boolean {
 	return hostname.includes('localhost') || hostname === 'staging.jaccountable.org';
@@ -24,7 +25,7 @@ export function trackEvent(eventName: string, properties: Record<string, unknown
 	if (!browser) return;
 
 	posthog.capture(eventName, {
-		environment: import.meta.env.MODE,
+		environment: env.PUBLIC_APP_ENV,
 		is_internal: isInternalUser(),
 		...properties
 	});

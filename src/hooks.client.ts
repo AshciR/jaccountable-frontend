@@ -2,7 +2,13 @@ import * as Sentry from '@sentry/sveltekit';
 import posthog from 'posthog-js';
 import { env } from '$env/dynamic/public';
 
-const { PUBLIC_POSTHOG_API_HOST, PUBLIC_POSTHOG_KEY, PUBLIC_SENTRY_DSN, PUBLIC_USE_REAL_API } = env;
+const {
+	PUBLIC_POSTHOG_API_HOST,
+	PUBLIC_POSTHOG_KEY,
+	PUBLIC_SENTRY_DSN,
+	PUBLIC_USE_REAL_API,
+	PUBLIC_APP_ENV
+} = env;
 import type { ClientInit } from '@sveltejs/kit';
 
 export const init: ClientInit = async () => {
@@ -45,8 +51,7 @@ function initializeSentry(environment: string) {
 }
 
 function getEnvironment(): string {
-	const environment: string = import.meta.env.MODE;
-	return environment;
+	return PUBLIC_APP_ENV ?? '';
 }
 
 export const handleError = Sentry.handleErrorWithSentry();
