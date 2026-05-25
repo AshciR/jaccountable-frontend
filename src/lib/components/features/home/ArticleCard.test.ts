@@ -1,5 +1,17 @@
-import { render, screen, fireEvent } from '@testing-library/svelte';
-import { describe, expect, it, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/svelte';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+
+vi.mock('posthog-js', () => ({
+	default: {
+		capture: vi.fn()
+	}
+}));
+
+vi.mock('$app/environment', () => ({
+	browser: true
+}));
+
+import posthog from 'posthog-js';
 import ArticleCard from './ArticleCard.svelte';
 import type { Article } from '$lib/api/types';
 
@@ -265,6 +277,106 @@ describe('ArticleCard', () => {
 
 		// And: should show trailing "..."
 		expect(paragraphs[0].textContent).toMatch(/\.\.\.$/);
+	});
+
+	describe('share button', () => {
+		let writeTextMock: ReturnType<typeof vi.fn>;
+		let shareMock: ReturnType<typeof vi.fn> | undefined;
+
+		beforeEach(() => {
+			vi.clearAllMocks();
+
+			Object.defineProperty(window, 'location', {
+				value: {
+					href: 'https://example.com/',
+					origin: 'https://example.com',
+					hostname: 'example.com'
+				},
+				writable: true,
+				configurable: true
+			});
+
+			writeTextMock = vi.fn().mockResolvedValue(undefined);
+			Object.defineProperty(navigator, 'clipboard', {
+				value: { writeText: writeTextMock },
+				writable: true,
+				configurable: true
+			});
+		});
+
+		afterEach(() => {
+			if (shareMock) {
+				// @ts-expect-error — remove the optional navigator.share mock between tests
+				delete navigator.share;
+				shareMock = undefined;
+			}
+			vi.restoreAllMocks();
+		});
+
+		it('should call navigator.share with the in-app article URL when native share is available', async () => {
+			// Given: navigator.share is available
+			shareMock = vi.fn().mockResolvedValue(undefined);
+			Object.defineProperty(navigator, 'share', {
+				value: shareMock,
+				writable: true,
+				configurable: true
+			});
+			render(ArticleCard, { props: { article: gleanerArticle } });
+
+			// When: user clicks the share button
+			await fireEvent.click(screen.getByTestId('article-share-button'));
+
+			// Then: should invoke navigator.share with the /articles/{id} URL
+			await waitFor(() => {
+				expect(shareMock).toHaveBeenCalledWith({
+					title: gleanerArticle.title,
+					text: gleanerArticle.title,
+					url: `https://example.com/articles/${gleanerArticle.id}`
+				});
+			});
+
+			// And: should track the native share event
+			expect(posthog.capture).toHaveBeenCalledWith(
+				'share:article_native_share',
+				expect.objectContaining({ article_id: gleanerArticle.id })
+			);
+		});
+
+		it('should fall back to clipboard when navigator.share is unavailable', async () => {
+			// Given: navigator.share is not defined
+			render(ArticleCard, { props: { article: gleanerArticle } });
+
+			// When: user clicks the share button
+			await fireEvent.click(screen.getByTestId('article-share-button'));
+
+			// Then: should write the /articles/{id} URL to the clipboard
+			await waitFor(() => {
+				expect(writeTextMock).toHaveBeenCalledWith(
+					`https://example.com/articles/${gleanerArticle.id}`
+				);
+			});
+
+			// And: should track the copy event
+			expect(posthog.capture).toHaveBeenCalledWith(
+				'share:article_copy_url',
+				expect.objectContaining({ article_id: gleanerArticle.id })
+			);
+		});
+
+		it('should swap the share icon for a check after a successful clipboard copy', async () => {
+			// Given: navigator.share is unavailable so we hit the clipboard fallback
+			const { container } = render(ArticleCard, { props: { article: gleanerArticle } });
+
+			// When: user clicks the share button
+			await fireEvent.click(screen.getByTestId('article-share-button'));
+
+			// Then: should render the check icon inside the share button
+			await waitFor(() => {
+				const button = screen.getByTestId('article-share-button');
+				expect(button.querySelector('.lucide-check')).not.toBeNull();
+			});
+			expect(container).toBeTruthy();
+		});
 	});
 
 	it('should handle empty classifications array', () => {
