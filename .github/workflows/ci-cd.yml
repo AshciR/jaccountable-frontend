@@ -50,6 +50,7 @@ jobs:
       PUBLIC_SENTRY_DSN: 'fake-dsn-for-ci'
       PUBLIC_API_BASE_URL: 'https://doesnotmatter.com'
       PUBLIC_APP_ENV: 'ci'
+      PUBLIC_USERJOT_PROJECT_ID: 'fake-userjot-project-id-for-ci'
 
     steps:
       - name: Checkout

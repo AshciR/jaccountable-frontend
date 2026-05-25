@@ -63,34 +63,30 @@ describe('Footer', () => {
 		expect(termsLink).toHaveAttribute('href', '/terms');
 	});
 
-	it('should display CONTACT link', () => {
+	it('should display GIVE FEEDBACK button', () => {
 		// Given: the footer renders
 		render(Footer);
 
 		// When: the page loads
 
-		// Then: should display CONTACT link
-		const contactButton = screen.getByRole('button', { name: /contact/i });
-		expect(contactButton).toBeInTheDocument();
-		expect(contactButton).toHaveClass('uppercase');
+		// Then: should display GIVE FEEDBACK button
+		const feedbackButton = screen.getByRole('button', { name: /give feedback/i });
+		expect(feedbackButton).toBeInTheDocument();
+		expect(feedbackButton).toHaveClass('uppercase');
 	});
 
-	it('should open Google Form when CONTACT is clicked', () => {
-		// Given: the footer renders
-		const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+	it('should open the UserJot widget when GIVE FEEDBACK is clicked', () => {
+		// Given: the footer renders with window.uj mocked
+		const showWidget = vi.fn();
+		(window as unknown as { uj: { showWidget: typeof showWidget } }).uj = { showWidget };
 		render(Footer);
 
-		// When: user clicks CONTACT
-		const contactButton = screen.getByRole('button', { name: /contact/i });
-		fireEvent.click(contactButton);
+		// When: user clicks GIVE FEEDBACK
+		const feedbackButton = screen.getByRole('button', { name: /give feedback/i });
+		fireEvent.click(feedbackButton);
 
-		// Then: should open Google Form in new tab
-		expect(windowOpenSpy).toHaveBeenCalledWith(
-			'https://forms.gle/nVwg2J3pQVBiPwuJ7',
-			'_blank',
-			'noopener,noreferrer'
-		);
-		windowOpenSpy.mockRestore();
+		// Then: should open the feedback widget
+		expect(showWidget).toHaveBeenCalledWith({ section: 'feedback' });
 	});
 
 	it('should display copyright notice', () => {

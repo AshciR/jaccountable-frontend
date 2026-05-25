@@ -1,5 +1,5 @@
 import { trackEvent } from '$lib/utils/analytics';
-import { openContactForm } from '$lib/utils/contact';
+import { openFeedbackWidget } from '$lib/utils/contact';
 
 export function shareOnWhatsApp(shareMessage: string, shareUrl: string): void {
 	trackEvent('share:whatsapp_button_click');
@@ -38,5 +38,5 @@ export async function copyToClipboard(shareUrl: string): Promise<boolean> {
 
 export function handleFeedbackClick(): void {
 	trackEvent('share:feedback_button_click');
-	openContactForm();
+	openFeedbackWidget();
 }

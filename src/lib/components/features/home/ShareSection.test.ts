@@ -18,12 +18,19 @@ import ShareSection from './ShareSection.svelte';
 describe('ShareSection', () => {
 	let windowOpenSpy: ReturnType<typeof vi.spyOn>;
 	let writeTextMock: ReturnType<typeof vi.fn>;
+	let showWidgetMock: ReturnType<typeof vi.fn>;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
 
 		// Mock window.open
 		windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+
+		// Mock UserJot widget SDK
+		showWidgetMock = vi.fn();
+		(window as unknown as { uj: { showWidget: typeof showWidgetMock } }).uj = {
+			showWidget: showWidgetMock
+		};
 
 		// Mock window.location
 		Object.defineProperty(window, 'location', {
@@ -362,20 +369,16 @@ describe('ShareSection', () => {
 		expect(screen.getByText('Tell us what you think')).toBeInTheDocument();
 	});
 
-	it('should open Google Form when feedback button is clicked', () => {
-		// Given: the share section component renders with window.open mocked
+	it('should open the UserJot feedback widget when feedback button is clicked', () => {
+		// Given: the share section component renders with window.uj mocked
 		render(ShareSection);
 
 		// When: user clicks the feedback button
 		const feedbackButton = screen.getByRole('button', { name: 'Tell us what you think' });
 		fireEvent.click(feedbackButton);
 
-		// Then: should open the Google Form with correct parameters
-		expect(windowOpenSpy).toHaveBeenCalledWith(
-			'https://forms.gle/nVwg2J3pQVBiPwuJ7',
-			'_blank',
-			'noopener,noreferrer'
-		);
+		// Then: should open the feedback widget
+		expect(showWidgetMock).toHaveBeenCalledWith({ section: 'feedback' });
 	});
 
 	it('should track share:feedback_button_click event when feedback button is clicked', () => {
