@@ -1,12 +1,27 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
+	import { Button } from '$lib/components/ui/button';
+	import { Share2, Check } from 'lucide-svelte';
 	import { resolve } from '$app/paths';
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
 	import AnalysisAlert from '../AnalysisAlert.svelte';
+	import { shareArticle } from './article-card-share';
 
 	let { article, onTopicClick }: { article: Article; onTopicClick?: (entity: string) => void } =
 		$props();
+
+	let justCopied = $state(false);
+
+	async function handleShare() {
+		const result = await shareArticle(article);
+		if (result.method === 'clipboard') {
+			justCopied = true;
+			setTimeout(() => {
+				justCopied = false;
+			}, 2000);
+		}
+	}
 
 	const classification = $derived(article.classifications[0]);
 
@@ -146,6 +161,22 @@
 >
 	<Card.Header class="pb-3">
 		<ArticleSourceHeader {article} />
+		<Card.Action class="relative z-10">
+			<Button
+				variant="ghost"
+				size="icon-lg"
+				class="hover:bg-green-50 hover:text-green-700"
+				onclick={handleShare}
+				aria-label="Share article"
+				data-testid="article-share-button"
+			>
+				{#if justCopied}
+					<Check class="size-5" />
+				{:else}
+					<Share2 class="size-5" />
+				{/if}
+			</Button>
+		</Card.Action>
 	</Card.Header>
 
 	<Card.Content class="space-y-4 px-4 sm:px-6">
