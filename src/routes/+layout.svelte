@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
+	import { env } from '$env/dynamic/public';
 	import posthog from 'posthog-js';
 	import favicon from '$lib/assets/favicon-96x96.png';
 	import Header from '$lib/components/features/Header.svelte';
@@ -16,6 +18,16 @@
 		if (browser) {
 			posthog.capture('$pageview', { path: page.url.pathname });
 		}
+	});
+
+	onMount(() => {
+		const projectId = env.PUBLIC_USERJOT_PROJECT_ID;
+		if (!projectId) return;
+		window.uj.init(projectId, {
+			widget: true,
+			trigger: 'custom',
+			theme: 'auto'
+		});
 	});
 </script>
 

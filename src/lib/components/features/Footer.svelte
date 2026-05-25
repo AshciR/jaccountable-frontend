@@ -1,6 +1,6 @@
 <script lang="ts">
 	import logo from '$lib/assets/jaccountable-logo.png';
-	import { openContactForm } from '$lib/utils/contact';
+	import { openFeedbackWidget } from '$lib/utils/contact';
 	import { resolve } from '$app/paths';
 </script>
 
@@ -60,10 +60,10 @@
 					</li>
 					<li>
 						<button
-							onclick={openContactForm}
+							onclick={openFeedbackWidget}
 							class="uppercase text-muted-foreground hover:text-accent transition-colors duration-200 font-medium tracking-wide text-sm"
 						>
-							CONTACT
+							GIVE FEEDBACK
 						</button>
 					</li>
 				</ul>
