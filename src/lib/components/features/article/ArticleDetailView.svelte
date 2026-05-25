@@ -1,14 +1,29 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
+	import { Button } from '$lib/components/ui/button';
+	import { Share2, Check } from 'lucide-svelte';
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
 	import AnalysisAlert from '../AnalysisAlert.svelte';
 	import RelatedArticleCard from './RelatedArticleCard.svelte';
+	import { shareArticle } from '../article-share';
 
 	let { article, relatedArticles = [] }: { article: Article; relatedArticles?: Article[] } =
 		$props();
+
+	let justCopied = $state(false);
+
+	async function handleShare() {
+		const result = await shareArticle(article);
+		if (result.method === 'clipboard') {
+			justCopied = true;
+			setTimeout(() => {
+				justCopied = false;
+			}, 2000);
+		}
+	}
 
 	function handleTopicClick(entity: string) {
 		goto(resolve('/') + '?topic=' + encodeURIComponent(entity) + '#search');
@@ -35,6 +50,22 @@
 	<Card.Root class="shadow-sm">
 		<Card.Header class="pb-3">
 			<ArticleSourceHeader {article} />
+			<Card.Action>
+				<Button
+					variant="ghost"
+					size="icon-lg"
+					class="hover:bg-green-50 hover:text-green-700"
+					onclick={handleShare}
+					aria-label="Share article"
+					data-testid="article-share-button"
+				>
+					{#if justCopied}
+						<Check class="size-5" />
+					{:else}
+						<Share2 class="size-5" />
+					{/if}
+				</Button>
+			</Card.Action>
 		</Card.Header>
 
 		<Card.Content class="space-y-6 px-4 sm:px-6">

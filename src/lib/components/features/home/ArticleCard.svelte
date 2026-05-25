@@ -6,7 +6,7 @@
 	import type { Article } from '$lib/api/types';
 	import ArticleSourceHeader from '../ArticleSourceHeader.svelte';
 	import AnalysisAlert from '../AnalysisAlert.svelte';
-	import { shareArticle } from './article-card-share';
+	import { shareArticle } from '../article-share';
 
 	let { article, onTopicClick }: { article: Article; onTopicClick?: (entity: string) => void } =
 		$props();
