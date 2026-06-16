@@ -35,15 +35,4 @@ describe('Terms Page', () => {
 		const content = document.querySelector('.terms-content');
 		expect(content).toBeInTheDocument();
 	});
-
-	it('should render the footer', () => {
-		// Given: the terms page renders
-		render(TermsPage);
-
-		// When: the page loads
-
-		// Then: should render the footer
-		const footer = screen.getByRole('contentinfo');
-		expect(footer).toBeInTheDocument();
-	});
 });

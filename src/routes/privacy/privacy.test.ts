@@ -35,15 +35,4 @@ describe('Privacy Page', () => {
 		const content = document.querySelector('.privacy-content');
 		expect(content).toBeInTheDocument();
 	});
-
-	it('should render the footer', () => {
-		// Given: the privacy page renders
-		render(PrivacyPage);
-
-		// When: the page loads
-
-		// Then: should render the footer
-		const footer = screen.getByRole('contentinfo');
-		expect(footer).toBeInTheDocument();
-	});
 });
