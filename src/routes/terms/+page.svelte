@@ -1,6 +1,5 @@
 <script lang="ts">
 	import TermsOfService from '$lib/content/legal/terms-of-service-v1.svx';
-	import Footer from '$lib/components/features/Footer.svelte';
 </script>
 
 <section class="py-24 px-6">
@@ -12,7 +11,6 @@
 		</div>
 	</div>
 </section>
-<Footer />
 
 <style>
 	.terms-content :global(h2) {
