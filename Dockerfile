@@ -1,5 +1,5 @@
 # Stage 1: build
-FROM node:24-alpine AS builder
+FROM node:24.22.1-alpine AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ RUN yarn build
 
 # ---
 # Stage 2: production deps (fresh install, no devDependencies)
-FROM node:24-alpine AS deps
+FROM node:24.22.1-alpine AS deps
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ RUN yarn install --frozen-lockfile --production
 
 # ---
 # Stage 3: minimal runtime image
-FROM node:24-alpine AS runner
+FROM node:24.22.1-alpine AS runner
 
 WORKDIR /app
 
